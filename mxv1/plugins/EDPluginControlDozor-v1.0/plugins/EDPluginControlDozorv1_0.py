@@ -255,7 +255,10 @@ class EDPluginControlDozorv1_0(EDPluginControl):
                 if xsDataControlImageDozor.spotFile is not None:
                     spotFile = xsDataControlImageDozor.spotFile.path.value
                     if os.path.exists(spotFile):
-                        numpyArray = numpy.loadtxt(spotFile, skiprows=3)
+                        # WORKAROUND by jandreu
+                        #numpyArray = numpy.loadtxt(spotFile, skiprows=3)
+                        numpyArray = numpy.genfromtxt(spotFile, skip_header=3, excludelist=['*******'])
+                        ###
                         dozorSpotList = base64.b64encode(numpyArray.tostring())
                         dozorSpotListShape.append(numpyArray.shape[0])
                         if len(numpyArray.shape) > 1:
