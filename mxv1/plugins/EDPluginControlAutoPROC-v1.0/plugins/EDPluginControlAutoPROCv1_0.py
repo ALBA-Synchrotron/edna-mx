@@ -369,6 +369,24 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         #     xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
         # if self.doNoanom:
 # Added 'doAnom' optional input
+#<<<<<<< HEAD
+        # if self.doAnom:
+        #     xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
+        #     xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
+        #     xsDataInputAutoPROCAnom.symm = self.dataInput.symm
+        #     xsDataInputAutoPROCAnom.cell = self.dataInput.cell
+        #     xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
+        #     xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
+        #     xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
+        # if self.doNoanom:
+#=======
+#        xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
+#        xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
+#        xsDataInputAutoPROCAnom.symm = self.dataInput.symm
+#        xsDataInputAutoPROCAnom.cell = self.dataInput.cell
+#        xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
+#        if self.doAnomAndNonanom:
+#>>>>>>> Add support for AutoPROC plugin
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
             xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(False)
             xsDataInputAutoPROCNoanom.symm = self.dataInput.symm
@@ -379,6 +397,12 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
 #            xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
 #            xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
 # Added 'doAnom' optional input
+#<<<<<<< HEAD
+#            xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
+#            xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
+#=======
+#            xsDataInputAutoPROCNoanom.configDef = self.dataInput.configDef
+#>>>>>>> Add support for AutoPROC plugin
         xsDataAutoPROCIdentifier = XSDataAutoPROCIdentifier()
         xsDataAutoPROCIdentifier.idN = XSDataString(identifier)
         xsDataAutoPROCIdentifier.dirN = XSDataFile(XSDataString(directory))
