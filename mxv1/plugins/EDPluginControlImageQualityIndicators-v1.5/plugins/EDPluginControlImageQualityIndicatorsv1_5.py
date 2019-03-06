@@ -346,7 +346,10 @@ class EDPluginControlImageQualityIndicatorsv1_5(EDPluginControl):
                             xsDataImageQualityIndicators.dozorSpotFile = imageDozor.spotFile
                             if imageDozor.spotFile is not None:
                                 if os.path.exists(imageDozor.spotFile.path.value):
-                                    numpyArray = numpy.loadtxt(imageDozor.spotFile.path.value, skiprows=3)
+                                    # WORKAROUND by jandreu
+                                    #numpyArray = numpy.loadtxt(imageDozor.spotFile.path.value, skiprows=3)
+                                    numpyArray = numpy.genfromtxt(imageDozor.spotFile.path.value, skip_header=3, excludelist=['*******'])
+                                    ###
                                     xsDataImageQualityIndicators.dozorSpotList = XSDataString(base64.b64encode(numpyArray.tostring()))
                                     xsDataImageQualityIndicators.addDozorSpotListShape(XSDataInteger(numpyArray.shape[0]))
                                     if len(numpyArray.shape) > 1:
