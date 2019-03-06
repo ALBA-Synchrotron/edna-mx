@@ -377,7 +377,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>1200</value>
 				</XSParamItem>
 				<!--<XSParamItem>-->
 					<!--<name>x-geo_corr</name>-->
@@ -635,7 +635,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>1200</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -669,7 +669,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>600</value>
+					<value>1200</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
