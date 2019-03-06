@@ -282,7 +282,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 self.DEBUG("Best wilson pyarch path: %s " % strBestWilsonPlotPyarchPath)
                 if self.edPluginControlInterface.dataOutput.resultControlISPyB is not None:
                     xsDataInputISPyBSetBestWilsonPlotPath = XSDataInputISPyBSetBestWilsonPlotPath()
-                    xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = XSDataInteger(self.edPluginControlInterface.idataCollectionId)
+                    #xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = XSDataInteger(self.edPluginControlInterface.idataCollectionId)
+                    xsDataInputISPyBSetBestWilsonPlotPath.dataCollectionId = self.edPluginControlInterface.dataOutput.resultControlISPyB.dataCollectionId
                     xsDataInputISPyBSetBestWilsonPlotPath.bestWilsonPlotPath = XSDataString(strBestWilsonPlotPyarchPath)
                     edPluginSetBestWilsonPlotPath = self.loadPlugin("EDPluginISPyBSetBestWilsonPlotPathv1_4", "ISPyBSetBestWilsonPlotPath")
                     edPluginSetBestWilsonPlotPath.dataInput = xsDataInputISPyBSetBestWilsonPlotPath
