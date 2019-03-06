@@ -150,6 +150,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         EDPluginControl.process(self)
         self.DEBUG('EDPluginControlAutoPROCv1_0.process starting')
 
+        configDef = None
         directory = None
         template = None
         imageNoStart = None
@@ -189,6 +190,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             pathToEndImage = os.path.join(directory, ispybDataCollection.fileTemplate % imageNoEnd)
         else:
             identifier = str(int(time.time()))
+            configDef = self.dataInput.configDef.path.value
             directory = self.dataInput.dirN.path.value
             template = self.dataInput.templateN.value
             imageNoStart = self.dataInput.fromN.value
@@ -347,6 +349,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
 
 
         # Prepare input to execution plugin
+#<<<<<<< HEAD
         if self.doAnom:
             xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
             xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
@@ -354,13 +357,26 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             xsDataInputAutoPROCAnom.cell = self.dataInput.cell
             xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
             xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
+            xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
         if self.doNoanom:
+#=======
+#        xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
+#        xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
+#        xsDataInputAutoPROCAnom.symm = self.dataInput.symm
+#        xsDataInputAutoPROCAnom.cell = self.dataInput.cell
+#        xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
+#        if self.doAnomAndNonanom:
+#>>>>>>> Add support for AutoPROC plugin
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
             xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(False)
             xsDataInputAutoPROCNoanom.symm = self.dataInput.symm
             xsDataInputAutoPROCNoanom.cell = self.dataInput.cell
+#<<<<<<< HEAD
             xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
             xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
+#=======
+            xsDataInputAutoPROCNoanom.configDef = self.dataInput.configDef
+#>>>>>>> Add support for AutoPROC plugin
         xsDataAutoPROCIdentifier = XSDataAutoPROCIdentifier()
         xsDataAutoPROCIdentifier.idN = XSDataString(identifier)
         xsDataAutoPROCIdentifier.dirN = XSDataFile(XSDataString(directory))

@@ -330,7 +330,7 @@ class XSDataAutoPROCIdentifier(XSData):
 
 
 class XSDataInputAutoPROC(XSDataInput):
-    def __init__(self, configuration=None, cell=None, symm=None, masterH5=None, refMTZ=None, anomalous=None, highResolutionLimit=None, lowResolutionLimit=None, identifier=None):
+    def __init__(self, configuration=None, cell=None, symm=None, masterH5=None, refMTZ=None, configDef=None, anomalous=None, highResolutionLimit=None, lowResolutionLimit=None, identifier=None):
         XSDataInput.__init__(self, configuration)
         if identifier is None:
             self._identifier = []
@@ -366,6 +366,13 @@ class XSDataInputAutoPROC(XSDataInput):
             self._refMTZ = refMTZ
         else:
             strMessage = "ERROR! XSDataInputAutoPROC constructor argument 'refMTZ' is not XSDataFile but %s" % self._refMTZ.__class__.__name__
+            raise BaseException(strMessage)
+        if configDef is None:
+            self._configDef = None
+        elif configDef.__class__.__name__ == "XSDataFile":
+            self._configDef = configDef
+        else:
+            strMessage = "ERROR! XSDataInputAutoPROC constructor argument 'configDef' is not XSDataFile but %s" % self._configDef.__class__.__name__
             raise BaseException(strMessage)
         if masterH5 is None:
             self._masterH5 = None
@@ -469,6 +476,18 @@ class XSDataInputAutoPROC(XSDataInput):
             raise BaseException(strMessage)
     def delRefMTZ(self): self._refMTZ = None
     refMTZ = property(getRefMTZ, setRefMTZ, delRefMTZ, "Property for refMTZ")
+    # Methods and properties for the 'configDef' attribute
+    def getConfigDef(self): return self._configDef
+    def setConfigDef(self, configDef):
+        if configDef is None:
+            self._configDef = None
+        elif configDef.__class__.__name__ == "XSDataFile":
+            self._configDef = configDef
+        else:
+            strMessage = "ERROR! XSDataInputAutoPROC.setConfigDef argument is not XSDataFile but %s" % configDef.__class__.__name__
+            raise BaseException(strMessage)
+    def delConfigDef(self): self._configDef = None
+    configDef = property(getConfigDef, setConfigDef, delConfigDef, "Property for configDef")
     # Methods and properties for the 'masterH5' attribute
     def getMasterH5(self): return self._masterH5
     def setMasterH5(self, masterH5):
@@ -525,6 +544,8 @@ class XSDataInputAutoPROC(XSDataInput):
             self.anomalous.export(outfile, level, name_='anomalous')
         if self._refMTZ is not None:
             self.refMTZ.export(outfile, level, name_='refMTZ')
+        if self._configDef is not None:
+            self.configDef.export(outfile, level, name_='configDef')
         if self._masterH5 is not None:
             self.masterH5.export(outfile, level, name_='masterH5')
         if self._symm is not None:
@@ -561,6 +582,11 @@ class XSDataInputAutoPROC(XSDataInput):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setRefMTZ(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'configDef':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setConfigDef(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'masterH5':
             obj_ = XSDataFile()
