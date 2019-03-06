@@ -115,13 +115,19 @@ class EDPluginExecAutoPROCv1_0(EDPluginExecProcessScript):
         This method creates the input command line for autoPROC
         """
         self.DEBUG("EDPluginExecAutoPROCv1_0.generateCommands")
-        strCommandText = "-B -xml -nthreads {0} -M ReportingInlined autoPROC_HIGHLIGHT=\"no\"".format(self.maxNoProcessors)
 
-        if self.doScaleWithXscale:
-            strCommandText += " autoPROC_ScaleWithXscale='yes'"
+        configDef = _xsDataInputAutoPROC.configDef
 
-        if self.rotationAxis is not None:
-            strCommandText += " autoPROC_XdsKeyword_ROTATION_AXIS=\"{0}\"".format(self.rotationAxis)
+        if configDef is None:
+            strCommandText = "-B -xml -nthreads {0} -M ReportingInlined autoPROC_HIGHLIGHT=\"no\"".format(self.maxNoProcessors)
+            if self.doScaleWithXscale:
+                strCommandText += " autoPROC_ScaleWithXscale='yes'"
+
+            if self.rotationAxis is not None:
+                strCommandText += " autoPROC_XdsKeyword_ROTATION_AXIS=\"{0}\"".format(self.rotationAxis)
+        else:
+            strCommandText = "-B -xml -M {0}".format(configDef.path.value)
+            self.DEBUG("Using configDef file = {0}".format(configDef.path.value))
 
         # Master H5 file
         masterH5 = _xsDataInputAutoPROC.masterH5

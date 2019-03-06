@@ -123,7 +123,7 @@ class MixedContainer(object):
 
 
 class XSDataInputControlAutoPROC(XSDataInput):
-    def __init__(self, configuration=None, cell=None, symm=None, doAnomAndNonanom=None, processDirectory=None, toN=None, fromN=None, templateN=None, dirN=None, dataCollectionId=None):
+    def __init__(self, configuration=None, cell=None, symm=None, doAnomAndNonanom=None, processDirectory=None, toN=None, fromN=None, templateN=None, configDef=None, dirN=None, dataCollectionId=None):
         XSDataInput.__init__(self, configuration)
         if dataCollectionId is None:
             self._dataCollectionId = None
@@ -138,6 +138,13 @@ class XSDataInputControlAutoPROC(XSDataInput):
             self._dirN = dirN
         else:
             strMessage = "ERROR! XSDataInputControlAutoPROC constructor argument 'dirN' is not XSDataFile but %s" % self._dirN.__class__.__name__
+            raise BaseException(strMessage)
+        if configDef is None:
+            self._configDef = None
+        elif configDef.__class__.__name__ == "XSDataFile":
+            self._configDef = configDef
+        else:
+            strMessage = "ERROR! XSDataInputControlAutoPROC constructor argument 'configDef' is not XSDataFile but %s" % self._configDef.__class__.__name__
             raise BaseException(strMessage)
         if templateN is None:
             self._templateN = None
@@ -212,6 +219,18 @@ class XSDataInputControlAutoPROC(XSDataInput):
             raise BaseException(strMessage)
     def delDirN(self): self._dirN = None
     dirN = property(getDirN, setDirN, delDirN, "Property for dirN")
+    # Methods and properties for the 'configDef' attribute
+    def getConfigDef(self): return self._configDef
+    def setConfigDef(self, configDef):
+        if configDef is None:
+            self._configDef = None
+        elif configDef.__class__.__name__ == "XSDataFile":
+            self._configDef = configDef
+        else:
+            strMessage = "ERROR! XSDataInputControlAutoPROC.setDirN argument is not XSDataFile but %s" % configDef.__class__.__name__
+            raise BaseException(strMessage)
+    def delConfigDef(self): self._configDef = None
+    configDef = property(getConfigDef, setConfigDef, delConfigDef, "Property for configDef")
     # Methods and properties for the 'templateN' attribute
     def getTemplateN(self): return self._templateN
     def setTemplateN(self, templateN):
@@ -308,6 +327,8 @@ class XSDataInputControlAutoPROC(XSDataInput):
             self.dataCollectionId.export(outfile, level, name_='dataCollectionId')
         if self._dirN is not None:
             self.dirN.export(outfile, level, name_='dirN')
+        if self._configDef is not None:
+            self.configDef.export(outfile, level, name_='configDef')
         if self._templateN is not None:
             self.templateN.export(outfile, level, name_='templateN')
         if self._fromN is not None:
@@ -337,6 +358,11 @@ class XSDataInputControlAutoPROC(XSDataInput):
             obj_ = XSDataFile()
             obj_.build(child_)
             self.setDirN(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'configDef':
+            obj_ = XSDataFile()
+            obj_.build(child_)
+            self.setConfigDef(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'templateN':
             obj_ = XSDataString()
