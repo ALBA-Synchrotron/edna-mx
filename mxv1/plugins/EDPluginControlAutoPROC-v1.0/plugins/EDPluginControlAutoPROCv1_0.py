@@ -88,6 +88,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         self.hasUploadedAnomStaranisoResultsToISPyB = False
         self.hasUploadedNoanomStaranisoResultsToISPyB = False
         self.listPyarchFile = []
+        self.reprocess = False
 
     def configure(self):
         EDPluginControl.configure(self)
@@ -111,10 +112,10 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         self.processingProgramStaraniso = "autoPROC_staraniso"
 
         if self.dataInput.doAnomAndNonanom is not None:
-            if self.dataInput.doAnomAndNonanom.value:
-                self.doAnomAndNonanom = True
-            else:
-                self.doAnomAndNonanom = False
+            self.doAnomAndNonanom = self.dataInput.doAnomAndNonanom.value
+
+        if self.dataInput.reprocess is not None:
+            self.reprocess = self.dataInput.reprocess.value
 
         self.strHost = socket.gethostname()
         self.screen("Running on {0}".format(self.strHost))
@@ -334,6 +335,10 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         xsDataInputAutoPROCAnom.symm = self.dataInput.symm
         xsDataInputAutoPROCAnom.cell = self.dataInput.cell
         xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
+# from future
+#        xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
+#        xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
+# Added reprocess, low and high resolution limits for ControlAutoPROC
         if self.doAnomAndNonanom:
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
             xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(False)
@@ -485,7 +490,10 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
                 else:
                     autoProcIntegration.autoProcIntegrationId = self.autoProcIntegrationIdNoanom
                     autoProcProgram.autoProcProgramId = self.autoProcProgramIdNoanom
-            autoProcProgram.processingPrograms = "autoPROC" + staranisoString
+            if self.reprocess:
+                autoProcProgram.processingPrograms = "autoPROC" + staranisoString + "reprocess"
+            else:
+                autoProcProgram.processingPrograms = "autoPROC" + staranisoString
             autoProcProgram.processingStartTime = time.strftime("%a %b %d %H:%M:%S %Y", timeStart)
             autoProcProgram.processingEndTime = time.strftime("%a %b %d %H:%M:%S %Y", timeEnd)
             autoProcProgram.processingStatus = "SUCCESS"
