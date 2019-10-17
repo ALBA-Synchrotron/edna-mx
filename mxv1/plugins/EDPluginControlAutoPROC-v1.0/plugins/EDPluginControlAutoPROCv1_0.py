@@ -407,13 +407,22 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             self.edPluginExecAutoPROCNoanom.synchronize()
         timeEnd = time.localtime()
 
+        if self.dataInput.dataCollectionId is not None:
         # Upload to ISPyB
-        if self.doAnom:
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-        if self.doNoanom:
-            self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-            self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+#<<<<<<< HEAD
+            if self.doAnom:
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+            if self.doNoanom:
+                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+#    =======
+#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+#            if self.doAnomAndNonanom:
+#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+#>>>>>>> [Fix] Allow run with no collection id
 
 
     def finallyProcess(self, _edObject=None):
