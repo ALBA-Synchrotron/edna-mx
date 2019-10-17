@@ -448,6 +448,20 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
 #             self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
 #             self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
 # Added 'doAnom' optional input
+#<<<<<<< HEAD
+            # if self.doAnom:
+            #     self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+            #     self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+            # if self.doNoanom:
+            #     self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+            #     self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+#    =======
+#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+#            if self.doAnomAndNonanom:
+#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+#>>>>>>> [Fix] Allow run with no collection id
 
 
     def finallyProcess(self, _edObject=None):
