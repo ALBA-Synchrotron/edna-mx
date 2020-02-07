@@ -202,7 +202,7 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
                         # '%Y-%m-%dT%H:%M:%S.%f'                                                                              
                         import datetime
                         dt = datetime.datetime.strptime(strTmp, '%Y-%m-%dT%H:%M:%S.%f')
-                        dictPilatus6M["DateTime"] = dt.strftime('%Y/%b/%d %H:%M:%S.%f')[:-3]
+                        dictPilatus6M["DateTime"] = dt.strftime('%Y/%b/%d %H:%M:%S.%f')#[:-3]
                     else:
                         strKey = strTmp.split(" ")[0]
                         strValue = strTmp.replace(strKey, "")[1:]
