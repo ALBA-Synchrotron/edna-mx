@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<XSDataInputControlDozor>
+    <template>
+        <value>/cs/P13/2018/11303_11303/p3l-kanchan/20180619/RAW_DATA/p2x10/x10_%d_%05d.cbf</value>
+    </template>
+    <first_image_number>
+        <value>1</value>
+    </first_image_number>
+    <last_image_number>
+        <value>25</value>
+    </last_image_number>
+    <first_run_number>
+        <value>1</value>
+    </first_run_number>
+    <last_run_number>
+        <value>1</value>
+    </last_run_number>
+    <line_number_of>
+        <value>5</value>
+    </line_number_of>
+    <reversing_rotation>
+        <value>true</value>
+    </reversing_rotation>
+    <pixelMin>
+        <value>-1</value>
+    </pixelMin>
+    <pixelMax>
+        <value>64000</value>
+    </pixelMax>
+    <beamstopDirection>
+        <value>-X</value>
+    </beamstopDirection>
+    <beamstopSize>
+        <value>1.500000e+00</value>
+    </beamstopSize>
+    <beamstopDistance>
+        <value>1.500000e+01</value>
+    </beamstopDistance>
+</XSDataInputControlDozor>

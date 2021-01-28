@@ -1,0 +1,45 @@
+targetNamespace "http://www.edna-site.org"
+
+import XSDataCommon.XSDataInteger
+import XSDataCommon.XSDataBoolean
+import XSDataCommon.XSDataDouble
+import XSDataCommon.XSDataString
+import XSDataCommon.XSDataInput
+import XSDataCommon.XSDataResult
+import XSDataCommon.XSDataFile
+
+
+complex type XSDataControlImageDozor {
+	image : XSDataFile
+        number : XSDataInteger optional
+	spots_num_of : XSDataInteger
+	spots_int_aver : XSDataDouble 
+	spots_resolution : XSDataDouble optional
+	powder_wilson_scale : XSDataDouble optional
+	powder_wilson_bfactor : XSDataDouble optional
+	powder_wilson_resolution : XSDataDouble optional
+	powder_wilson_correlation : XSDataDouble optional
+	powder_wilson_rfactor : XSDataDouble optional
+	score : XSDataDouble optional
+        spotFile : XSDataFile optional
+}	
+
+
+complex type XSDataInputControlDozor extends XSDataInput {
+        template : XSDataString 
+        first_image_number : XSDataInteger 
+        last_image_number : XSDataInteger
+        first_run_number : XSDataInteger
+        last_run_number : XSDataInteger 
+        line_number_of : XSDataInteger
+        reversing_rotation : XSDataBoolean
+        pixelMin : XSDataInteger optional
+        pixelMax : XSDataInteger optional
+        beamstopDirection : XSDataString optional
+        beamstopSize : XSDataDouble optional
+        beamstopDistance : XSDataDouble optional
+}
+
+complex type XSDataResultControlDozor extends XSDataResult {
+	imageDozor : XSDataControlImageDozor [] optional
+}
