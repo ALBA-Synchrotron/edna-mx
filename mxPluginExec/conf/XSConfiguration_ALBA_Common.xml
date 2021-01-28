@@ -640,7 +640,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 
-			<name>EDPluginDozorv1_0</name>  
+			<name>EDPluginDozorv1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -648,7 +648,8 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/dozor</value>
+<!--					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/dozor</value>-->
+					<value>/beamlines/bl13/controls/devel/software/BEST_v4.1.0/dozor_20210127</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
