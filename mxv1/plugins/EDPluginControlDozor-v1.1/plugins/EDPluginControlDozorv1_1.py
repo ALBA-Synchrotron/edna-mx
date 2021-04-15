@@ -165,7 +165,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
         for chunk in chunk_list:
 
-            if not self.poll_file(self.dataInput.template.value%(chunk['run_number'],chunk['first']+chunk['number_of']-1), (beam.exposureTime.value+0.003) * chunk['number_of'] + 10 ):
+            if not self.poll_file(self.dataInput.template.value%(chunk['run_number'],chunk['first']+chunk['number_of']-1), (beam.exposureTime.value+0.003) * chunk['number_of'] + 30 ):
                 self.sendMessageToMXCuBE("Timeout waiting for frame: %d"%(chunk['first']+chunk['number_of']), level="error")
 	        return
 
