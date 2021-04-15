@@ -237,8 +237,11 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
                 if len(listLine) < 11:
                     xsDataImageDozor.spots_num_of = XSDataInteger(listLine[1])
                     xsDataImageDozor.spots_int_aver = self.parseDouble(listLine[2])
-                    xsDataImageDozor.spots_resolution = self.parseDouble(listLine[3])
-                    xsDataImageDozor.score =XSDataDouble(0.0) #self.parseDouble(listLine[4])
+                    try:
+                        xsDataImageDozor.spots_resolution = self.parseDouble(listLine[3])
+                    except IndexError as e:
+                        xsDataImageDozor.spots_resolution = XSDataDouble(0.0)
+                    xsDataImageDozor.score = XSDataDouble(0.0) #self.parseDouble(listLine[4])
                 else:
                     xsDataImageDozor.spots_num_of = XSDataInteger(listLine[1])
                     xsDataImageDozor.spots_int_aver = self.parseDouble(listLine[2])
