@@ -126,15 +126,8 @@ class MixedContainer(object):
 
 
 class XSDataInputControlAutoPROC(XSDataInput):
-    def __init__(self, configuration=None, cell=None, symm=None, doAnomAndNonanom=None, processDirectory=None, toN=None, fromN=None, templateN=None, configDef=None, dirN=None, dataCollectionId=None):
-# from future
-#    def __init__(self, configuration=None, highResolutionLimit=None, lowResolutionLimit=None, reprocess=None, cell=None, symm=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, toN=None, fromN=None, templateN=None, dirN=None, dataCollectionId=None):
-# Added reprocess, low and high resolution limits for ControlAutoPROC
-# Added 'doAnom' optional input
-# from future
-#    def __init__(self, configuration=None, highResolutionLimit=None, lowResolutionLimit=None, reprocess=None, cell=None, symm=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, toN=None, fromN=None, templateN=None, dirN=None, dataCollectionId=None, configDef=None):
-# Add support for AutoPROC plugin
-
+#    def __init__(self, configuration=None, cell=None, symm=None, doAnomAndNonanom=None, processDirectory=None, toN=None, fromN=None, templateN=None, configDef=None, dirN=None, dataCollectionId=None):
+    def __init__(self, configuration=None, highResolutionLimit=None, lowResolutionLimit=None, reprocess=None, cell=None, symm=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, toN=None, fromN=None, templateN=None, dirN=None, dataCollectionId=None, configDef=None):
         XSDataInput.__init__(self, configuration)
         if dataCollectionId is None:
             self._dataCollectionId = None
