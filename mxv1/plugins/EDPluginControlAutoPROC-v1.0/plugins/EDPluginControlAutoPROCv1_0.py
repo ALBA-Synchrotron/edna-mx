@@ -80,8 +80,8 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputControlAutoPROC)
         self.dataOutput = XSDataResultStoreAutoProc()
         self.doAnom = True
-        self.doNoanom = False
-        self.doAnomAndNonanom = False
+        self.doNoanom = True
+        self.doAnomAndNonanom = True
         self.pyarchPrefix = None
         self.resultsDirectory = None
         self.pyarchDirectory = None
@@ -388,7 +388,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
 #        if self.doAnomAndNonanom:
 #>>>>>>> Add support for AutoPROC plugin
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
-            xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(False)
+            xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(True)
             xsDataInputAutoPROCNoanom.symm = self.dataInput.symm
             xsDataInputAutoPROCNoanom.cell = self.dataInput.cell
 
