@@ -190,7 +190,7 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
             strCommandText += "name_template_image %s\n" % _xsDataInputDozor.nameTemplateImage.value
             #strCommandText += "end\n"
             
-            strCommandText += "library //beamlines/bl13/controls/devel/software/lib/xds-zcbf.so\n"
+            strCommandText += "library //beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
             strCommandText += "nx 2463\n"
             strCommandText += "ny 2527\n"
             strCommandText += "pixel 0.172\n"
