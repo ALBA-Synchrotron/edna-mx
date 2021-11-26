@@ -31,6 +31,7 @@ import os
 import time
 import shutil
 import tempfile
+import subprocess
 
 from EDVerbose import EDVerbose
 from EDUtilsImage import EDUtilsImage
@@ -60,8 +61,11 @@ class EDHandlerESRFPyarchv1_0:
                                                     *listOfDirectories[4:])
             return strPyarchDNAFilePath
 
+        if EDUtilsPath.isMAXIV():
+            strPyarchDNAFilePath = _strESRFPath.replace("/data","/mxn/groups/ispybstorage",1)
+            return strPyarchDNAFilePath
 
-        listBeamlines = ["bm30a", "id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2",
+        listBeamlines = ["bm07", "id14eh1", "id14eh2", "id14eh3", "id14eh4", "id23eh1", "id23eh2",
                          "id29", "id30a1", "id30a2", "id30a3", "id30b", "simulator_mxcube"]
         # Check that we have at least four levels of directories:
         if (len(listOfDirectories) > 5):
@@ -170,7 +174,7 @@ class EDHandlerESRFPyarchv1_0:
     def copyHTMLDir(_strPathToHTMLDir, _strPathToPyarchDirectory):
         if not os.path.exists(_strPathToPyarchDirectory):
             try:
-                os.mkdir(_strPathToPyarchDirectory)
+                os.mkdir(_strPathToPyarchDirectory, mode=0o755)
             except:
                 EDVerbose.WARNING("EDHandlerESRFPyarchv1_0.copyHTMLFilesAndDir: cannot create pyarch html directory %s" % _strPathToPyarchDirectory)
                 return

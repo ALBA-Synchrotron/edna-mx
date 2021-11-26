@@ -29,11 +29,23 @@ __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
 import os
+import sys
+
+sys.path.insert(0, "/opt/pxsoft/bes/vgit/linux-x86_64/id30a2/edna2")
+
+try:
+    from edna2.tasks.DiffractionThumbnail import DiffractionThumbnail
+    EDNA2_THUMBNAILS = True
+except:
+    EDNA2_THUMBNAILS = False
+
 
 try:
     from xmlrpclib import ServerProxy
+    from xmlrpclib import Transport
 except:
     from xmlrpc.client import ServerProxy
+    from xmlrpc.client import Transport
 
 from EDVerbose import EDVerbose
 from EDPluginControl import EDPluginControl
@@ -61,12 +73,25 @@ EDFactoryPluginStatic.loadModule("XSDataMXThumbnailv1_1")
 from XSDataMXThumbnailv1_1 import XSDataInputMXThumbnail
 
 
+class TokenTransport(Transport):
+
+    def __init__(self, token, use_datetime=0):
+        Transport.__init__(self, use_datetime=use_datetime)
+        self.token = token
+
+    def send_content(self, connection, request_body):
+        connection.putheader("Content-Type", "text/xml")
+        connection.putheader("Content-Length", str(len(request_body)))
+        connection.putheader("Token", self.token)
+        connection.endheaders()
+        if request_body:
+            connection.send(request_body)
+
+
 class EDPluginControlCharacterisationv1_4(EDPluginControl):
     """
     [To be replaced with a description of EDPluginControlTemplatev10]
     """
-
-
     def __init__(self):
         EDPluginControl.__init__(self)
         self.setXSDataInputClass(XSDataInputCharacterisation)
@@ -121,9 +146,6 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlCharacterisationv1_4.configure")
         self._strMxCuBE_URI = self.config.get("mxCuBE_URI", None)
-        if self._strMxCuBE_URI is not None and "mxCuBE_XMLRPC_log" in os.environ.keys():
-            self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
-            self._oServerProxy = ServerProxy(self._strMxCuBE_URI)
         self._runKappa = self.config.get("runKappa", False)
         self._fMinTransmission = self.config.get("minTransmissionWarning", self._fMinTransmission)
         self._bDoOnlyMoslmfIndexing = self.config.get("doOnlyMosflmIndexing", False)
@@ -189,25 +211,35 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
                 for subWedge in xsDataInputCharacterisation.dataCollection.subWedge:
                     for image in subWedge.image:
                         self._iNoReferenceImages += 1
-                        edPluginJpeg = self.loadPlugin(self._strPluginGenerateThumbnailName)
-                        xsDataInputMXThumbnail = XSDataInputMXThumbnail()
-                        xsDataInputMXThumbnail.image = XSDataFile(image.path)
-                        xsDataInputMXThumbnail.height = XSDataInteger(1024)
-                        xsDataInputMXThumbnail.width = XSDataInteger(1024)
-                        jpegFilename = os.path.splitext(os.path.basename(image.path.value))[0] + ".jpg"
-                        xsDataInputMXThumbnail.outputPath = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), jpegFilename)))
-                        edPluginJpeg.dataInput = xsDataInputMXThumbnail
-                        edPluginThumnail = self.loadPlugin(self._strPluginGenerateThumbnailName)
-                        xsDataInputMXThumbnail = XSDataInputMXThumbnail()
-                        xsDataInputMXThumbnail.image = XSDataFile(image.path)
-                        xsDataInputMXThumbnail.height = XSDataInteger(256)
-                        xsDataInputMXThumbnail.width = XSDataInteger(256)
-                        thumbnailFilename = os.path.splitext(os.path.basename(image.path.value))[0] + ".thumbnail.jpg"
-                        xsDataInputMXThumbnail.outputPath = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), thumbnailFilename)))
-                        edPluginThumnail.dataInput = xsDataInputMXThumbnail
-                        self._listPluginGenerateThumbnail.append((image, edPluginJpeg, edPluginThumnail))
-                        edPluginJpeg.execute()
-                        edPluginThumnail.execute()
+                        if EDNA2_THUMBNAILS:
+                            inDataDiffThumbnail = {
+                                "image": [image.path.value],
+                                "forcedOutputDirectory": self.getWorkingDirectory(),
+                                "workingDirectory": self.getWorkingDirectory()
+                            }
+                            diffractionThumbnail = DiffractionThumbnail(inData=inDataDiffThumbnail)
+                            diffractionThumbnail.start()
+                            self._listPluginGenerateThumbnail.append((image, diffractionThumbnail))
+                        else:
+                            edPluginJpeg = self.loadPlugin(self._strPluginGenerateThumbnailName)
+                            xsDataInputMXThumbnail = XSDataInputMXThumbnail()
+                            xsDataInputMXThumbnail.image = XSDataFile(image.path)
+                            xsDataInputMXThumbnail.height = XSDataInteger(1024)
+                            xsDataInputMXThumbnail.width = XSDataInteger(1024)
+                            jpegFilename = os.path.splitext(os.path.basename(image.path.value))[0] + ".jpg"
+                            xsDataInputMXThumbnail.outputPath = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), jpegFilename)))
+                            edPluginJpeg.dataInput = xsDataInputMXThumbnail
+                            edPluginThumnail = self.loadPlugin(self._strPluginGenerateThumbnailName)
+                            xsDataInputMXThumbnail = XSDataInputMXThumbnail()
+                            xsDataInputMXThumbnail.image = XSDataFile(image.path)
+                            xsDataInputMXThumbnail.height = XSDataInteger(256)
+                            xsDataInputMXThumbnail.width = XSDataInteger(256)
+                            thumbnailFilename = os.path.splitext(os.path.basename(image.path.value))[0] + ".thumbnail.jpg"
+                            xsDataInputMXThumbnail.outputPath = XSDataFile(XSDataString(os.path.join(self.getWorkingDirectory(), thumbnailFilename)))
+                            edPluginThumnail.dataInput = xsDataInputMXThumbnail
+                            self._listPluginGenerateThumbnail.append((image, edPluginJpeg, edPluginThumnail))
+                            edPluginJpeg.execute()
+                            edPluginThumnail.execute()
                 xsDataExperimentalCondition = xsDataSubWedgeList[0].getExperimentalCondition()
 
                 # Fix for bug 431: if the flux is zero raise an error
@@ -235,6 +267,17 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
 
                 # Populate characterisation object
                 self._xsDataResultCharacterisation.setDataCollection(XSDataCollection.parseString(self._xsDataCollection.marshal()))
+
+            if xsDataInputCharacterisation.token is not None:
+                strToken = xsDataInputCharacterisation.token.value
+            else:
+                strToken = None
+            if self._strMxCuBE_URI is not None and "mxCuBE_XMLRPC_log" in os.environ.keys():
+                self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
+                if strToken is None:
+                    self._oServerProxy = ServerProxy(self._strMxCuBE_URI)
+                else:
+                    self._oServerProxy = ServerProxy(self._strMxCuBE_URI, transport=TokenTransport(strToken))
 
 
     def process(self, _edObject=None):
@@ -264,14 +307,24 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
         self.DEBUG("EDPluginControlCharacterisationv1_4.finallyProcess")
         # Synchronize thumbnail plugins
         for tuplePlugin in self._listPluginGenerateThumbnail:
-            image = tuplePlugin[0]
-            tuplePlugin[1].synchronize()
-            jpegImage = image.copy()
-            jpegImage.path = tuplePlugin[1].dataOutput.thumbnail.path
-            self._xsDataResultCharacterisation.addJpegImage(jpegImage)
-            tuplePlugin[2].synchronize()
-            thumbnailImage = image.copy()
-            thumbnailImage.path = tuplePlugin[2].dataOutput.thumbnail.path
+            if EDNA2_THUMBNAILS:
+                image = tuplePlugin[0]
+                tuplePlugin[1].join()
+                jpegImage = image.copy()
+                jpegImage.path = XSDataString(tuplePlugin[1].outData["pathToJPEGImage"][0])
+                self._xsDataResultCharacterisation.addJpegImage(jpegImage)
+                thumbnailImage = image.copy()
+                thumbnailImage.path = XSDataString(tuplePlugin[1].outData["pathToThumbImage"][0])
+            else:
+                image = tuplePlugin[0]
+                tuplePlugin[1].synchronize()
+                jpegImage = image.copy()
+                jpegImage.path = tuplePlugin[1].dataOutput.thumbnail.path
+                self._xsDataResultCharacterisation.addJpegImage(jpegImage)
+                tuplePlugin[2].synchronize()
+                thumbnailImage = image.copy()
+                thumbnailImage.path = tuplePlugin[2].dataOutput.thumbnail.path
+            self._xsDataResultCharacterisation.addThumbnailImage(thumbnailImage)           
             self._xsDataResultCharacterisation.addThumbnailImage(thumbnailImage)
         if self._edPluginControlGeneratePrediction.isRunning():
             self._edPluginControlGeneratePrediction.synchronize()

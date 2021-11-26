@@ -377,7 +377,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 				<!--<XSParamItem>-->
 					<!--<name>x-geo_corr</name>-->
@@ -635,12 +635,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 
-			<name>EDPluginDozorv1_0</name>
+			<name>EDPluginDozorv1_0</name>  
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -648,8 +648,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-<!--					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/dozor</value>-->
-					<value>/beamlines/bl13/controls/production/software/BEST_v4.1.0/dozor_20210127</value>
+					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/dozor</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -670,7 +669,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -704,7 +703,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>14400</value>
+					<value>3600</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>maxNoProcessors</name>

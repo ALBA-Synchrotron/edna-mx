@@ -7,6 +7,31 @@
   		<name>XSConfiguration_ESRF_ISPyB_Common</name>
   	</XSImportConfiguration>	
 	<XSPluginList>
+		<XSPluginItem>
+			<name>EDPluginExecMinimalXdsv1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/opt/pxsoft/bin/xds_par</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>pathToNeggiaPlugin</name>
+					<value>/opt/pxsoft/xds/vdefault/linux-x86_64/durin-plugin.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>3600</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>maxNoProcessors</name>
+					<value>10</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 		<XSPluginItem> 
 			<name>EDPluginXOalignv1_0</name>  
 			<XSParamList>
@@ -57,7 +82,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/bin/dozor__v1.3.8</value>
+					<value>/opt/pxsoft/bin/dozor__v2.2.1</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -69,17 +94,58 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>ix_max</name>
-					<value>1230</value>
+					<value>2159</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>iy_min</name>
-					<value>1228</value>
+					<value>2087</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>iy_max</name>
-					<value>1298</value>
+					<value>2312</value>
 				</XSParamItem>				
+				<XSParamItem>
+					<name>library_cbf_debian_9</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/debian9-x86_64/bin/xds-zcbf.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_h5_debian_9</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/debian9-x86_64/bin/dectris-neggia.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_cbf_ubuntu_20.04</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/ubuntu20.04-x86_64/bin/xds-zcbf.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_h5_ubuntu_20.04</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/ubuntu20.04-x86_64/bin/durin-plugin.so</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
+               <XSPluginItem>
+                        <name>EDPluginExecAutoPROCv1_0</name>
+                        <XSParamList>
+                                <XSParamItem>
+                                        <name>execProcessScriptShell</name>
+                                        <value>/bin/bash</value>
+                                </XSParamItem>
+                                <XSParamItem>
+                                        <name>execProcessScriptExecutable</name>
+                                        <value>/opt/pxsoft/bin/process</value>
+                                </XSParamItem>
+                                <XSParamItem>
+                                        <name>pathToNeggiaPlugin</name>
+                                        <value>/opt/pxsoft/xds/vdefault/linux-x86_64/durin-plugin.so</value>
+                                </XSParamItem>
+                                <XSParamItem>
+                                        <name>timeOut</name>
+                                        <value>7200</value>
+                                </XSParamItem>
+                                <XSParamItem>
+                                        <name>maxNoProcessors</name>
+                                        <value>6</value>
+                                </XSParamItem>
+                        </XSParamList>
+                </XSPluginItem>
 	</XSPluginList>
 </XSConfiguration> 

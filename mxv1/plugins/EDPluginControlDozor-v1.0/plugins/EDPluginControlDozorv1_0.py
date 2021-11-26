@@ -100,6 +100,7 @@ class EDPluginControlDozorv1_0(EDPluginControl):
         self._oServerProxy = None
         self.doRadiationDamage = False
         self.gnuplot = "gnuplot"
+        self.doISPyBUpload = False
 
 
     def checkParameters(self):
@@ -130,8 +131,9 @@ class EDPluginControlDozorv1_0(EDPluginControl):
             self.batchSize = self.dataInput.batchSize.value
         if self.dataInput.radiationDamage is not None:
             self.doRadiationDamage = self.dataInput.radiationDamage.value
-
-
+        if self.dataInput.doISPyBUpload is not None:
+            if self.dataInput.doISPyBUpload.value:
+                self.doISPyBUpload = True
 
 
     def process(self, _edObject=None):
@@ -297,7 +299,11 @@ class EDPluginControlDozorv1_0(EDPluginControl):
             # Only try to obtain data collection id if at the ESRF and path starts with "/data"
             if EDUtilsPath.isESRF() and self.dataInput.image[0].path.value.startswith("/data"):
                 xsDataInputRetrieveDataCollection = XSDataInputRetrieveDataCollection()
-                xsDataInputRetrieveDataCollection.image = XSDataImage(self.dataInput.image[0].path)
+                # Hack to fix problem with looking for CBF images from ID30A-3 and ID23-1:
+                imagePath = self.dataInput.image[0].path.value
+                if "id23eh1" in imagePath or "id30a3" in imagePath:
+                    imagePath = imagePath.replace(".cbf", ".h5")
+                xsDataInputRetrieveDataCollection.image = XSDataImage(XSDataString(imagePath))
                 edPluginISPyBRetrieveDataCollection = self.loadPlugin("EDPluginISPyBRetrieveDataCollectionv1_4")
                 edPluginISPyBRetrieveDataCollection.dataInput = xsDataInputRetrieveDataCollection
                 edPluginISPyBRetrieveDataCollection.executeSynchronous()
@@ -448,24 +454,25 @@ class EDPluginControlDozorv1_0(EDPluginControl):
             except:
                 self.warning("Couldn't copy files to results directory: {0}".format(resultsDirectory))
 
-            try:
-                # Create paths on pyarch
-                dozorPlotPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(dozorPlotResultPath)
-                dozorCsvPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(dozorCsvResultPath)
-                if not os.path.exists(os.path.dirname(dozorPlotPyarchPath)):
-                    os.makedirs(os.path.dirname(dozorPlotPyarchPath), 0o755)
-                shutil.copy(dozorPlotResultPath, dozorPlotPyarchPath)
-                shutil.copy(dozorCsvResultPath, dozorCsvPyarchPath)
-                # Upload to data collection
-                xsDataInputISPyBSetImageQualityIndicatorsPlot = XSDataInputISPyBSetImageQualityIndicatorsPlot()
-                xsDataInputISPyBSetImageQualityIndicatorsPlot.dataCollectionId = XSDataInteger(dataCollectionId)
-                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsPlotPath = XSDataString(dozorPlotPyarchPath)
-                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsCSVPath = XSDataString(dozorCsvPyarchPath)
-                EDPluginISPyBSetImageQualityIndicatorsPlot = self.loadPlugin("EDPluginISPyBSetImageQualityIndicatorsPlotv1_4")
-                EDPluginISPyBSetImageQualityIndicatorsPlot.dataInput = xsDataInputISPyBSetImageQualityIndicatorsPlot
-                EDPluginISPyBSetImageQualityIndicatorsPlot.executeSynchronous()
-            except:
-                self.warning("Couldn't copy files to pyarch: {0}".format(dozorPlotPyarchPath))
+            if self.doISPyBUpload:
+                try:
+                    # Create paths on pyarch
+                    dozorPlotPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(dozorPlotResultPath)
+                    dozorCsvPyarchPath = EDHandlerESRFPyarchv1_0.createPyarchFilePath(dozorCsvResultPath)
+                    if not os.path.exists(os.path.dirname(dozorPlotPyarchPath)):
+                        os.makedirs(os.path.dirname(dozorPlotPyarchPath), 0o755)
+                    shutil.copy(dozorPlotResultPath, dozorPlotPyarchPath)
+                    shutil.copy(dozorCsvResultPath, dozorCsvPyarchPath)
+                    # Upload to data collection
+                    xsDataInputISPyBSetImageQualityIndicatorsPlot = XSDataInputISPyBSetImageQualityIndicatorsPlot()
+                    xsDataInputISPyBSetImageQualityIndicatorsPlot.dataCollectionId = XSDataInteger(dataCollectionId)
+                    xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsPlotPath = XSDataString(dozorPlotPyarchPath)
+                    xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsCSVPath = XSDataString(dozorCsvPyarchPath)
+                    EDPluginISPyBSetImageQualityIndicatorsPlot = self.loadPlugin("EDPluginISPyBSetImageQualityIndicatorsPlotv1_4")
+                    EDPluginISPyBSetImageQualityIndicatorsPlot.dataInput = xsDataInputISPyBSetImageQualityIndicatorsPlot
+                    EDPluginISPyBSetImageQualityIndicatorsPlot.executeSynchronous()
+                except:
+                    self.warning("Couldn't copy files to pyarch: {0}".format(dozorPlotPyarchPath))
 
         self.sendMessageToMXCuBE("Processing finished", "info")
         self.setStatusToMXCuBE("Success")
