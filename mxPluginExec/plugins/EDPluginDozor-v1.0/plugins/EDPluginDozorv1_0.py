@@ -25,9 +25,6 @@ __author__ = "Olof Svensson"
 __license__ = "GPLv3+"
 __copyright__ = "ESRF"
 
-<<<<<<< HEAD
-import os, time, shlex
-=======
 import os
 import time
 import shlex
@@ -36,7 +33,7 @@ import pprint
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
->>>>>>> olof
+
 
 from EDPluginExecProcessScript import EDPluginExecProcessScript
 from EDUtilsTable              import EDUtilsTable

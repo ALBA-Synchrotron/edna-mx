@@ -19,7 +19,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -28,7 +28,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -37,7 +37,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -46,7 +46,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -64,7 +64,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -204,12 +204,8 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginControlDozorv1_1</name>
+			<name>EDPluginControlDozorv1_0</name>
 			<XSParamList>
-				<XSParamItem>
-					<name>mxCuBE_URI</name>
-					<value>http://pcbl1307:8000</value>
-				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>7200</value>
