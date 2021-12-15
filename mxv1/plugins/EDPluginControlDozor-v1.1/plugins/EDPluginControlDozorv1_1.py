@@ -27,7 +27,8 @@ __copyright__ = "ESRF"
 
 import os
 import time
-import xmlrpclib
+#import xmlrpclib
+from xmlrpc import client
 
 import socket
 import sys
@@ -82,9 +83,10 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
         self._strMxCuBE_URI = self.config.get("mxCuBE_URI", None)
         print(self.config)
-        if self._strMxCuBE_URI is not None:
+        if self._strMxCuBE_URI  	is not None:
             self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
-            self._oServerProxy = xmlrpclib.ServerProxy(self._strMxCuBE_URI, allow_none=True)
+            #self._oServerProxy = xmlrpclib.ServerProxy(self._strMxCuBE_URI, allow_none=True)
+            self._oServerProxy = client.ServerProxy(self._strMxCuBE_URI, allow_none=True)
             self.get_image_num = self._oServerProxy.get_image_num 
     
     def preProcess(self, _edObject=None):
@@ -167,7 +169,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
             if not self.poll_file(self.dataInput.template.value%(chunk['run_number'],chunk['first']+chunk['number_of']-1), (beam.exposureTime.value+0.003) * chunk['number_of'] + 30 ):
                 self.sendMessageToMXCuBE("Timeout waiting for frame: %d"%(chunk['first']+chunk['number_of']), level="error")
-	        return
+            return
 
             xsDataInputDozor.oscillationRange = XSDataDouble(chunk['rotation_range'])
             xsDataInputDozor.startingAngle = XSDataDouble(chunk['rotation_start'])
@@ -302,45 +304,45 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         reversing_rotation = self.dataInput.reversing_rotation.value
  
         total_images = (last_image_number - first_image_number + 1 ) * (last_run_number - first_run_number + 1)
-	images_per_line = total_images / line_number_of
-	#if images_per_line * line_number_of != total_images:
-   	#   print "image/run/line numbers mismatch"
-	chunk = 1000000
-	chunks = 0
-	while chunk > self.maxChunkSize:
-           chunks = chunks + 1
-           chunk = images_per_line / chunks
-        run_number = first_run_number
-        last_frame = 0
-        res = []
-        for line in range(line_number_of):
-           if reversing_rotation and line%2 :
-              line_rotation_start = rotation_start + images_per_line * rotation_range
-              line_rotation_range = -rotation_range
-           else:
-              line_rotation_start = rotation_start
-              line_rotation_range = rotation_range
-           for x in range(chunks):
-               first_frame = last_frame + 1
-               if x == chunks-1:
-                  if first_run_number != last_run_number:
-                     last_frame = last_image_number
-                  else:
-                     last_frame = first_image_number + (line + 1) * images_per_line - 1
+        images_per_line = total_images / line_number_of
+        #if images_per_line * line_number_of != total_images:
+        #   print "image/run/line numbers mismatch"
+        chunk = 1000000
+        chunks = 0
+        while chunk > self.maxChunkSize:
+            chunks = chunks + 1
+            chunk = images_per_line / chunks
+            run_number = first_run_number
+            last_frame = 0
+            res = []
+            for line in range(line_number_of):
+               if reversing_rotation and line%2 :
+                  line_rotation_start = rotation_start + images_per_line * rotation_range
+                  line_rotation_range = -rotation_range
                else:
-                  last_frame = first_frame + chunk - 1
-               chunk_rotation_start = line_rotation_start + x * line_rotation_range * chunk 
-               res.append({'run_number': run_number,
-                           'first' : first_frame, 
-                           'number_of' : last_frame - first_frame + 1,  
-                           'rotation_start' : chunk_rotation_start,  
-                           'rotation_range' : line_rotation_range })
-           if first_run_number != last_run_number:
-              run_number = run_number + 1
-              last_frame = 0
-           else:
-               last_last_frame = x * chunk + 1
- 	return res
+                  line_rotation_start = rotation_start
+                  line_rotation_range = rotation_range
+               for x in range(chunks):
+                   first_frame = last_frame + 1
+                   if x == chunks-1:
+                      if first_run_number != last_run_number:
+                         last_frame = last_image_number
+                      else:
+                         last_frame = first_image_number + (line + 1) * images_per_line - 1
+                   else:
+                      last_frame = first_frame + chunk - 1
+                   chunk_rotation_start = line_rotation_start + x * line_rotation_range * chunk
+                   res.append({'run_number': run_number,
+                               'first' : first_frame,
+                               'number_of' : last_frame - first_frame + 1,
+                               'rotation_start' : chunk_rotation_start,
+                               'rotation_range' : line_rotation_range })
+               if first_run_number != last_run_number:
+                  run_number = run_number + 1
+                  last_frame = 0
+               else:
+                   last_last_frame = x * chunk + 1
+        return res
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)

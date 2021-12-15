@@ -72,8 +72,8 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         self.defaultImageStep = 1
         self.startingAngle = 0.0
 		### From previous ALBA "production" branch, not in latest Olof version (24-11-2021)
-		self.defaultPixelMean = -1
-		self.defaultPixelMax = 64000
+		# self.defaultPixelMean = -1
+		# self.defaultPixelMax = 64000
         ###
         self.firstImageNumber = None
         self.oscillationRange = None
