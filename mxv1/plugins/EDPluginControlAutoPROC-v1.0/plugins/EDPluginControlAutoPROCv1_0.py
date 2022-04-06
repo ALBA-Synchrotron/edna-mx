@@ -192,7 +192,6 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             pathToEndImage = os.path.join(directory, ispybDataCollection.fileTemplate % imageNoEnd)
         else:
             identifier = str(int(time.time()))
-            configDef = self.dataInput.configDef.path.value
             directory = self.dataInput.dirN.path.value
             template = self.dataInput.templateN.value
             imageNoStart = self.dataInput.fromN.value
@@ -405,13 +404,13 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         timeEnd = time.localtime()
 
         if self.dataInput.dataCollectionId is not None:
-        # Upload to ISPyB
-        if self.doAnom:
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-        if self.doNoanom:
-            self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-            self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+            # Upload to ISPyB
+            if self.doAnom:
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+            if self.doNoanom:
+                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
 
 
     def finallyProcess(self, _edObject=None):

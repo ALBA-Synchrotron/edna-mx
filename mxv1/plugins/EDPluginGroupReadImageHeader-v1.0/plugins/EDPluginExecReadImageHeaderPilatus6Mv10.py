@@ -199,9 +199,10 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
                     elif strLine[6] == "-" and strLine[9] == "-":
                         # At ALBA, we have the Pilatus 6M writing in the header                                                
                         # the date and time with the following format:                                                         
-                        # '%Y-%m-%dT%H:%M:%S.%f'                                                                              
+                        # '%Y-%m-%dT%H:%M:%S.%f'
+                        # 2021-12-11T22:18:30.697
                         import datetime
-                        dt = datetime.datetime.strptime(strTmp, '%Y-%m-%dT%H:%M:%S.%f')
+                        dt = datetime.datetime.strptime(strTmp.strip(), '%Y-%m-%dT%H:%M:%S.%f')
                         dictPilatus6M["DateTime"] = dt.strftime('%Y/%b/%d %H:%M:%S.%f')#[:-3]
                     else:
                         strKey = strTmp.split(" ")[0]

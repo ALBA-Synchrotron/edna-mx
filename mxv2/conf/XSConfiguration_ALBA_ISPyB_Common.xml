@@ -429,7 +429,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://ispyb:8080//ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>http://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

@@ -31,14 +31,14 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 import os
 import sys
 
-sys.path.insert(0, "/opt/pxsoft/bes/vgit/linux-x86_64/id30a2/edna2")
-
-try:
-    from edna2.tasks.DiffractionThumbnail import DiffractionThumbnail
-    EDNA2_THUMBNAILS = True
-except:
-    EDNA2_THUMBNAILS = False
-
+#sys.path.insert(0, "/opt/pxsoft/bes/vgit/linux-x86_64/id30a2/edna2")
+#
+#try:
+#    from edna2.tasks.DiffractionThumbnail import DiffractionThumbnail
+#    EDNA2_THUMBNAILS = True
+#except:
+#    EDNA2_THUMBNAILS = False
+EDNA2_THUMBNAILS = False
 
 try:
     from xmlrpclib import ServerProxy
@@ -146,6 +146,9 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
         EDPluginControl.configure(self)
         self.DEBUG("EDPluginControlCharacterisationv1_4.configure")
         self._strMxCuBE_URI = self.config.get("mxCuBE_URI", None)
+        if self._strMxCuBE_URI is not None and "mxCuBE_XMLRPC_log" in os.environ.keys():
+            self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
+            self._oServerProxy = ServerProxy(self._strMxCuBE_URI)
         self._runKappa = self.config.get("runKappa", False)
         self._fMinTransmission = self.config.get("minTransmissionWarning", self._fMinTransmission)
         self._bDoOnlyMoslmfIndexing = self.config.get("doOnlyMosflmIndexing", False)
@@ -325,7 +328,7 @@ class EDPluginControlCharacterisationv1_4(EDPluginControl):
                 thumbnailImage = image.copy()
                 thumbnailImage.path = tuplePlugin[2].dataOutput.thumbnail.path
             self._xsDataResultCharacterisation.addThumbnailImage(thumbnailImage)           
-            self._xsDataResultCharacterisation.addThumbnailImage(thumbnailImage)
+            #self._xsDataResultCharacterisation.addThumbnailImage(thumbnailImage)
         if self._edPluginControlGeneratePrediction.isRunning():
             self._edPluginControlGeneratePrediction.synchronize()
         if self._strStatusMessage != None:

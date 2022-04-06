@@ -83,7 +83,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
         self._strMxCuBE_URI = self.config.get("mxCuBE_URI", None)
         print(self.config)
-        if self._strMxCuBE_URI  	is not None:
+        if self._strMxCuBE_URI is not None:
             self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
             #self._oServerProxy = xmlrpclib.ServerProxy(self._strMxCuBE_URI, allow_none=True)
             self._oServerProxy = client.ServerProxy(self._strMxCuBE_URI, allow_none=True)
@@ -136,7 +136,8 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         goniostat = subWedge.experimentalCondition.goniostat
         xsDataInputDozor.detectorType = detector.type
         xsDataInputDozor.exposureTime = XSDataDouble(beam.exposureTime.value)
-        xsDataInputDozor.spotSize = XSDataDouble(3.0)
+        #xsDataInputDozor.spotSize = XSDataDouble(3.0)
+        xsDataInputDozor.spotSize = XSDataInteger(3)
         xsDataInputDozor.detectorDistance = XSDataDouble(detector.distance.value)
         xsDataInputDozor.wavelength = XSDataDouble(beam.wavelength.value)
         orgx = detector.beamPositionY.value / detector.pixelSizeY.value
@@ -169,7 +170,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
             if not self.poll_file(self.dataInput.template.value%(chunk['run_number'],chunk['first']+chunk['number_of']-1), (beam.exposureTime.value+0.003) * chunk['number_of'] + 30 ):
                 self.sendMessageToMXCuBE("Timeout waiting for frame: %d"%(chunk['first']+chunk['number_of']), level="error")
-            return
+                return
 
             xsDataInputDozor.oscillationRange = XSDataDouble(chunk['rotation_range'])
             xsDataInputDozor.startingAngle = XSDataDouble(chunk['rotation_start'])
@@ -201,15 +202,15 @@ class EDPluginControlDozorv1_1(EDPluginControl):
                 strFileName = self.dataInput.template.value%(chunk['run_number'],xsDataControlImageDozor.number.value)           
                 xsDataControlImageDozor.image = XSDataFile(XSDataString(strFileName))
 
-                xsDataControlImageDozor.spots_num_of = xsDataResultDozor.spots_num_of
-                xsDataControlImageDozor.spots_int_aver = xsDataResultDozor.spots_int_aver
-                xsDataControlImageDozor.spots_resolution = xsDataResultDozor.spots_resolution
-                xsDataControlImageDozor.powder_wilson_scale = xsDataResultDozor.powder_wilson_scale
-                xsDataControlImageDozor.powder_wilson_bfactor = xsDataResultDozor.powder_wilson_bfactor
-                xsDataControlImageDozor.powder_wilson_resolution = xsDataResultDozor.powder_wilson_resolution
-                xsDataControlImageDozor.powder_wilson_correlation = xsDataResultDozor.powder_wilson_correlation
-                xsDataControlImageDozor.powder_wilson_rfactor = xsDataResultDozor.powder_wilson_rfactor
-                xsDataControlImageDozor.score = xsDataResultDozor.score
+                xsDataControlImageDozor.spots_num_of = xsDataResultDozor.spotsNumOf
+                xsDataControlImageDozor.spots_int_aver = xsDataResultDozor.spotsIntAver
+                xsDataControlImageDozor.spots_resolution = xsDataResultDozor.spotsResolution
+                xsDataControlImageDozor.powder_wilson_scale = xsDataResultDozor.powderWilsonScale
+                xsDataControlImageDozor.powder_wilson_bfactor = xsDataResultDozor.powderWilsonBfactor
+                xsDataControlImageDozor.powder_wilson_resolution = xsDataResultDozor.powderWilsonResolution
+                xsDataControlImageDozor.powder_wilson_correlation = xsDataResultDozor.powderWilsonCorrelation
+                xsDataControlImageDozor.powder_wilson_rfactor = xsDataResultDozor.powderWilsonRfactor
+                xsDataControlImageDozor.score = xsDataResultDozor.mainScore
                 xsDataResultControlDozor.addImageDozor(xsDataControlImageDozor)           
 
                 dozor_batch_list.append((xsDataControlImageDozor.number.getValue(),

@@ -52,6 +52,7 @@ from XSDataDnaTables import dna_tables
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
+from XSDataCommon import XSDataAngle
 
 from XSDataDozorv1_0 import XSDataInputDozor
 from XSDataDozorv1_0 import XSDataResultDozor
@@ -149,9 +150,10 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         if xsDataInputDozor.overlap is not None:
             self.overlap = xsDataInputDozor.overlap.value
         if xsDataInputDozor.radiationDamage is not None and xsDataInputDozor.radiationDamage.value:
-            self.setScriptCommandline("-pall -rd dozor.dat")
+            self.setScriptCommandline(" -pall -rd dozor.dat")
         else:
-            self.setScriptCommandline("-pall -p dozor.dat")
+            self.setScriptCommandline(" -pall -p dozor.dat")
+        #self.setScriptCommandline(" dozor.dat")
         strCommands = self.generateCommands(xsDataInputDozor, _library_cbf=self.library_cbf, _library_h5=self.library_h5)
         EDUtilsFile.writeFile(os.path.join(self.getWorkingDirectory(), "dozor.dat"), strCommands)
 
@@ -226,9 +228,11 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
                 os.path.basename(_xsDataInputDozor.nameTemplateImage.value),
                 _xsDataInputDozor.firstImageNumber.value,
                 _xsDataInputDozor.numberImages.value))
-            strCommandText = "!\n"
+            #strCommandText = "!\n"
+            strCommandText = "job single\n"
             strCommandText += "detector %s\n" % _xsDataInputDozor.detectorType.value
-            strCommandText += "library %s\n" % library
+            #strCommandText += "library %s\n" % library
+            strCommandText += "library /beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
             strCommandText += "nx %d\n" % nx
             strCommandText += "ny %d\n" % ny
             strCommandText += "pixel %f\n" % pixel
@@ -288,10 +292,11 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
             strCommandText += "name_template_image %s\n" % _xsDataInputDozor.nameTemplateImage.value
             #strCommandText += "end\n"
             
-            strCommandText += "library //beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
-            strCommandText += "nx 2463\n"
-            strCommandText += "ny 2527\n"
-            strCommandText += "pixel 0.172\n"
+            #strCommandText += "library /beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
+            #strCommandText += "nx 2463\n"
+            #strCommandText += "ny 2527\n"
+            #strCommandText += "pixel 0.172\n"
+            self.DEBUG("strCommandText: " + strCommandText)
         return strCommandText
     
 
@@ -319,6 +324,7 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         """
         xsDataResultDozor = XSDataResultDozor()
         strOutput = EDUtilsFile.readFile(_strFileName)
+        strWorkingDir = os.path.dirname(_strFileName)
         # Skip the four first lines
         self.DEBUG('***** Dozor raw output ***** ')
         self.DEBUG(strOutput)
@@ -400,6 +406,16 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
                         xsDataImageDozor.spotFile = XSDataFile(XSDataString(strSpotFile))
 #                #print xsDataImageDozor.marshal()
                 xsDataResultDozor.addImageDozor(xsDataImageDozor)
+            elif strLine.startswith("h"):
+                xsDataResultDozor.halfDoseTime = XSDataDouble(strLine.split("=")[1].split()[0])
+        
+        # Check if mtv plot file exists
+        mtvFileName = "dozor_rd.mtv"
+        mtvFilePath = os.path.join(strWorkingDir, mtvFileName)
+        if os.path.exists(mtvFilePath):
+            xsDataResultDozor.plotmtvFile = XSDataFile(XSDataString(mtvFilePath))
+            xsDataResultDozor.pngPlots = self.generatePngPlots(mtvFilePath, strWorkingDir)
+
         return xsDataResultDozor
         
     def parseDouble(self, _strValue):
@@ -409,3 +425,109 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         except BaseException as ex:
             self.warning("Error when trying to parse '" + _strValue + "': %r" % ex)
         return returnValue
+    
+    def generatePngPlots(self, _plotmtvFile, _workingDir):
+        listXSFile = []
+        # Create plot dictionary
+        with open(_plotmtvFile) as f:
+            listLines = f.readlines()
+        dictPlot = None
+        plotData = None
+        listPlots = []
+        index = 0
+        while index < len(listLines):
+            # print("0" + listLines[index])
+            if listLines[index].startswith("$"):
+                dictPlot = {}
+                dictPlotList = []
+                listPlots.append(dictPlot)
+                dictPlot["plotList"] = dictPlotList
+                index += 1
+                dictPlot["name"] = listLines[index].split("'")[1]
+                index += 1
+                # print(listLines[index])
+                while listLines[index].startswith("%"):
+                    listLine = listLines[index].split("=")
+                    # print(listLine)
+                    label = listLine[0][1:].strip()
+                    # print("label: " + str([label]))
+                    if "'" in listLine[1]:
+                        value = listLine[1].split("'")[1]
+                    else:
+                        value = listLine[1]
+                    value = value.replace("\n", "").strip()
+                    # print("value: " + str([value]))
+                    dictPlot[label] = value
+                    index += 1
+                    # print(listLines[index])
+            elif listLines[index].startswith("#"):
+                dictSubPlot = {}
+                dictPlotList.append(dictSubPlot)
+                plotName = listLines[index].split("#")[1].replace("\n", "").strip()
+                dictSubPlot["name"] = plotName
+                index += 1
+                # print("1" + listLines[index])
+                while listLines[index].startswith("%"):
+                    listLine = listLines[index].split("=")
+                    # print(listLine)
+                    label = listLine[0][1:].strip()
+                    # print("label: " + str([label]))
+                    if "'" in listLine[1]:
+                        value = listLine[1].split("'")[1]
+                    else:
+                        value = listLine[1]
+                    value = value.replace("\n", "").strip()
+                    # print("value: " + str([value]))
+                    dictSubPlot[label] = value
+                    index += 1
+                    # print(listLines[index])
+                dictSubPlot["xValues"] = []
+                dictSubPlot["yValues"] = []
+            else:
+                listData = listLines[index].replace("\n", "").split()
+                dictSubPlot["xValues"].append(float(listData[0]))
+                dictSubPlot["yValues"].append(float(listData[1]))
+                index += 1
+        # pprint.pprint(listPlots)
+        # Generate the plots
+        for mtvplot in listPlots:
+            listLegend = []
+            xmin = None
+            xmax = None
+            ymin = None
+            ymax = None
+            for subPlot in mtvplot["plotList"]:
+                xmin1 = min(subPlot["xValues"])
+                if xmin is None or xmin > xmin1:
+                    xmin = xmin1
+                xmax1 = max(subPlot["xValues"])
+                if xmax is None or xmax < xmax1:
+                    xmax = xmax1
+                ymin1 = min(subPlot["yValues"])
+                if ymin is None or ymin > ymin1:
+                    ymin = ymin1
+                ymax1 = max(subPlot["yValues"])
+                if ymax is None or ymax < ymax1:
+                    ymax = ymax1
+            if "xmin" in mtvplot:
+                xmin = float(mtvplot["xmin"])
+            if "ymin" in mtvplot:
+                ymin = float(mtvplot["ymin"])
+            plt.xlim(xmin, xmax)
+            plt.ylim(ymin, ymax)
+            plt.xlabel(mtvplot["xlabel"])
+            plt.ylabel(mtvplot["ylabel"])
+            plt.title(mtvplot["name"])
+            for subPlot in mtvplot["plotList"]:
+                if "markercolor" in subPlot:
+                    style = "bs-."
+                else:
+                    style = "r"
+                plt.plot(subPlot["xValues"], subPlot["yValues"], style, linewidth=2)
+                listLegend.append(subPlot["linelabel"])
+            plt.legend(listLegend, loc='lower right')
+            plotPath = os.path.join(_workingDir, mtvplot["name"].replace(" ", "").replace(".", "_") + ".png")
+            plt.savefig(plotPath, bbox_inches='tight', dpi=75)
+            plt.close()
+            listXSFile.append(XSDataFile(XSDataString(plotPath)))
+        return listXSFile
