@@ -71,10 +71,6 @@
 					<name>timeOut</name>
 					<value>90</value>
 				</XSParamItem>
-				<XSParamItem>
-					<name>omega</name>
-					<value>270</value>
-				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
@@ -99,10 +95,6 @@
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>90</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>omega</name>
-					<value>270</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -129,10 +121,6 @@
 					<name>timeOut</name>
 					<value>90</value>
 				</XSParamItem>
-				<XSParamItem>
-					<name>omega</name>
-					<value>270</value>
-				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem> 
 		<XSPluginItem> 
@@ -154,10 +142,6 @@
 					<name>maxNoProcessors</name>
 					<value>6</value>
 				</XSParamItem>
-				<XSParamItem>
-					<name>raxis</name>
-					<value>0.0 -1.0 0.0</value>
-				</XSParamItem>				
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 
@@ -173,7 +157,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>pathToNeggiaPlugin</name>
-					<value>/opt/pxsoft/xds/v20161205/linux-x86_64/dectris-neggia.so</value>
+					<value>/opt/pxsoft/xds/vdefault/linux-x86_64/durin-plugin.so</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -182,10 +166,6 @@
 				<XSParamItem>
 					<name>maxNoProcessors</name>
 					<value>6</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>rotationAxis</name>
-					<value>0.0 -1.0 0.0</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -208,10 +188,6 @@
 					<name>maxNoProcessors</name>
 					<value>6</value>
 				</XSParamItem>
-				<XSParamItem>
-					<name>goniometerAxes</name>
-					<value>0,1,0</value>
-				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem> 
@@ -223,7 +199,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/opt/pxsoft/bin/dozor__v1.3.8</value>
+					<value>/opt/pxsoft/bin/dozor__v2.2.1</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -245,6 +221,22 @@
 					<name>iy_max</name>
 					<value>850</value>
 				</XSParamItem>				
+				<XSParamItem>
+					<name>library_cbf_debian_9</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/debian9-x86_64/bin/xds-zcbf.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_h5_debian_9</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/debian9-x86_64/bin/dectris-neggia.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_cbf_ubuntu_20.04</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/ubuntu20.04-x86_64/bin/xds-zcbf.so</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>library_h5_ubuntu_20.04</name>
+					<value>/opt/pxsoft/dozor/v2.2.1/ubuntu20.04-x86_64/bin/dectris-neggia.so</value>
+				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
 	</XSPluginList>

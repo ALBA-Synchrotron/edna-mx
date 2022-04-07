@@ -27,7 +27,8 @@ __copyright__ = "ESRF"
 
 import os
 import time
-import xmlrpclib
+#import xmlrpclib
+from xmlrpc import client
 
 import socket
 import sys
@@ -84,7 +85,8 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         print(self.config)
         if self._strMxCuBE_URI is not None:
             self.DEBUG("Enabling sending messages to mxCuBE via URI {0}".format(self._strMxCuBE_URI))
-            self._oServerProxy = xmlrpclib.ServerProxy(self._strMxCuBE_URI, allow_none=True)
+            #self._oServerProxy = xmlrpclib.ServerProxy(self._strMxCuBE_URI, allow_none=True)
+            self._oServerProxy = client.ServerProxy(self._strMxCuBE_URI, allow_none=True)
             self.get_image_num = self._oServerProxy.get_image_num 
     
     def preProcess(self, _edObject=None):
@@ -134,7 +136,8 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         goniostat = subWedge.experimentalCondition.goniostat
         xsDataInputDozor.detectorType = detector.type
         xsDataInputDozor.exposureTime = XSDataDouble(beam.exposureTime.value)
-        xsDataInputDozor.spotSize = XSDataDouble(3.0)
+        #xsDataInputDozor.spotSize = XSDataDouble(3.0)
+        xsDataInputDozor.spotSize = XSDataInteger(3)
         xsDataInputDozor.detectorDistance = XSDataDouble(detector.distance.value)
         xsDataInputDozor.wavelength = XSDataDouble(beam.wavelength.value)
         orgx = detector.beamPositionY.value / detector.pixelSizeY.value
@@ -167,7 +170,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
 
             if not self.poll_file(self.dataInput.template.value%(chunk['run_number'],chunk['first']+chunk['number_of']-1), (beam.exposureTime.value+0.003) * chunk['number_of'] + 30 ):
                 self.sendMessageToMXCuBE("Timeout waiting for frame: %d"%(chunk['first']+chunk['number_of']), level="error")
-	        return
+                return
 
             xsDataInputDozor.oscillationRange = XSDataDouble(chunk['rotation_range'])
             xsDataInputDozor.startingAngle = XSDataDouble(chunk['rotation_start'])
@@ -199,15 +202,15 @@ class EDPluginControlDozorv1_1(EDPluginControl):
                 strFileName = self.dataInput.template.value%(chunk['run_number'],xsDataControlImageDozor.number.value)           
                 xsDataControlImageDozor.image = XSDataFile(XSDataString(strFileName))
 
-                xsDataControlImageDozor.spots_num_of = xsDataResultDozor.spots_num_of
-                xsDataControlImageDozor.spots_int_aver = xsDataResultDozor.spots_int_aver
-                xsDataControlImageDozor.spots_resolution = xsDataResultDozor.spots_resolution
-                xsDataControlImageDozor.powder_wilson_scale = xsDataResultDozor.powder_wilson_scale
-                xsDataControlImageDozor.powder_wilson_bfactor = xsDataResultDozor.powder_wilson_bfactor
-                xsDataControlImageDozor.powder_wilson_resolution = xsDataResultDozor.powder_wilson_resolution
-                xsDataControlImageDozor.powder_wilson_correlation = xsDataResultDozor.powder_wilson_correlation
-                xsDataControlImageDozor.powder_wilson_rfactor = xsDataResultDozor.powder_wilson_rfactor
-                xsDataControlImageDozor.score = xsDataResultDozor.score
+                xsDataControlImageDozor.spots_num_of = xsDataResultDozor.spotsNumOf
+                xsDataControlImageDozor.spots_int_aver = xsDataResultDozor.spotsIntAver
+                xsDataControlImageDozor.spots_resolution = xsDataResultDozor.spotsResolution
+                xsDataControlImageDozor.powder_wilson_scale = xsDataResultDozor.powderWilsonScale
+                xsDataControlImageDozor.powder_wilson_bfactor = xsDataResultDozor.powderWilsonBfactor
+                xsDataControlImageDozor.powder_wilson_resolution = xsDataResultDozor.powderWilsonResolution
+                xsDataControlImageDozor.powder_wilson_correlation = xsDataResultDozor.powderWilsonCorrelation
+                xsDataControlImageDozor.powder_wilson_rfactor = xsDataResultDozor.powderWilsonRfactor
+                xsDataControlImageDozor.score = xsDataResultDozor.mainScore
                 xsDataResultControlDozor.addImageDozor(xsDataControlImageDozor)           
 
                 dozor_batch_list.append((xsDataControlImageDozor.number.getValue(),
@@ -302,45 +305,45 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         reversing_rotation = self.dataInput.reversing_rotation.value
  
         total_images = (last_image_number - first_image_number + 1 ) * (last_run_number - first_run_number + 1)
-	images_per_line = total_images / line_number_of
-	#if images_per_line * line_number_of != total_images:
-   	#   print "image/run/line numbers mismatch"
-	chunk = 1000000
-	chunks = 0
-	while chunk > self.maxChunkSize:
-           chunks = chunks + 1
-           chunk = images_per_line / chunks
-        run_number = first_run_number
-        last_frame = 0
-        res = []
-        for line in range(line_number_of):
-           if reversing_rotation and line%2 :
-              line_rotation_start = rotation_start + images_per_line * rotation_range
-              line_rotation_range = -rotation_range
-           else:
-              line_rotation_start = rotation_start
-              line_rotation_range = rotation_range
-           for x in range(chunks):
-               first_frame = last_frame + 1
-               if x == chunks-1:
-                  if first_run_number != last_run_number:
-                     last_frame = last_image_number
-                  else:
-                     last_frame = first_image_number + (line + 1) * images_per_line - 1
+        images_per_line = total_images / line_number_of
+        #if images_per_line * line_number_of != total_images:
+        #   print "image/run/line numbers mismatch"
+        chunk = 1000000
+        chunks = 0
+        while chunk > self.maxChunkSize:
+            chunks = chunks + 1
+            chunk = images_per_line / chunks
+            run_number = first_run_number
+            last_frame = 0
+            res = []
+            for line in range(line_number_of):
+               if reversing_rotation and line%2 :
+                  line_rotation_start = rotation_start + images_per_line * rotation_range
+                  line_rotation_range = -rotation_range
                else:
-                  last_frame = first_frame + chunk - 1
-               chunk_rotation_start = line_rotation_start + x * line_rotation_range * chunk 
-               res.append({'run_number': run_number,
-                           'first' : first_frame, 
-                           'number_of' : last_frame - first_frame + 1,  
-                           'rotation_start' : chunk_rotation_start,  
-                           'rotation_range' : line_rotation_range })
-           if first_run_number != last_run_number:
-              run_number = run_number + 1
-              last_frame = 0
-           else:
-               last_last_frame = x * chunk + 1
- 	return res
+                  line_rotation_start = rotation_start
+                  line_rotation_range = rotation_range
+               for x in range(chunks):
+                   first_frame = last_frame + 1
+                   if x == chunks-1:
+                      if first_run_number != last_run_number:
+                         last_frame = last_image_number
+                      else:
+                         last_frame = first_image_number + (line + 1) * images_per_line - 1
+                   else:
+                      last_frame = first_frame + chunk - 1
+                   chunk_rotation_start = line_rotation_start + x * line_rotation_range * chunk
+                   res.append({'run_number': run_number,
+                               'first' : first_frame,
+                               'number_of' : last_frame - first_frame + 1,
+                               'rotation_start' : chunk_rotation_start,
+                               'rotation_range' : line_rotation_range })
+               if first_run_number != last_run_number:
+                  run_number = run_number + 1
+                  last_frame = 0
+               else:
+                   last_last_frame = x * chunk + 1
+        return res
 
     def postProcess(self, _edObject=None):
         EDPluginControl.postProcess(self)

@@ -80,8 +80,8 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         self.setXSDataInputClass(XSDataInputControlAutoPROC)
         self.dataOutput = XSDataResultStoreAutoProc()
         self.doAnom = True
-        self.doNoanom = True
-        self.doAnomAndNonanom = True
+        self.doNoanom = False
+        self.doAnomAndNonanom = False
         self.pyarchPrefix = None
         self.resultsDirectory = None
         self.pyarchDirectory = None
@@ -173,6 +173,8 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             directory = ispybDataCollection.imageDirectory
             if EDUtilsPath.isEMBL():
                 template = ispybDataCollection.fileTemplate.replace("%05d", "#" * 5)
+            elif EDUtilsPath.isMAXIV():
+                template = ispybDataCollection.fileTemplate
             else:
                 template = ispybDataCollection.fileTemplate.replace("%04d", "####")
             if self.dataInput.fromN is None:
@@ -190,7 +192,6 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             pathToEndImage = os.path.join(directory, ispybDataCollection.fileTemplate % imageNoEnd)
         else:
             identifier = str(int(time.time()))
-            configDef = self.dataInput.configDef.path.value
             directory = self.dataInput.dirN.path.value
             template = self.dataInput.templateN.value
             imageNoStart = self.dataInput.fromN.value
@@ -271,13 +272,13 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             self.pyarchPrefix = "ap_{0}_run{1}".format(listPrefix[-3], listPrefix[-2])
 
         isH5 = False
-        if any(beamline in pathToStartImage for beamline in ["id23eh1", "id29"]):
+        if any(beamline in pathToStartImage for beamline in ["id30b"]):
             minSizeFirst = 6000000
             minSizeLast = 6000000
         elif any(beamline in pathToStartImage for beamline in ["id23eh2", "id30a1"]):
             minSizeFirst = 2000000
             minSizeLast = 2000000
-        elif any(beamline in pathToStartImage for beamline in ["id30a3"]):
+        elif any(beamline in pathToStartImage for beamline in ["id23eh1", "id30a3"]):
             minSizeFirst = 100000
             minSizeLast = 100000
             pathToStartImage = os.path.join(directory,
@@ -289,7 +290,16 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             minSizeFirst = 1000000
             minSizeLast = 1000000
 
-        if EDUtilsPath.isEMBL():
+        if EDUtilsPath.isMAXIV():
+            minSizeFirst = 100000
+            minSizeLast = 100000
+            pathToStartImage = os.path.join(directory,
+                                            self.eiger_template_to_image(template, imageNoStart))
+            pathToEndImage = os.path.join(directory,
+                                          self.eiger_template_to_image(template, imageNoEnd))
+            isH5 = True
+
+        if EDUtilsPath.isEMBL() or EDUtilsPath.isMAXIV():
             fWaitFileTimeout = 60  # s
         else:
             fWaitFileTimeout = 3600  # s
@@ -349,60 +359,20 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
 
 
         # Prepare input to execution plugin
-        xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
-        xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
-        xsDataInputAutoPROCAnom.symm = self.dataInput.symm
-        xsDataInputAutoPROCAnom.cell = self.dataInput.cell
-        xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
-# from future
-#        xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
-#        xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
-# Added reprocess, low and high resolution limits for ControlAutoPROC
-        if self.doAnomAndNonanom:
-# from future
-        # if self.doAnom:
-        #     xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
-        #     xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
-        #     xsDataInputAutoPROCAnom.symm = self.dataInput.symm
-        #     xsDataInputAutoPROCAnom.cell = self.dataInput.cell
-        #     xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
-        #     xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
-        # if self.doNoanom:
-# Added 'doAnom' optional input
-#<<<<<<< HEAD
-        # if self.doAnom:
-        #     xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
-        #     xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
-        #     xsDataInputAutoPROCAnom.symm = self.dataInput.symm
-        #     xsDataInputAutoPROCAnom.cell = self.dataInput.cell
-        #     xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
-        #     xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
-        #     xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
-        # if self.doNoanom:
-#=======
-#        xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
-#        xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
-#        xsDataInputAutoPROCAnom.symm = self.dataInput.symm
-#        xsDataInputAutoPROCAnom.cell = self.dataInput.cell
-#        xsDataInputAutoPROCAnom.configDef = self.dataInput.configDef #XSDataFile(XSDataString(configDef))
-#        if self.doAnomAndNonanom:
-#>>>>>>> Add support for AutoPROC plugin
+        if self.doAnom:
+            xsDataInputAutoPROCAnom = XSDataInputAutoPROC()
+            xsDataInputAutoPROCAnom.anomalous = XSDataBoolean(True)
+            xsDataInputAutoPROCAnom.symm = self.dataInput.symm
+            xsDataInputAutoPROCAnom.cell = self.dataInput.cell
+            xsDataInputAutoPROCAnom.lowResolutionLimit = self.dataInput.lowResolutionLimit
+            xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
+        if self.doNoanom:
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
             xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(True)
             xsDataInputAutoPROCNoanom.symm = self.dataInput.symm
             xsDataInputAutoPROCNoanom.cell = self.dataInput.cell
-
-            xsDataInputAutoPROCNoanom.configDef = self.dataInput.configDef
-# from future
-#            xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
-#            xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
-# Added 'doAnom' optional input
-#<<<<<<< HEAD
-#            xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
-#            xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
-#=======
-#            xsDataInputAutoPROCNoanom.configDef = self.dataInput.configDef
-#>>>>>>> Add support for AutoPROC plugin
+            xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
+            xsDataInputAutoPROCNoanom.highResolutionLimit = self.dataInput.highResolutionLimit
         xsDataAutoPROCIdentifier = XSDataAutoPROCIdentifier()
         xsDataAutoPROCIdentifier.idN = XSDataString(identifier)
         xsDataAutoPROCIdentifier.dirN = XSDataFile(XSDataString(directory))
@@ -434,34 +404,13 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         timeEnd = time.localtime()
 
         if self.dataInput.dataCollectionId is not None:
-        # Upload to ISPyB
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-            if self.doAnomAndNonanom:
+            # Upload to ISPyB
+            if self.doAnom:
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+            if self.doNoanom:
                 self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
                 self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
-# from future
-#         if self.doAnom:
-#             self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-#             self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-#         if self.doNoanom:
-#             self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-#             self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
-# Added 'doAnom' optional input
-#<<<<<<< HEAD
-            # if self.doAnom:
-            #     self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-            #     self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-            # if self.doNoanom:
-            #     self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-            #     self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
-#    =======
-#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-#            self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
-#            if self.doAnomAndNonanom:
-#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-#                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
-#>>>>>>> [Fix] Allow run with no collection id
 
 
     def finallyProcess(self, _edObject=None):
@@ -744,11 +693,17 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
         fileNumber = int(num / 100)
         if fileNumber == 0:
             fileNumber = 1
-        fmt_string = fmt.replace("####", "1_data_%06d" % fileNumber)
+        if EDUtilsPath.isMAXIV():
+            fmt_string = fmt.replace("%06d", "data_%06d" % fileNumber)
+        else:
+            fmt_string = fmt.replace("####", "1_data_%06d" % fileNumber)
         return fmt_string.format(num)
 
     def eiger_template_to_master(self, fmt):
-        fmt_string = fmt.replace("####", "1_master")
+        if EDUtilsPath.isMAXIV():
+            fmt_string = fmt.replace("%06d", "master")
+        else:
+            fmt_string = fmt.replace("####", "1_master")
         return fmt_string
 
     def matchesTruncateEarlyLate(self, fileName):

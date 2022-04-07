@@ -451,6 +451,50 @@ class EDHandlerXSDataXDSv1_0:
 
             xsDataXDSDetector.setSensor_thickness(XSDataDouble(0.32))
 
+        elif strDetectorType == "eiger2_16m":
+            xsDataXDSDetector.setDetector_name(XSDataString("PILATUS"))
+
+            listUntrustedRectangle = \
+                [
+                    [0, 4149, 512, 549],
+                    [0, 4149, 1062, 1099],
+                    [0, 4149, 1612, 1649],
+                    [0, 4149, 2162, 2199],
+                    [0, 4149, 2712, 2749],
+                    [0, 4149, 3262, 3299],
+                    [0, 4149, 3812, 3849],
+                    [513, 514, 0, 4362],
+                    [1028, 1039, 0, 4362],
+                    [1553, 1554, 0, 4362],
+                    [2068, 2079, 0, 4362],
+                    [2593, 2594, 0, 4362],
+                    [3108, 3119, 0, 4362],
+                    [3633, 3634, 0, 4362]
+                ]
+
+            for listRectangle in listUntrustedRectangle:
+                xsDataXDSRectangle = XSDataXDSRectangle()
+                xsDataXDSRectangle.setX1(XSDataInteger(listRectangle[0]))
+                xsDataXDSRectangle.setX2(XSDataInteger(listRectangle[1]))
+                xsDataXDSRectangle.setY1(XSDataInteger(listRectangle[2]))
+                xsDataXDSRectangle.setY2(XSDataInteger(listRectangle[3]))
+                xsDataXDSDetector.addUntrusted_rectangle(xsDataXDSRectangle)
+
+            xsDataXDSDetector.setMinimum_valid_pixel_value(XSDataInteger(0))
+            xsDataXDSDetector.setOverload(XSDataInteger(1048500))
+
+            xsDataXDSIntegerRangeTrustedPixel = XSDataXDSIntegerRange()
+            xsDataXDSIntegerRangeTrustedPixel.setLower(XSDataInteger(4000))
+            xsDataXDSIntegerRangeTrustedPixel.setUpper(XSDataInteger(30000))
+            xsDataXDSDetector.setValue_range_for_trusted_detector_pixels(xsDataXDSIntegerRangeTrustedPixel)
+
+            xsDataXDSDoubleRangeTrustedRegion = XSDataXDSDoubleRange()
+            xsDataXDSDoubleRangeTrustedRegion.setLower(XSDataDouble(0.0))
+            xsDataXDSDoubleRangeTrustedRegion.setUpper(XSDataDouble(1.21))
+            xsDataXDSDetector.setTrusted_region(xsDataXDSDoubleRangeTrustedRegion)
+
+            xsDataXDSDetector.setSensor_thickness(XSDataDouble(0.75))
+
         elif strDetectorType == "mar225":
             xsDataXDSDetector.setDetector_name(XSDataString("CCDCHESS"))
             xsDataXDSDetector.setMinimum_valid_pixel_value(XSDataInteger(0))

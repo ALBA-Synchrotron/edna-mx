@@ -2,11 +2,11 @@
 <XSConfiguration> 
 	<XSPluginList>
 		<XSPluginItem> 
-			<name>EDPluginLabelitv10</name>  
+			<name>EDPluginLabelitv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/phenix_env.sh</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -14,11 +14,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/labelit.screen</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -30,12 +30,12 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitIndexingv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitIndexingv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/phenix_env.sh</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -43,11 +43,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/labelit.screen</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -59,12 +59,12 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitIndexingv1_2</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitIndexingv1_2</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/phenix_env.sh</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -72,7 +72,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/labelit.screen</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -80,8 +80,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginDistlSignalStrengthv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginDistlSignalStrengthv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -89,7 +89,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/labelit.signal_strength</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/labelit.signal_strength</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -97,8 +97,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginDistlSignalStrengthThinClientv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginDistlSignalStrengthThinClientv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -106,7 +106,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/distl.thin_client</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/distl.thin_client</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -122,16 +122,16 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>pathToDistlServer</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/distl.mp_spotfinder_server_read_file</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/distl.mp_spotfinder_server_read_file</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginLabelitDistlv1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginLabelitDistlv1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/phenix_env.sh</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -139,11 +139,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/labelit.distl</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/labelit.distl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13$ cd ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13$ cd ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -155,8 +155,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMIndexingv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMIndexingv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -164,15 +164,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/MOSFLM_v7.2.1/mosflm</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.1.2 for Image plate and CCD data 16th June 2014</value>
+					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -181,7 +181,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginMOSFLMIntegrationv10</name>  
+			<name>EDPluginMOSFLMIntegrationv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -189,15 +189,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/MOSFLM_v7.2.1/mosflm</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.1.2 for Image plate and CCD data 16th June 2014</value>
+					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -205,8 +205,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginMOSFLMGeneratePredictionv10</name>  
+		<XSPluginItem>
+			<name>EDPluginMOSFLMGeneratePredictionv10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -214,24 +214,24 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/MOSFLM_v7.2.1/mosflm</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.1.2 for Image plate and CCD data 16th June 2014</value>
+					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
 					<value>90</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem> 
+		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginRaddosev10</name>  
+			<name>EDPluginRaddosev10</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -243,7 +243,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -260,7 +260,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginBestv1_2</name>  
+			<name>EDPluginBestv1_2</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -268,11 +268,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/best</value>
+					<value>/beamlines/bl13/controls/production/software/BEST_v4.1.0/best</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -285,7 +285,7 @@
 			</XSParamList>
 		</XSPluginItem>
 		<XSPluginItem>
-			<name>EDPluginBestv1_3</name>  
+			<name>EDPluginBestv1_3</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -293,11 +293,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/best</value>
+					<value>/beamlines/bl13/controls/production/software/BEST_v4.1.0/best</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/ccp4.setup-sh</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -360,8 +360,8 @@
 				<!--</XSParamItem>-->
 			<!--</XSParamList>-->
 		<!--</XSPluginItem>-->
-		<XSPluginItem> 
-			<name>EDPluginXDSGenerateBackgroundImagev1_0</name>  
+		<XSPluginItem>
+			<name>EDPluginXDSGenerateBackgroundImagev1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -377,7 +377,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 				<!--<XSParamItem>-->
 					<!--<name>x-geo_corr</name>-->
@@ -388,7 +388,7 @@
 					<!--<value>/data/id29/inhouse/opid291/y_geo_corr.cbf</value>-->
 				<!--</XSParamItem>-->
 			</XSParamList>
-		</XSPluginItem> 
+		</XSPluginItem>
 		<!--<XSPluginItem>-->
 			<!--<name>EDPluginSTACOrientationv2_0</name>-->
 			<!--<XSParamList>-->
@@ -497,23 +497,32 @@
 				<!--</XSParamItem>-->
 			<!--</XSParamList>-->
 		<!--</XSPluginItem>-->
-		<!--<XSPluginItem> -->
-			<!--<name>EDPluginExecDimplev1_0</name>  -->
-			<!--<XSParamList>-->
-				<!--<XSParamItem>-->
-					<!--<name>execProcessScriptShell</name>-->
-					<!--<value>/bin/bash</value>-->
-				<!--</XSParamItem>-->
-				<!--<XSParamItem>-->
-					<!--<name>execProcessScriptExecutable</name>-->
-					<!--<value>/opt/pxsoft/bin/dimple</value>-->
-				<!--</XSParamItem>-->
-				<!--<XSParamItem>-->
-					<!--<name>timeOut</name>-->
-					<!--<value>600</value>-->
-				<!--</XSParamItem>-->
-			<!--</XSParamList>-->
-		<!--</XSPluginItem>-->
+		<XSPluginItem>
+			<name>EDPluginExecDimplev1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>execProcessScriptShell</name>
+					<value>/bin/bash</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>execProcessScriptExecutable</name>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/dimple</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginControlRunXdsFastProcv1_0</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>timeOut</name>
+					<value>3600</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginControlRunXdsFastProcv1_0</name>
 			<XSParamList>
@@ -534,7 +543,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/pointless</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/pointless</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -548,11 +557,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/aimless</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/aimless</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>symdb_path</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/lib/data/syminfo.lib</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/syminfo.lib</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -566,7 +575,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/bin/truncate</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/bin/truncate</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -580,7 +589,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/etc/uniqueify</value>
+					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/etc/uniqueify</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -622,8 +631,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginBackground3Dv1_0</name>  
+		<XSPluginItem>
+			<name>EDPluginBackground3Dv1_0</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -631,15 +640,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/background3D</value>
+					<value>/beamlines/bl13/controls/production/software/BEST_v4.1.0/background3D</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
+		<XSPluginItem>
 			<name>EDPluginDozorv1_0</name>
 			<XSParamList>
 				<XSParamItem>
@@ -648,7 +657,6 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-<!--					<value>/mnt/hpcsoftware/bl13/BEST_v4.1.0/dozor</value>-->
 					<value>/beamlines/bl13/controls/production/software/BEST_v4.1.0/dozor_20210127</value>
 				</XSParamItem>
 				<XSParamItem>
@@ -657,8 +665,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginPhenixXtriagev1_1</name>  
+		<XSPluginItem>
+			<name>EDPluginPhenixXtriagev1_1</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -666,11 +674,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/phenix-1.12-2829/build/bin/phenix.xtriage</value>
+					<value>/mnt/hpcsoftware/bl13/phenix-1.18.2-3874/build/bin/phenix.xtriage</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>1200</value>
+					<value>600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -700,11 +708,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/share/GPhL/autoPROC_snapshot_20180515/autoPROC/bin/linux64/process</value>
+					<value>/mnt/hpcsoftware/share/GPhL/autoPROC_snapshot_20200206/autoPROC/bin/linux64/process</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>14400</value>
+					<value>3600</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>maxNoProcessors</name>
@@ -721,7 +729,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.0/share/xia2/Applications/xia2</value>
+					<value>/mnt/hpcsoftware/bl13/dials-v3-9-0/build/bin/xia2</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>

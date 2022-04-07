@@ -412,8 +412,8 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                     xsDataStringKey = XSDataString("predictionImage_%d" % iPredictionImageNumber)
                     xsDataStringValue = None
                     strPredictionImagePath = xsDataImagePrediction.getPath().getValue()
+                    strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
                     if (_strPathToLogFileDirectory is not None):
-                        strPredictionImageFileName = EDUtilsFile.getBaseName(strPredictionImagePath)
                         strNewPredictionImagePath = os.path.join(_strPathToLogFileDirectory, strPredictionImageFileName)
                         EDUtilsFile.copyFile(strPredictionImagePath, strNewPredictionImagePath)
                         xsDataStringValue = XSDataString(strNewPredictionImagePath)

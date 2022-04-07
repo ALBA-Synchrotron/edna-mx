@@ -138,7 +138,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
             xsDataMOSFLMDetector = xsDataMOSFLMInput.getDetector()
             if (xsDataMOSFLMDetector is not None):
                 strDetectorType = xsDataMOSFLMDetector.getType()
-                if (strDetectorType is not None):
+                if (strDetectorType is not None) and strDetectorType.value != "EIGER2":
                     # Check if reversephi and omega are configured
                     strExtraCommand = ""
                     if (self.iOmega is not None):
@@ -171,7 +171,7 @@ class EDPluginMOSFLMv10(EDPluginExecProcessScript):
                 self.addListCommandExecution("MOSAIC " + str(xsDataFloatMosaicity.getValue()))
 
             # Add exclude regions if Pilatus
-            if xsDataMOSFLMInput.getDetector().getType().getValue() == "PILATUS":
+            if xsDataMOSFLMInput.getDetector().getType() and xsDataMOSFLMInput.getDetector().getType().getValue() == "PILATUS":
                 if xsDataMOSFLMInput.getDetector().getNumberPixelX().getValue() == 1475 and \
                    xsDataMOSFLMInput.getDetector().getNumberPixelY().getValue() == 1679:
                     # Pilatus 2M

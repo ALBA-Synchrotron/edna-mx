@@ -465,15 +465,15 @@ class EDPluginControlEDNAprocv1_0(EDPluginControl):
         if EDUtilsPath.isESRF():
             first_image = self.first_image
             last_image = self.last_image
-            if any(beamline in self.first_image for beamline in ["id23eh1", "id29"]):
+            if any(beamline in self.first_image for beamline in ["id30b"]):
                 minSizeFirst = 6000000
                 minSizeLast = 6000000
             elif any(beamline in self.first_image for beamline in ["id23eh2", "id30a1"]):
                 minSizeFirst = 2000000
                 minSizeLast = 2000000
-            elif any(beamline in self.first_image for beamline in ["id30a3"]):
-                minSizeFirst = 100000
-                minSizeLast = 100000
+            elif any(beamline in self.first_image for beamline in ["id23eh1", "id30a3"]):
+                minSizeFirst = 1000000
+                minSizeLast = 1000000
                 first_image = self.eiger_template_to_image(template, start_image)
                 last_image = self.eiger_template_to_image(template, end_image)
             else:
@@ -1269,6 +1269,9 @@ class EDPluginControlEDNAprocv1_0(EDPluginControl):
                         year = tokens[4][0:4]
                         pyarch_path = os.path.join('/data/pyarch', year, tokens[1],
                                                    *tokens[3:])
+            elif EDUtilsPath.isMAXIV():
+                pyarch_path = files_dir.replace("/data", "/mxn/groups/ispybstorage", 1)
+
             if pyarch_path is not None:
                 pyarch_path = pyarch_path.replace('PROCESSED_DATA', 'RAW_DATA')
                 try:
@@ -1372,7 +1375,7 @@ class EDPluginControlEDNAprocv1_0(EDPluginControl):
                     self.stats['ispyb_upload'] = time.time() - t0
 
             # Finally run dimple if executed at the ESRF
-            if EDUtilsPath.isESRF() or EDUtilsPath.isEMBL() or EDUtilsPath.isALBA():
+            if EDUtilsPath.isESRF() or EDUtilsPath.isEMBL() or EDUtilsPath.isALBA() or EDUtilsPath.isMAXIV():
                 xsDataInputControlDimple = XSDataInputControlDimple()
                 xsDataInputControlDimple.dataCollectionId = self.dataInput.data_collection_id
                 xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.file_conversion.dataInput.output_directory.value, "ep_{0}_anom_aimless.mtz".format(self.image_prefix))))

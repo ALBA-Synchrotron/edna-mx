@@ -14,7 +14,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -31,15 +31,15 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForBLSampleWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForBLSampleWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForBLSampleWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForScreeningEDNAWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForScreeningEDNAWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForScreeningEDNAWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -56,7 +56,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -73,7 +73,7 @@
                     </XSParamItem>
                     <XSParamItem>
                         <name>toolsForAutoprocessingWebServiceWsdl</name>
-                        <value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+                        <value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
                     </XSParamItem>
                 </XSParamList>
             </XSPluginItem>
@@ -90,7 +90,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -107,11 +107,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>autoProcProgramId</name>
@@ -132,11 +132,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForAutoprocessingWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForAutoprocessingWebService?wsdl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>autoProcProgramId</name>
@@ -144,8 +144,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreWorkflowv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreWorkflowv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -157,7 +157,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -178,8 +178,8 @@
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBUpdateWorkflowStatusv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBUpdateWorkflowStatusv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -191,46 +191,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4</name>  
-			<XSParamList>
-				<XSParamItem>
-					<name>userName</name>
-					<value>ISPyB_user</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>passWord</name>
-					<value>ISPyB_pass</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
-				</XSParamItem>
-			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBGroupDataCollectionsv1_4</name>  
-			<XSParamList>
-				<XSParamItem>
-					<name>userName</name>
-					<value>ISPyB_user</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>passWord</name>
-					<value>ISPyB_pass</value>
-				</XSParamItem>
-				<XSParamItem>
-					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBSetDataCollectionPositionv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBUpdateDataCollectionGroupWorkflowIdv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -242,12 +208,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBSetDataCollectionsPositionsv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBGroupDataCollectionsv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -259,12 +225,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
-		<XSPluginItem> 
-			<name>EDPluginISPyBSetImagesPositionsv1_4</name>  
+		<XSPluginItem>
+			<name>EDPluginISPyBSetDataCollectionPositionv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -276,12 +242,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreGridInfov1_4</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBSetDataCollectionsPositionsv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -293,12 +259,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreWorkflowMeshv1_4</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBSetImagesPositionsv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -310,12 +276,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBStoreMotorPositionv1_4</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreGridInfov1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -327,12 +293,12 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem>	
-		<XSPluginItem> 
-			<name>EDPluginISPyBSetBestWilsonPlotPathv1_4</name>  
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreWorkflowMeshv1_4</name>
 			<XSParamList>
 				<XSParamItem>
 					<name>userName</name>
@@ -344,10 +310,44 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
-		</XSPluginItem>	
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBStoreMotorPositionv1_4</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>ISPyB_user</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>ISPyB_pass</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
+		<XSPluginItem>
+			<name>EDPluginISPyBSetBestWilsonPlotPathv1_4</name>
+			<XSParamList>
+				<XSParamItem>
+					<name>userName</name>
+					<value>ISPyB_user</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>passWord</name>
+					<value>ISPyB_pass</value>
+				</XSParamItem>
+				<XSParamItem>
+					<name>toolsForCollectionWebServiceWsdl</name>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+				</XSParamItem>
+			</XSParamList>
+		</XSPluginItem>
 		<XSPluginItem>
 			<name>EDPluginISPyBGetSampleInformationv1_4</name>
 			<XSParamList>
@@ -361,7 +361,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForBLSampleWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForBLSampleWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForBLSampleWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -378,7 +378,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -395,7 +395,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -412,7 +412,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>https://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -429,7 +429,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://ispyb:8080//ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>http://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
