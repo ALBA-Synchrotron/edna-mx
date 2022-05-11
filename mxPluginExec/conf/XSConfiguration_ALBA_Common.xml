@@ -164,7 +164,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -172,7 +172,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
+					<value>Mosflm version 7.4.0</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -189,7 +189,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -197,7 +197,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
+					<value>Mosflm version 7.4.0</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -214,7 +214,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.3.0/mosflm-linux-32-noX11</value>
+					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
@@ -222,7 +222,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
-					<value>Mosflm version 7.3.0  for IP, CCD and PAD data, Wednesday, August 21 2019 at 10:54</value>
+					<value>Mosflm version 7.4.0</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
