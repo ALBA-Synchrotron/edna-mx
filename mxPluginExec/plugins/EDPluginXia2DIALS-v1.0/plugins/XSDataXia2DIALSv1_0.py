@@ -123,7 +123,7 @@ class MixedContainer(object):
 
 
 class XSDataInputXia2DIALS(XSDataInput):
-    def __init__(self, configuration=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, anomalous=None, image=None):
+    def __init__(self, configuration=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, smallMolecule3dii=None, anomalous=None, image=None):
         XSDataInput.__init__(self, configuration)
         if image is None:
             self._image = []
@@ -131,6 +131,13 @@ class XSDataInputXia2DIALS(XSDataInput):
             self._image = image
         else:
             strMessage = "ERROR! XSDataInputXia2DIALS constructor argument 'image' is not list but %s" % self._image.__class__.__name__
+            raise BaseException(strMessage)
+        if smallMolecule3dii is None:
+            self._smallMolecule3dii = None
+        elif smallMolecule3dii.__class__.__name__ == "XSDataBoolean":
+            self._smallMolecule3dii = smallMolecule3dii
+        else:
+            strMessage = "ERROR! XSDataInputXia2DIALS constructor argument 'smallMolecule3dii' is not XSDataBoolean but %s" % self._smallMolecule3dii.__class__.__name__
             raise BaseException(strMessage)
         if anomalous is None:
             self._anomalous = None
@@ -211,7 +218,19 @@ class XSDataInputXia2DIALS(XSDataInput):
             strMessage = "ERROR! XSDataInputXia2DIALS.setAnomalous argument is not XSDataBoolean but %s" % anomalous.__class__.__name__
             raise BaseException(strMessage)
     def delAnomalous(self): self._anomalous = None
-    anomalous = property(getAnomalous, setAnomalous, delAnomalous, "Property for anomalous")
+    anomalous = property(getAnomalous, setAnomalous, delAnomalous, "Property for anomalous")    
+    # Methods and properties for the 'smallMolecule3dii' attribute
+    def getSmallMolecule3dii(self): return self._smallMolecule3dii
+    def setSmallMolecule3dii(self, smallMolecule3dii):
+        if smallMolecule3dii is None:
+            self._smallMolecule3dii = None
+        elif smallMolecule3dii.__class__.__name__ == "XSDataBoolean":
+            self._smallMolecule3dii = smallMolecule3dii
+        else:
+            strMessage = "ERROR! XSDataInputXia2DIALS.setSmallMolecule3dii argument is not XSDataBoolean but %s" % smallMolecule3dii.__class__.__name__
+            raise BaseException(strMessage)
+    def delSmallMolecule3dii(self): self._smallMolecule3dii = None
+    smallMolecule3dii = property(getSmallMolecule3dii, setSmallMolecule3dii, delSmallMolecule3dii, "Property for smallMolecule3dii")
     # Methods and properties for the 'spaceGroup' attribute
     def getSpaceGroup(self): return self._spaceGroup
     def setSpaceGroup(self, spaceGroup):
@@ -274,6 +293,8 @@ class XSDataInputXia2DIALS(XSDataInput):
             warnEmptyAttribute("image", "XSDataFile")
         if self._anomalous is not None:
             self.anomalous.export(outfile, level, name_='anomalous')
+        if self._smallMolecule3dii is not None:
+            self.smallMolecule3dii.export(outfile, level, name_='smallMolecule3dii')
         if self._spaceGroup is not None:
             self.spaceGroup.export(outfile, level, name_='spaceGroup')
         if self._unitCell is not None:
@@ -297,6 +318,11 @@ class XSDataInputXia2DIALS(XSDataInput):
             obj_ = XSDataBoolean()
             obj_.build(child_)
             self.setAnomalous(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'smallMolecule3dii':
+            obj_ = XSDataBoolean()
+            obj_.build(child_)
+            self.setSmallMolecule3dii(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'spaceGroup':
             obj_ = XSDataString()

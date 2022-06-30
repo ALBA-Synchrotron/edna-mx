@@ -101,11 +101,21 @@ class EDPluginExecXia2DIALSv1_0(EDPluginExecProcessScript):
         This method creates the input command line for Xia2DIALS
         """
         self.DEBUG("EDPluginExecXia2DIALSv1_0.generateCommands")
+        smallMolecule3dii = False
         if EDUtilsPath.isEMBL():
             strCommandText = "pipeline=dials ispyb_xml_out ispyb.xml"
+        if EDUtilsPath.isALBA():
+            if _xsDataInputXia2DIALS.smallMolecule3dii is not None:
+                if _xsDataInputXia2DIALS.smallMolecule3dii.value:
+                    smallMolecule3dii = True
+                    strCommandText = "pipeline=3dii small_molecule=true"
+                else:
+                    strCommandText = "pipeline=dials"
+            else:
+                strCommandText = "pipeline=dials"
         else:
             strCommandText = "pipeline=dials"
-
+        
         anomalous = True
         if _xsDataInputXia2DIALS.anomalous is not None:
             if not _xsDataInputXia2DIALS.anomalous.value:

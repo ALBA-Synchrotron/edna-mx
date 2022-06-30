@@ -75,6 +75,7 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
         self.doAnom = True
         self.doNoanom = False
         self.doAnomAndNonanom = False
+        self.smallMolecule3dii = False
         self.pyarchPrefix = None
         self.resultsDirectory = None
         self.pyarchDirectory = None
@@ -105,6 +106,9 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
         self.processingPrograms = "XIA2_DIALS"
         if self.reprocess:
             self.processingPrograms += " reprocess"
+
+        if self.dataInput.smallMolecule3dii is not None:
+            self.smallMolecule3dii = self.dataInput.smallMolecule3dii.value
 
         if self.dataInput.doAnomAndNonanom is not None:
             self.doAnomAndNonanom = self.dataInput.doAnomAndNonanom.value
@@ -293,6 +297,7 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
         if self.doAnom:
             xsDataInputXia2DIALSAnom = XSDataInputXia2DIALS()
             xsDataInputXia2DIALSAnom.anomalous = XSDataBoolean(True)
+            xsDataInputXia2DIALSAnom.smallMolecule3dii = XSDataBoolean(self.smallMolecule3dii)
             xsDataInputXia2DIALSAnom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSAnom.unitCell = self.dataInput.unitCell
             if imageNoStart is not None:
@@ -302,6 +307,7 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
         if self.doNoanom:
             xsDataInputXia2DIALSNoanom = XSDataInputXia2DIALS()
             xsDataInputXia2DIALSNoanom.anomalous = XSDataBoolean(False)
+            xsDataInputXia2DIALSNoanom.smallMolecule3dii = XSDataBoolean(self.smallMolecule3dii)
             xsDataInputXia2DIALSNoanom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSNoanom.unitCell = self.dataInput.unitCell
             if imageNoStart is not None:
