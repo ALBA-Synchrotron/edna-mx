@@ -34,7 +34,7 @@ if not os.environ.has_key("EDNA_HOME"):
     pyLPath = pyStrProgramPath.split(os.sep)
     if len(pyLPath) > 5:
         pyStrEdnaHomePath = os.sep.join(pyLPath[:-5])
-        print pyStrEdnaHomePath
+        print(pyStrEdnaHomePath)
     else:
         print ("Problem in the EDNA_HOME path ..." + pyStrEdnaHomePath)
         sys.exit()

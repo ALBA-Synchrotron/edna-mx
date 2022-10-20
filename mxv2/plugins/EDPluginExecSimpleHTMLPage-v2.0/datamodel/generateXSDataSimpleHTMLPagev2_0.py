@@ -32,7 +32,7 @@ if not os.environ.has_key("EDNA_HOME"):
     if len(pyListPath) > 5:
         strEdnaHomePath = os.sep.join(pyListPath[:-5])
     else:
-        print ("Problem in the EDNA_HOME path ..." + strEdnaHomePath)
+        print("Problem in the EDNA_HOME path ..." + strEdnaHomePath)
         sys.exit()
     os.environ["EDNA_HOME"] = strEdnaHomePath
 
@@ -52,7 +52,7 @@ strCommand = "java -jar %s/EDGenerateDS.jar -includepaths %s,%s,%s -sourceDir %s
           strKernelDatamodelHomeDir, strKernelDatamodelHomeDir, strMXv1DatamodelHomeDir, strXsdHomeDir,\
           strXsdHomeDir, strXsdFileName, strPluginDir)
 
-print strCommand
+print(strCommand)
 os.system("java -version")
 os.chdir(strXsdHomeDir)
 os.system(strCommand)

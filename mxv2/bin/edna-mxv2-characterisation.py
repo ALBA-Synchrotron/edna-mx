@@ -37,12 +37,12 @@ pyStrMXv2Path = os.path.split(pyStrBinPath)[0]
 pyStrEdnaHomePath = os.path.split(pyStrMXv2Path)[0]
 os.environ["EDNA_HOME"] = pyStrEdnaHomePath
 if (not "EDNA_SITE" in os.environ.keys()):
-    print "Cannot start the EDNA MXv2 characterisation application:"
-    print "Make sure that $EDNA_SITE is set up before running edna-MXv2-characterisation."
-    print "Example:"
-    print "$ export EDNA_SITE=<SUFFIX> (should be the configuration file suffix XSConfiguration_<SUFFIX>.xml)"
-    print "Please read the INSTALL.txt file under the \"$EDNA_HOME/MXv2\" directory for more details"
-    print ""
+    print("Cannot start the EDNA MXv2 characterisation application:")
+    print("Make sure that $EDNA_SITE is set up before running edna-MXv2-characterisation.")
+    print("Example:")
+    print("$ export EDNA_SITE=<SUFFIX> (should be the configuration file suffix XSConfiguration_<SUFFIX>.xml)")
+    print("Please read the INSTALL.txt file under the \"$EDNA_HOME/MXv2\" directory for more details")
+    print("")
     sys.exit(1)
 #
 # Then add kernel/src and MXv2/src to PYTHONPATH
@@ -63,8 +63,8 @@ for x in range(1, len(sys.argv)):
         strPluginName = sys.argv[x+1]
         break
     elif arg.startswith("--plugin="):
-	   strPluginName = arg[9:]
-	   break
+       strPluginName = arg[9:]
+       break
 
 edApplicationMXv2Characterisation = EDApplicationMXv2Characterisation(_strPluginName = strPluginName)
 edApplicationMXv2Characterisation.execute()

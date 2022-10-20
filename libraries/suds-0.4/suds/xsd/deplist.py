@@ -137,4 +137,4 @@ if __name__ == '__main__':
     x = ('x', ())
     L = DepList()
     L.add(c, e, d, b, f, a, x)
-    print [x[0] for x in L.sort()]
+    print([x[0] for x in L.sort()])

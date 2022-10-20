@@ -201,7 +201,7 @@ class EDPluginRdfitv1_0(EDPluginExecProcessScript):
         rdFitReport.setTitle("Burn strategy results")
         rdFitReport.addImage(self.strScaleIntensityPlotPath, "Rdfit plots")
         htmlDir = os.path.join(self.getWorkingDirectory(), "html")
-        os.makedirs(htmlDir, 0755)
+        os.makedirs(htmlDir, 755)
         htmlPagePath = rdFitReport.renderHtml(htmlDir, "index.html")
         jsonPath = rdFitReport.renderJson(htmlDir)
         return (htmlPagePath, jsonPath)

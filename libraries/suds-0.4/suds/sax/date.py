@@ -52,7 +52,7 @@ class Date:
         if isinstance(date, basestring):
             self.date = self.__parse(date)
             return
-        raise ValueError, type(date)
+        raise ValueError(type(date))
     
     def year(self):
         """
@@ -101,7 +101,7 @@ class Date:
             return dt.date(year, month, day)
         except Exception:
             log.debug(s, exec_info=True)
-            raise ValueError, 'Invalid format "%s"' % s
+            raise ValueError('Invalid format "%s"' % s)
         
     def __str__(self):
         return unicode(self)
@@ -143,7 +143,7 @@ class Time:
             if adjusted:
                 self.__adjust()
             return
-        raise ValueError, type(time)
+        raise ValueError(type(time))
     
     def hour(self):
         """
@@ -218,7 +218,7 @@ class Time:
                 return dt.time(hour, minute, second, ms)
         except Exception:
             log.debug(s, exec_info=True)
-            raise ValueError, 'Invalid format "%s"' % s
+            raise ValueError('Invalid format "%s"' % s)
         
     def __second(self, s):
         """
@@ -296,7 +296,7 @@ class DateTime(Date,Time):
                 dt.datetime.combine(self.date, self.time)
             self.__adjust()
             return
-        raise ValueError, type(date)
+        raise ValueError(type(date))
     
     def __adjust(self):
         """

@@ -146,7 +146,7 @@ class Object:
                 self.__keylist__.remove(name)
         except Exception:
             cls = self.__class__.__name__
-            raise AttributeError, "%s has no attribute '%s'" % (cls, name)
+            raise AttributeError("%s has no attribute '%s'" % (cls, name))
 
     def __getitem__(self, name):
         if isinstance(name, int):

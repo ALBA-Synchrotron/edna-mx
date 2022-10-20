@@ -41,18 +41,18 @@ WhichElementTree = ''
 try:
     from xml.etree import ElementTree as etree
     WhichElementTree = 'xml.etree'
-except ImportError, e:
+except ImportError as e:
     try:
         from lxml import etree
         WhichElementTree = 'lxml'
-    except ImportError, e:
+    except ImportError as e:
         try:
             from elementtree import ElementTree as etree
             WhichElementTree = 'elementtree'
-        except ImportError, e:
-            print '***'
-            print '*** Error: Must install >=Python-2.5 or ElementTree or lxml.'
-            print '***'
+        except ImportError as e:
+            print('***')
+            print('*** Error: Must install >=Python-2.5 or ElementTree or lxml.')
+            print('***')
             raise
 #print WhichElementTree, etree
 
@@ -159,7 +159,7 @@ def make_file(outFileName):
 USAGE_TEXT = __doc__
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(-1)
 
 

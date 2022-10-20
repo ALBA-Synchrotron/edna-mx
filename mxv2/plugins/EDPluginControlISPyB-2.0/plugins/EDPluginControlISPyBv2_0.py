@@ -92,12 +92,12 @@ class EDPluginControlISPyBv2_0(EDPluginControl):
                 xsDataISPyBImage = EDHandlerXSDataISPyBv2_0.generateXSDataISPyBImage(self.getDataInput())
 
         if 1==0:
-        #except Exception, error:
+        #except Exception as error:
             # This exception handling needs to be rethought, see bug #43.
             errorMessage = EDMessage.ERROR_DATA_HANDLER_02 % ("EDPluginControlISPyBv2_0.preProcess: Unexpected error in ISPyB handler: ", error)
             self.error(errorMessage)
             self.addErrorMessage(errorMessage)
-            raise RuntimeError, errorMessage
+            raise RuntimeError(errorMessage)
 
         self.m_edPluginExecISPyB.setDataInput(xsDataISPyBScreening, "screening")
         self.m_edPluginExecISPyB.setDataInput(xsDataISPyBScreeningInput, "screeningInput")

@@ -36,7 +36,7 @@ import pstats   as PyPstats
 import sys      as PySys
 import os       as PyOs
 
-print "We are currently running python %s" % PySys.version
+print("We are currently running python %s" % PySys.version)
 
 filename = 'profile.log'
 for i in PySys.argv[1:]:

@@ -243,6 +243,6 @@ class ServiceDefinition:
     def __unicode__(self):
         try:
             return self.description()
-        except Exception, e:
+        except Exception as e:
             log.exception(e)
         return tostr(e)

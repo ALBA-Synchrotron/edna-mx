@@ -64,7 +64,7 @@ class EDPluginMxv1ParamsToXMLv1_0(EDPluginExecProcessScript):
                                                                  "Configuration parameter missing: strScriptExecutable")
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            raise RuntimeError, strErrorMessage
+            raise RuntimeError(strErrorMessage)
 
     def preProcess(self, _edObject=None):
         EDPluginExecProcessScript.preProcess(self)
@@ -80,7 +80,7 @@ class EDPluginMxv1ParamsToXMLv1_0(EDPluginExecProcessScript):
             strErrorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginMxv1ParamsToXMLv1_0.postProcess', 'EDPluginMxv1ParamsToXMLv1_0', strError)
             self.error(strErrorMessage)
             self.addErrorMessage(strErrorMessage)
-            raise RuntimeError, strErrorMessage
+            raise RuntimeError(strErrorMessage)
 
         # This should work as long as there is a single output, i.e. not a list:
         strFilePath = os.path.join(self.getWorkingDirectory(), self.getScriptLogFileName())

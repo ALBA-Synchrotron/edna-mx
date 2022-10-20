@@ -577,7 +577,7 @@ class DocumentStore:
             return StringIO(content)
         except Exception:
             reason = 'location "%s" not in document store' % location
-            raise Exception, reason
+            raise Exception(reason)
         
     def split(self, url):
         """

@@ -172,7 +172,7 @@ class EDPluginControlCrystFELv1_0(EDPluginControl):
             if not os.path.exists(self.resultsDirectory):
                 os.makedirs(self.resultsDirectory) 
         except Exception as ex:
-            print ex 
+            print(ex)
 
         self.pyarchDirectory = EDHandlerESRFPyarchv1_0.createPyarchFilePath(directory)
 

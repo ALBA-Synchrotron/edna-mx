@@ -255,11 +255,11 @@ def set_type_constants(nameSpace):
 DEBUG = 0
 def dbgprint(level, msg):
     if DEBUG and level > 0:
-        print msg
+        print(msg)
 
 def pplist(lst):
     for count, item in enumerate(lst):
-        print '%d. %s' % (count, item)
+        print('%d. %s' % (count, item))
 
 
 
@@ -679,7 +679,7 @@ class XschemaElement(XschemaElementBase):
                     attr = attrGroup.get(name)
                     self.attributeDefs[name] = attr
             else:
-                print '*** Error. attributeGroup %s not defined.' % groupName
+                print('*** Error. attributeGroup %s not defined.' % groupName)
 
     def __str__(self):
         s1 = '<"%s" XschemaElement instance at 0x%x>' % \
@@ -813,7 +813,7 @@ class XschemaHandler(handler.ContentHandler):
         return self.root
 
     def showError(self, msg):
-        print msg
+        print(msg)
         sys.exit(-1)
 
     def startElement(self, name, attrs):
@@ -1040,7 +1040,7 @@ class XschemaHandler(handler.ContentHandler):
         elif name == SchemaType:
             self.inSchema = 0
             if len(self.stack) != 1:
-                print '*** error stack.  len(self.stack): %d' % len(self.stack)
+                print('*** error stack.  len(self.stack): %d' % len(self.stack))
                 sys.exit(-1)
             logging.debug("Previous root:", self.root)
             self.root = self.stack[0]
@@ -2535,8 +2535,8 @@ def generateClasses(outfile, prefix, element, delayed):
         return
     AlreadyGenerated.append(element.getName())
     if element.getMixedExtensionError():
-        print '*** Element %s extension chain contains mixed and non-mixed content.  Not generated.' % \
-            (element.getName(),)
+        print('*** Element %s extension chain contains mixed and non-mixed content.  Not generated.' % \
+            (element.getName(),))
         return
     ElementsForSubclasses.append(element)
     name = element.getCleanName()
@@ -2872,7 +2872,7 @@ class Sax%sHandler(handler.ContentHandler):
         self.locator = locator
     
     def showError(self, msg):
-        print '*** (showError):', msg
+        print('*** (showError):', msg)
         sys.exit(-1)
 
 """
@@ -3126,7 +3126,7 @@ Options:
 \"\"\"
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(-1)
 
 
@@ -3155,10 +3155,10 @@ def parseSelect(inFileName):
         except StopIteration:
             topElementName = documentHandler.getTopElementName()
         if topElementName is None:
-            raise RuntimeError, 'no top level element'
+            raise RuntimeError('no top level element')
         topElementName = topElementName.replace('-', '_').replace(':', '_')
         if topElementName not in globals():
-            raise RuntimeError, 'no class for top element: %%s' %% topElementName
+            raise RuntimeError('no class for top element: %%s' %% topElementName)
         topElement = globals()[topElementName]
         infile.seek(0)
         doc = minidom.parse(infile)
@@ -3333,9 +3333,9 @@ def get_impl_body(classBehavior, baseImplUrl, implUrl):
             impl = implFile.read()
             implFile.close()
         except urllib2.HTTPError:
-            print '*** Implementation at %s not found.' % implUrl
+            print('*** Implementation at %s not found.' % implUrl)
         except urllib2.URLError:
-            print '*** Connection refused for URL: %s' % implUrl
+            print('*** Connection refused for URL: %s' % implUrl)
     return impl
 
 ###
@@ -3499,10 +3499,10 @@ def parseSelect(inFileName):
         except StopIteration:
             topElementName = documentHandler.getTopElementName()
         if topElementName is None:
-            raise RuntimeError, 'no top level element'
+            raise RuntimeError('no top level element')
         topElementName = topElementName.replace('-', '_').replace(':', '_')
         if topElementName not in supermod.__dict__:
-            raise RuntimeError, 'no class for top element: %%s' %% topElementName
+            raise RuntimeError('no class for top element: %%s' %% topElementName)
         topElement = supermod.__dict__[topElementName]
         infile.seek(0)
         doc = minidom.parse(infile)
@@ -3585,7 +3585,7 @@ Usage: python ???.py <infilename>
 \"\"\"
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(-1)
 
 
@@ -3630,9 +3630,9 @@ def generateSubclasses(root, subclassFilename, behaviorFilename,
                 sys.path.insert(0, '.')
                 import xmlbehavior_sub as xmlbehavior
             except ImportError:
-                print '*** You have requested generation of extended methods.'
-                print '*** But, no xmlbehavior module is available.'
-                print '*** Generation of extended behavior methods is omitted.'
+                print('*** You have requested generation of extended methods.')
+                print('*** But, no xmlbehavior module is available.')
+                print('*** Generation of extended behavior methods is omitted.')
             if xmlbehavior:
                 behaviors = xmlbehavior.parse(behaviorFilename)
                 behaviors.make_class_dictionary(cleanupName)
@@ -3824,7 +3824,7 @@ def parseAndGenerate(outfileName, subclassFilename, prefix, \
 USAGE_TEXT = __doc__
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(-1)
 
 
@@ -3876,7 +3876,7 @@ def main():
     XsdNameSpace = nameSpace
     set_type_constants(nameSpace)
     if behaviorFilename and not subclassFilename:
-        print '\n*** Error.  -b requires -s'
+        print('\n*** Error.  -b requires -s')
         usage()
     if len(args) != 1:
         usage()

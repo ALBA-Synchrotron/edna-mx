@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<XSDataInputControlAutoPROC>
+  <processDirectory>
+  	<path>
+  	  <value>/data/visitor/mx415/id30a2/20160621/PROCESSED_DATA/t5/autoprocessing_t5_run1_1</value>
+  	</path>
+  </processDirectory>
+  <dataCollectionId>
+  	<value>2179472</value>
+  </dataCollectionId>
+</XSDataInputControlAutoPROC>

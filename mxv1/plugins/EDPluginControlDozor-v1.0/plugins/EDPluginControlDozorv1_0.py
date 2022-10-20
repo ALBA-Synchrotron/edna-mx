@@ -205,6 +205,7 @@ class EDPluginControlDozorv1_0(EDPluginControl):
             xsDataInputDozor.orgy = XSDataDouble(orgy)
             xsDataInputDozor.oscillationRange = XSDataDouble(goniostat.oscillationWidth.value)
 #            xsDataInputDozor.imageStep : XSDataDouble optional
+            
             xsDataInputDozor.startingAngle = XSDataDouble(goniostat.rotationAxisStart.value)
             xsDataInputDozor.firstImageNumber = subWedge.image[0].number
             xsDataInputDozor.numberImages = XSDataInteger(len(listBatch))

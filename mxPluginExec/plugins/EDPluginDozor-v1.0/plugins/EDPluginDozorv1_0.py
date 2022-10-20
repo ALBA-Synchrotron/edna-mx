@@ -118,12 +118,16 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
     def getLibraryName(self, libraryType, doSubmit=False):
         libraryName = 'library_' + libraryType
         idName, version, codename = distro.linux_distribution()
+        #self.screen(f"idName={idName}, version={version}, codename={codename}")
         if 'Debian' in idName:
             libraryName += '_debian_'
         elif idName == 'Ubuntu':
             libraryName += '_ubuntu_'
+        elif 'CentOS' in idName:
+            libraryName += '_centos_'
         else:
-            raise RuntimeError('ExecDozor: unknown os name {0}'.format(idName))
+            self.DEBUG('ExecDozor: unknown os name {0}'.format(idName))
+            # raise RuntimeError('ExecDozor: unknown os name {0}'.format(idName))
         libraryName += version
         return libraryName
 
@@ -136,8 +140,11 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         self.iyMax = self.config.get("iy_max", None)
         # Eventual bad zones
         self.strBad_zona = self.config.get("bad_zona", None)
-        self.library_cbf = self.config.get(self.getLibraryName("cbf"))
-        self.library_h5 = self.config.get(self.getLibraryName("h5"))
+        #self.library_cbf = self.config.get(self.getLibraryName("cbf"))
+        #self.library_h5 = self.config.get(self.getLibraryName("h5"))
+        # ALBA workaround
+        self.library_cbf = self.getLibraryName("cbf")
+        self.library_h5 = self.getLibraryName("h5")
 
     def preProcess(self, _edObject=None):
         self.setRequireCCP4(True) # GB: this sets dozor env from execProcessScriptSetupCCP4 config param
@@ -171,6 +178,7 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         """
         self.DEBUG("EDPluginDozorv1_0.generateCommands")
         strCommandText = None
+        library = _library_cbf
         if _xsDataInputDozor.detectorType.value == "pilatus2m":
             library = _library_cbf
             nx = 1475
@@ -232,7 +240,12 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
             strCommandText = "job single\n"
             strCommandText += "detector %s\n" % _xsDataInputDozor.detectorType.value
             #strCommandText += "library %s\n" % library
-            strCommandText += "library /beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
+            # ALBA workaround
+            #strCommandText += "library /beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
+            if '_centos_' in library:
+                strCommandText += "library /beamlines/bl13/sdm/production/libs/xds-zcbf/centos7/build/xds-zcbf.so\n"
+            else: # we assume debian 9, like in ctbl1301
+                strCommandText += "library /beamlines/bl13/controls/production/software/lib/xds-zcbf.so\n"
             strCommandText += "nx %d\n" % nx
             strCommandText += "ny %d\n" % ny
             strCommandText += "pixel %f\n" % pixel
@@ -260,17 +273,24 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
             #    pixelMax = _xsDataInputDozor.pixelMax.value
             #strCommandText += "pixel_max %d\n"%pixelMax
 
-            if None in [ _xsDataInputDozor.ixMin, _xsDataInputDozor.ixMax, 
-                         _xsDataInputDozor.iyMin, _xsDataInputDozor.iyMin] :
-                strCommandText += "ix_min %d\n" % self.ix_min
-                strCommandText += "ix_max %d\n" % self.ix_max
-                strCommandText += "iy_min %d\n" % self.iy_min
-                strCommandText += "iy_max %d\n" % self.iy_max
-            else:
-                strCommandText += "ix_min %d\n" % _xsDataInputDozor.ixMin.value
-                strCommandText += "ix_max %d\n" % _xsDataInputDozor.ixMax.value
-                strCommandText += "iy_min %d\n" % _xsDataInputDozor.iyMin.value
-                strCommandText += "iy_max %d\n" % _xsDataInputDozor.iyMax.value
+            #if None in [ _xsDataInputDozor.ixMin, _xsDataInputDozor.ixMax, 
+            #             _xsDataInputDozor.iyMin, _xsDataInputDozor.iyMin] :
+            #    strCommandText += "ix_min %d\n" % self.ix_min
+            #    strCommandText += "ix_max %d\n" % self.ix_max
+            #    strCommandText += "iy_min %d\n" % self.iy_min
+            #    strCommandText += "iy_max %d\n" % self.iy_max
+            #else:
+            #    strCommandText += "ix_min %d\n" % _xsDataInputDozor.ixMin.value
+            #    strCommandText += "ix_max %d\n" % _xsDataInputDozor.ixMax.value
+            #    strCommandText += "iy_min %d\n" % _xsDataInputDozor.iyMin.value
+            #    strCommandText += "iy_max %d\n" % _xsDataInputDozor.iyMax.value
+            if self.ixMin is not None:
+                strCommandText += "ix_min %d\n" % self.ixMin
+                strCommandText += "ix_max %d\n" % self.ixMax
+                strCommandText += "iy_min %d\n" % self.iyMin
+                strCommandText += "iy_max %d\n" % self.iyMax
+            if self.strBad_zona is not None:
+                strCommandText += "bad_zona %s\n" % self.strBad_zona
 
             strCommandText += "orgx %.1f\n" % _xsDataInputDozor.orgx.value
             strCommandText += "orgy %.1f\n" % _xsDataInputDozor.orgy.value

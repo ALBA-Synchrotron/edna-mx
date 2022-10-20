@@ -315,7 +315,7 @@ class PluginGenerator(object):
             outfile.write(line)
 
     def create_xsd_converter_script(self):
-        print 'running create_xsd_converter_script()...'
+        print('running create_xsd_converter_script()...')
         assert(self._plugin_base_directory)
         assert(self._xsd_filename)
         assert(self._xsd_name)
@@ -331,8 +331,8 @@ class PluginGenerator(object):
     def check_xsd_input_and_result_with_xsd(self, xsd_file_name):
         tree = xml.dom.minidom.parse(xsd_file_name)
         input_and_result = tree.getElementsByTagName("xs:complexType")
-        print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-        print self._xsd_input
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print(self._xsd_input)
 
         bFoundInput = False
         bFoundResult = False
@@ -394,7 +394,7 @@ class PluginGenerator(object):
             if not part.getElementsByTagName("xs:extension") == []:
                 if part.getElementsByTagName("xs:extension")[0].getAttribute("base") == "XSDataInput":
                     self._xsd_data_input_name = part.getAttribute("name")
-                    print 'XSDataInput ' + str(order) + ' : ' + str(self._xsd_data_input_name)
+                    print('XSDataInput ' + str(order) + ' : ' + str(self._xsd_data_input_name))
             order = order + 1
 
         order = 0
@@ -402,7 +402,7 @@ class PluginGenerator(object):
             if not part.getElementsByTagName("xs:extension") == []:
                 if part.getElementsByTagName("xs:extension")[0].getAttribute("base") == "XSDataResult":
                     self._xsd_data_input_name = part.getAttribute("name")
-                    print 'XSDataResult ' + str(order) + ' : ' + str(self._xsd_data_input_name)
+                    print('XSDataResult ' + str(order) + ' : ' + str(self._xsd_data_input_name))
             order = order + 1
 
     def copy_xsd_to_local(self):
@@ -480,7 +480,7 @@ class PluginGenerator(object):
         assert(self._version)
         test_runner_location = os.path.join(os.environ['EDNA_HOME'], "kernel", "bin", "edna-test-launcher")
         plugin_to_be_tested = "EDTestSuitePlugin%s%sv%s" % (self._base_name, self._plugin_name, self._version.replace(".", "_"))
-        print "Running the tests"
+        print("Running the tests")
         subprocess.call([test_runner_location, "--test", plugin_to_be_tested])
         return
 
@@ -591,7 +591,7 @@ def main():
 
     # xsd is a mandatory option if -g tag is not present
     if options.xsd_location is None and options.xsd_general is not None:
-        print "A mandatory option -x is missing as -g is present\n"
+        print("A mandatory option -x is missing as -g is present\n")
         parser.print_help()
         os.sys.exit(0)
 

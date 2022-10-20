@@ -74,7 +74,7 @@ class EDUtilsLibraryInstaller:
         even if those modules exists since python2.3 their API has changed in python2.5. 
         """
         if sys.version_info < (2, 5):
-            raise ImportError, "Version of python too old, please use a python 2.5 or newer.\nCurrently you are using Python " + sys.version
+            raise ImportError("Version of python too old, please use a python 2.5 or newer.\nCurrently you are using Python " + sys.version)
 
 
     def dependency(self, _strLibraryName, _strLibraryDirectory, _tupleVersion=None, _strMethodToGetVersion=None):
@@ -389,15 +389,15 @@ class EDUtilsLibraryInstaller:
             try:
                 open(self.__strArchiveName, "wb").write(data)
             except IOError:
-                raise IOError, "unable to write downloaded data to disk at " + self.__strArchiveName
+                raise IOError("unable to write downloaded data to disk at " + self.__strArchiveName)
 
             if os.path.exists(self.__strArchiveName):
                 EDVerbose.screen("Library %s successfully downloaded." % self.__strArchiveName)
             else:
-                raise RuntimeError, "Could not automatically download libraries %r! \n \
+                raise RuntimeError("Could not automatically download libraries %r! \n \
                                      If you are behind a firewall, please set the environment variable http_proxy. \n \
                                      Otherwise please try to download the images manually from \n \
-                                     http://www.edna-site.org/pub/libraries" % self.__strArchiveName
+                                     http://www.edna-site.org/pub/libraries" % self.__strArchiveName)
 
 
     def getDestinationDirectory(self):

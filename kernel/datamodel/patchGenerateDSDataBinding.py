@@ -36,20 +36,20 @@ import tempfile
 import shutil
 
 if len(sys.argv) != 2:
-    print "Usage: %s XSDataXXX.py" % sys.argv[0]
+    print("Usage: %s XSDataXXX.py" % sys.argv[0])
     sys.exit(1)
 
 strXSDataFilePath = os.path.abspath(sys.argv[1])
 if not os.path.exists(strXSDataFilePath):
-    print "Error! Cannot find the data binding file : %s " % strXSDataFilePath
+    print("Error! Cannot find the data binding file : %s " % strXSDataFilePath)
     sys.exit(1)
 
 strXSDataFileName = os.path.basename(strXSDataFilePath)
 if not strXSDataFileName.startswith("XSData") or not strXSDataFileName.endswith(".py"):
-    print "Usage: %s XSDataXXX.py" % sys.argv[0]
+    print("Usage: %s XSDataXXX.py" % sys.argv[0])
     sys.exit(1)
 
-print "Patching file %s (bugs #394, #657)" % strXSDataFilePath
+print("Patching file %s (bugs #394, #657)" % strXSDataFilePath)
 
 (iFileNew, strTmpFileName) = tempfile.mkstemp(suffix=".py", prefix=strXSDataFileName[:-3] + "-")
 fileNew = open(strTmpFileName, "w")
@@ -77,14 +77,14 @@ for (iIndex, strLine) in enumerate(listLinesXSData):
         strLine21 = listLinesXSData[iIndex + 21]
         if  strLine20.find("#") != -1 or strLine21.find("#") != -1 or \
             strLine20.find("pass") != -1 or strLine20.find("pass") != -1:
-            print "The file is already patched!"
+            print("The file is already patched!")
         else:
             # The file needs a patch!
             # Make sure we edit the right line
             if listLinesXSData[iIndex + 20].find("outfile.write(self.valueOf_)") != -1:
                 listLinesXSData[iIndex + 20] = "        pass"
             else:
-                print "Warning! File not patched."
+                print("Warning! File not patched.")
     #
     # Write the new line to the new file
     #

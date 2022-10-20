@@ -122,19 +122,19 @@ class EDHandlerXSDataISPyBv1_1:
                     fBeamPositionShiftY = xsDataStatisticsIndexing.getBeamPositionShiftY().getValue()
                     xsDataIPSyBScreeningOutput.setBeamShiftX(XSDataDouble(fBeamPositionShiftX))
                     xsDataIPSyBScreeningOutput.setBeamShiftY(XSDataDouble(fBeamPositionShiftY))
-		    fSpotDeviationAngular = None
-		    if xsDataStatisticsIndexing.getSpotDeviationAngular() is not None:
-                        fSpotDeviationAngular = xsDataStatisticsIndexing.getSpotDeviationAngular().getValue()
-                    fSpotDeviationPositional = xsDataStatisticsIndexing.getSpotDeviationPositional().getValue()
-                    xsDataIPSyBScreeningOutput.setSpotDeviationR(XSDataDouble(fSpotDeviationPositional))
-		    if fSpotDeviationAngular is not None:
-                    	xsDataIPSyBScreeningOutput.setSpotDeviationTheta(XSDataDouble(fSpotDeviationAngular))
-                    if ((xsDataStatisticsIndexing.getSpotsTotal() is not None) and (xsDataStatisticsIndexing.getSpotsUsed is not None)):
-                        iSpotsTotal = xsDataStatisticsIndexing.getSpotsTotal().getValue()
-                        iSpotsUsed = xsDataStatisticsIndexing.getSpotsUsed().getValue()
-                        xsDataIPSyBScreeningOutput.setNumSpotsFound(XSDataInteger(iSpotsTotal))
-                        xsDataIPSyBScreeningOutput.setNumSpotsUsed(XSDataInteger(iSpotsUsed))
-                        xsDataIPSyBScreeningOutput.setNumSpotsRejected(XSDataInteger(iSpotsTotal - iSpotsUsed))
+            fSpotDeviationAngular = None
+            if xsDataStatisticsIndexing.getSpotDeviationAngular() is not None:
+                fSpotDeviationAngular = xsDataStatisticsIndexing.getSpotDeviationAngular().getValue()
+                fSpotDeviationPositional = xsDataStatisticsIndexing.getSpotDeviationPositional().getValue()
+                xsDataIPSyBScreeningOutput.setSpotDeviationR(XSDataDouble(fSpotDeviationPositional))
+            if fSpotDeviationAngular is not None:
+                xsDataIPSyBScreeningOutput.setSpotDeviationTheta(XSDataDouble(fSpotDeviationAngular))
+                if ((xsDataStatisticsIndexing.getSpotsTotal() is not None) and (xsDataStatisticsIndexing.getSpotsUsed is not None)):
+                    iSpotsTotal = xsDataStatisticsIndexing.getSpotsTotal().getValue()
+                    iSpotsUsed = xsDataStatisticsIndexing.getSpotsUsed().getValue()
+                    xsDataIPSyBScreeningOutput.setNumSpotsFound(XSDataInteger(iSpotsTotal))
+                    xsDataIPSyBScreeningOutput.setNumSpotsUsed(XSDataInteger(iSpotsUsed))
+                    xsDataIPSyBScreeningOutput.setNumSpotsRejected(XSDataInteger(iSpotsTotal - iSpotsUsed))
                 xsDataCrystal = xsDataIndexingSolutionSelected.getCrystal()
                 xsDataIPSyBScreeningOutput.setMosaicityEstimated(XSDataBoolean(False))
                 if (xsDataCrystal is not None):
@@ -162,16 +162,16 @@ class EDHandlerXSDataISPyBv1_1:
                         xsDataISPyBScreeningOutputLattice.setSpaceGroup(XSDataString(pyStrSpaceGroupName))
         if (bSuccessfulIndexing):
             xsDataIPSyBScreeningOutput.setScreeningSuccess(XSDataBoolean(True))
-	    if _strStatusMessage:
+            if _strStatusMessage:
                 xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
             else:
                 xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString("Indexing successful"))
         else:
             xsDataIPSyBScreeningOutput.setScreeningSuccess(XSDataBoolean(False))
-	    if _strStatusMessage:
-                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
-            else:
-                xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString("Indexing failed"))
+        if _strStatusMessage:
+            xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString(_strStatusMessage))
+        else:
+            xsDataIPSyBScreeningOutput.setStatusDescription(XSDataString("Indexing failed"))
 
 
 

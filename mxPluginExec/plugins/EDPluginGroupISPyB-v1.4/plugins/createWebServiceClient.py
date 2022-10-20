@@ -61,7 +61,7 @@ for strLine in strEdml.split("\n"):
             strAttribute = listAttribute[0]
             strType = listAttribute[1]
             if not strType in dictType.keys():
-                print "Warning! Unrecognized type %s in attribute %s for %s" % (strType, strAttribute, strWebServiceName)
+                print("Warning! Unrecognized type %s in attribute %s for %s" % (strType, strAttribute, strWebServiceName))
                 bAbort = True
             else:
                 strPrefix = dictType[listAttribute[1]]
@@ -80,10 +80,10 @@ for strLine in strEdml.split("\n"):
             strClientCode += "            )\n"
             strClientCode += "        self.DEBUG(\"%sId: %%d\" %% i%sId)\n" % (strWebServiceName, strWebServiceName)
             strClientCode += "        return i%sId\n" % strWebServiceName
-            print strClientCode
+            print(strClientCode)
     elif bDefiningWebService:
         listSplit = strLine.split()
-        print listSplit
+        print(listSplit)
         if len(listSplit) > 1:
             strAttributeName = listSplit[0].split(":")[0]
             if len(listSplit)>2:
@@ -91,4 +91,4 @@ for strLine in strEdml.split("\n"):
             else:
                 strType = listSplit[1]
             listApi.append([strAttributeName, strType])
-            print strAttributeName, strType
+            print(strAttributeName, strType)

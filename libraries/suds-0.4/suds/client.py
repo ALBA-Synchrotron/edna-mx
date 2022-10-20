@@ -240,7 +240,7 @@ class Factory:
         else:
             try:
                 result = self.builder.build(type)
-            except Exception, e:
+            except Exception as e:
                 log.error("create '%s' failed", name, exc_info=True)
                 raise BuildError(name, e)
         timer.stop()
@@ -329,20 +329,20 @@ class ServiceSelector:
         """
         service = None
         if not len(self.__services):
-            raise Exception, 'No services defined'
+            raise Exception('No services defined')
         if isinstance(name, int):
             try:
                 service = self.__services[name]
                 name = service.name
             except IndexError:
-                raise ServiceNotFound, 'at [%d]' % name
+                raise ServiceNotFound('at [%d]' % name)
         else:
             for s in self.__services:
                 if name == s.name:
                     service = s
                     break
         if service is None:
-            raise ServiceNotFound, name
+            raise ServiceNotFound(name)
         return PortSelector(self.__client, service.ports, name)
     
     def __ds(self):
@@ -430,13 +430,13 @@ class PortSelector:
         """
         port = None
         if not len(self.__ports):
-            raise Exception, 'No ports defined: %s' % self.__qn
+            raise Exception('No ports defined: %s' % self.__qn)
         if isinstance(name, int):
             qn = '%s[%d]' % (self.__qn, name)
             try:
                 port = self.__ports[name]
             except IndexError:
-                raise PortNotFound, qn
+                raise PortNotFound(qn)
         else:
             qn = '.'.join((self.__qn, name))
             for p in self.__ports:
@@ -444,7 +444,7 @@ class PortSelector:
                     port = p
                     break
         if port is None:
-            raise PortNotFound, qn
+            raise PortNotFound(qn)
         qn = '.'.join((self.__qn, port.name))
         return MethodSelector(self.__client, port.methods, qn)
     
@@ -505,7 +505,7 @@ class MethodSelector:
         m = self.__methods.get(name)
         if m is None:
             qn = '.'.join((self.__qn, name))
-            raise MethodNotFound, qn
+            raise MethodNotFound(qn)
         return Method(self.__client, m)
 
 
@@ -537,7 +537,7 @@ class Method:
         if not self.faults():
             try:
                 return client.invoke(args, kwargs)
-            except WebFault, e:
+            except WebFault as e:
                 return (500, e)
         else:
             return client.invoke(args, kwargs)
@@ -642,7 +642,7 @@ class SoapClient:
                 result = reply.message
             else:
                 result = self.succeeded(binding, reply.message)
-        except TransportError, e:
+        except TransportError as e:
             if e.httpcode in (202,204):
                 result = None
             else:

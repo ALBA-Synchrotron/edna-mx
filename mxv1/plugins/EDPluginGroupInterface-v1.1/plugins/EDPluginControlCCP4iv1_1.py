@@ -82,7 +82,7 @@ class EDPluginControlCCP4iv1_1(EDPluginControlInterfacev1_1):
                 errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlCCP4iv1_1.buildInput', 'EDPluginControlCCP4iv1_1', pyStrErrorMessage)
                 self.error(errorMessage)
                 self.addErrorMessage(errorMessage)
-                raise RuntimeError, errorMessage
+                raise RuntimeError(errorMessage)
             else:
                 xsDataInputCharacterisation = self.createDataInputCharacterisationFromDataSets(pyListXSDataCCP4iDataSet)
         # Update the data collection with other parameters
@@ -107,16 +107,16 @@ class EDPluginControlCCP4iv1_1(EDPluginControlInterfacev1_1):
             try:
                 pyStrInputFileContent = EDUtilsFile.readFile(xsDataInputFile.getPath().getValue())
                 xsDataInputCharacterisationCurrent = XSDataInputCharacterisation.parseString(pyStrInputFileContent)
-            except Exception, detail:
+            except Exception as detail:
                 errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlCCP4iv1_1.preProcess', 'EDPluginControlCCP4iv1_1', detail)
                 self.error(errorMessage)
                 self.addErrorMessage(errorMessage)
-                raise RuntimeError, errorMessage
+                raise RuntimeError(errorMessage)
             if (xsDataInputCharacterisationCurrent is None):
                 errorMessage = EDMessage.ERROR_EXECUTION_03 % ('EDPluginControlCCP4iv1_1.preProcess', 'EDPluginControlCCP4iv1_1', "None data collection")
                 self.error(errorMessage)
                 self.addErrorMessage(errorMessage)
-                raise RuntimeError, errorMessage
+                raise RuntimeError(errorMessage)
             else:
                 # Instantiate the xsDataInputCharacterisation object if it's not already done.  
                 if (xsDataInputCharacterisation is None):

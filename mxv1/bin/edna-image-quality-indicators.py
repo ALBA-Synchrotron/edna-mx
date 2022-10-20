@@ -33,7 +33,7 @@ __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 import os, sys, tempfile, threading
 
 def usage():
-    print """This program calculates the image quality indicators for a given image and stores the results in ISPyB.
+    print("""This program calculates the image quality indicators for a given image and stores the results in ISPyB.
     
 Usage: %s path_to_image_directory
 
@@ -42,7 +42,7 @@ Optional arguments:
 --verbose        : Turn on verbose output
 --debug          : Turn on debugging mode in EDNA
 
-""" % os.path.basename(sys.argv[0])
+""" % os.path.basename(sys.argv[0]))
 
 # Append the EDNA kernel source directory to the python path
 if not os.environ.has_key("EDNA_HOME"):
@@ -50,7 +50,7 @@ if not os.environ.has_key("EDNA_HOME"):
     pyLPath = pyStrProgramPath.split(os.sep)
     if len(pyLPath) > 5:
         pyStrEdnaHomePath = os.sep.join(pyLPath[:-5])
-        print pyStrEdnaHomePath
+        print(pyStrEdnaHomePath)
     else:
         print ("Problem in the EDNA_HOME path ..." + pyStrEdnaHomePath)
         sys.exit()

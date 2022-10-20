@@ -98,7 +98,7 @@ class EDPluginControlInterfacev1_1(EDPluginControl):
         errorMessage = EDMessage.ERROR_ABSTRACT_METHOD_02 % (self.getPluginName(), 'buildInput')
         self.error(errorMessage)
         self.addErrorMessage(errorMessage)
-        raise RuntimeError, errorMessage
+        raise RuntimeError(errorMessage)
 
 
     def postProcess(self, _edPlugin=None):
