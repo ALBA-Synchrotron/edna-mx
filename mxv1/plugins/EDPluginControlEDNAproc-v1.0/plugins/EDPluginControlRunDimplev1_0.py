@@ -127,6 +127,11 @@ class EDPluginControlRunDimplev1_0(EDPluginControl):
                 strOrigDimpleResultsDirectory = xsDataResultDimple.resultsDirectory.path.value
                 strResultsDirectory = self.dataInput.resultsDirectory.path.value
                 targetDirectoryName = os.path.basename(strOrigDimpleResultsDirectory)
+                
+                self.screen('EMILIO: strOrigDimpleResultsDirectory = ' + strOrigDimpleResultsDirectory)
+                self.screen('EMILIO: strResultsDirectory = ' + strResultsDirectory)
+                self.screen('EMILIO: targetDirectoryName = ' + targetDirectoryName)
+                
                 if os.path.exists(os.path.join(strResultsDirectory, targetDirectoryName)):
                     index = 1
                     newTargetDirectoryName = "{0}_{1:02d}".format(targetDirectoryName, index)
@@ -137,6 +142,12 @@ class EDPluginControlRunDimplev1_0(EDPluginControl):
                 strDimpleResultsDirectory = os.path.join(strResultsDirectory, targetDirectoryName)
                 shutil.copytree(strOrigDimpleResultsDirectory, strDimpleResultsDirectory)
                 strDimpleHtmlPath = os.path.join(strDimpleResultsDirectory, "html")
+                
+                
+                self.screen('EMILIO: targetDirectoryName = ' + targetDirectoryName)
+                self.screen('EMILIO: strDimpleResultsDirectory = ' + strDimpleResultsDirectory)
+                self.screen('EMILIO: strDimpleHtmlPath = ' + strDimpleHtmlPath)
+                
             else:
                 strDimpleHtmlPath = os.path.join(self.getWorkingDirectory(), "html")
                 strDimpleResultsDirectory = xsDataResultDimple.resultsDirectory.path.value

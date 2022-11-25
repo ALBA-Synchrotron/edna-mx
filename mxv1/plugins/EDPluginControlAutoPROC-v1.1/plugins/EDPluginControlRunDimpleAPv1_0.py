@@ -128,11 +128,6 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
                 strResultsDirectory = self.dataInput.resultsDirectory.path.value
                 targetDirectoryName = os.path.basename(strOrigDimpleResultsDirectory)
                 
-                self.screen('EMILIO: strOrigDimpleResultsDirectory = ' + strOrigDimpleResultsDirectory)
-                self.screen('EMILIO: strResultsDirectory = ' + strResultsDirectory)
-                self.screen('EMILIO: targetDirectoryName = ' + targetDirectoryName)
-                
-                
                 if os.path.exists(os.path.join(strResultsDirectory, targetDirectoryName)):
                     index = 1
                     newTargetDirectoryName = "{0}_{1:02d}".format(targetDirectoryName, index)
@@ -172,11 +167,8 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
                 strPyarchRootPath = self.dataInput.pyarchPath.path.value
                 xsDataInputStoreAutoProcProgramAttachment = XSDataInputStoreAutoProcProgramAttachment()
                 for targetPath in listOfTargetPaths:
-                    self.screen('EMILIO: targetPath = ' + targetPath)
-                    self.screen('EMILIO: strPyarchRootPath = ' + strPyarchRootPath)
                     if os.path.dirname(targetPath) != strPyarchRootPath:
                         shutil.copy(targetPath, strPyarchRootPath)
-                    self.screen('EMILIO: shutil.copy ok?')
                     autoProcProgramAttachment = AutoProcProgramAttachment()
                     autoProcProgramAttachment.fileType = "Result"
                     autoProcProgramAttachment.fileName = os.path.basename(targetPath)
@@ -185,9 +177,7 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
                     xsDataInputStoreAutoProcProgramAttachment.addAutoProcProgramAttachment(autoProcProgramAttachment)
                 edPluginStoreAutoProcProgramAttachment = self.loadPlugin("EDPluginISPyBStoreAutoProcProgramAttachmentv1_4")
                 edPluginStoreAutoProcProgramAttachment.dataInput = xsDataInputStoreAutoProcProgramAttachment
-                self.screen('EMILIO: before edPluginStoreAutoProcProgramAttachment')
                 edPluginStoreAutoProcProgramAttachment.executeSynchronous()
-                self.screen('EMILIO: after edPluginStoreAutoProcProgramAttachment')
 
             # Set phasing
             # ToolsForAutoprocessingWebService.storePhasingAnalysis

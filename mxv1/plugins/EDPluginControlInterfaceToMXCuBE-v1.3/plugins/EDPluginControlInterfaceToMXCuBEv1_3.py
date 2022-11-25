@@ -26,6 +26,7 @@ __contact__ = "svensson@esrf.fr"
 __license__ = "GPLv3+"
 __copyright__ = "European Synchrotron Radiation Facility, Grenoble, France"
 
+import re
 import os
 import shutil
 import smtplib
@@ -33,6 +34,8 @@ import time
 import socket
 import shutil
 import tempfile
+import matplotlib.pyplot as plt
+
 
 from EDMessage import EDMessage
 from EDPluginControl import EDPluginControl
@@ -69,6 +72,7 @@ from XSDataInterfacev1_2 import XSDataInputInterface
 EDFactoryPluginStatic.loadModule("XSDataISPyBv1_4")
 from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
 from XSDataISPyBv1_4 import XSDataInputISPyBSetBestWilsonPlotPath
+from XSDataISPyBv1_4 import XSDataInputISPyBSetImageQualityIndicatorsPlot
 
 from EDHandlerXSDataISPyBv1_4 import EDHandlerXSDataISPyBv1_4
 
@@ -235,6 +239,7 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                 if (self.createDNAFileDirectory(strPathToDNAFileDirectory)):
                     xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataResultCharacterisation, strPathToDNAFileDirectory)
             strPyArchPathToDNAFileDirectory = EDHandlerESRFPyarchv1_0.createPyarchFilePath(strPathToDNAFileDirectory)
+            
             if (self.createDNAFileDirectory(strPyArchPathToDNAFileDirectory)):
                 xsDataDictionaryLogFile = self.createOutputFileDictionary(xsDataResultCharacterisation, strPyArchPathToDNAFileDirectory)
             self.xsDataResultMXCuBE.setOutputFileDictionary(xsDataDictionaryLogFile)
@@ -288,7 +293,23 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
                     edPluginSetBestWilsonPlotPath = self.loadPlugin("EDPluginISPyBSetBestWilsonPlotPathv1_4", "ISPyBSetBestWilsonPlotPath")
                     edPluginSetBestWilsonPlotPath.dataInput = xsDataInputISPyBSetBestWilsonPlotPath
                     edPluginSetBestWilsonPlotPath.executeSynchronous()
-
+            
+            if EDUtilsPath.isALBA:
+                self.screen("strPyArchPathToDNAFileDirectory = " + strPyArchPathToDNAFileDirectory)
+                plot_path = self.create_quality_indicator_plot(os.path.join(strPyArchPathToDNAFileDirectory, "best.log"), strPyArchPathToDNAFileDirectory)
+                    
+                # csv path not pointing to a real file (like currently in dozorv1_0)
+                csv_path, _ = os.path.splitext(plot_path)
+                csv_path +=  '.png'
+                
+                # upload the path of the quality plot to ispyb
+                xsDataInputISPyBSetImageQualityIndicatorsPlot = XSDataInputISPyBSetImageQualityIndicatorsPlot()
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.dataCollectionId = self.dataInput.dataCollectionId
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsPlotPath = XSDataString(plot_path)
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsCSVPath = XSDataString(csv_path)
+                edPluginISPyBSetImageQualityIndicatorsPlot = self.loadPlugin("EDPluginISPyBSetImageQualityIndicatorsPlotv1_4")
+                edPluginISPyBSetImageQualityIndicatorsPlot.dataInput = xsDataInputISPyBSetImageQualityIndicatorsPlot
+                edPluginISPyBSetImageQualityIndicatorsPlot.executeSynchronous()
 
 
 
@@ -532,7 +553,88 @@ class EDPluginControlInterfaceToMXCuBEv1_3(EDPluginControl):
         return xsDataExperimentalCondition
 
 
+    def create_quality_indicator_plot(self, best_log, out_dir):
+        '''
+        Creates the I/sigma vs resolution plot, saves to the out_dir, 
+        and returns the full path of the generated image
+        '''
 
+        try:
+            image_path = os.path.join(out_dir, "best_isigma_vs_resolution.png")
+            
+            (x1,x2,y) = self.parse_best_log(best_log)
+            x_resolution = x2
+            y_isigma = y
+            #x_resolution = x1[1:]
+            #y_isigma = y[1:]
+            
+            self.screen("x_resolution: " + str(x_resolution))
+            self.screen("y_isigma: " + str(y_isigma))
+            
+            # plot
+            plt.ioff()
+            fig, ax = plt.subplots()
+
+            plt.xlabel('Resolution')
+            plt.ylabel('I/Sigma')
+            plt.title('I/Sigma vs Resolution')
+            
+            ax.xaxis.set_ticks(range(len(x_resolution)))
+            ax.xaxis.set_ticklabels(x_resolution)
+
+            plt.locator_params(axis='x', nbins=len(x_resolution)/2)
+
+            plt.xticks(rotation = 45)
+            plt.grid()
+            plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
+
+            plt.savefig(image_path, bbox_inches='tight')
+        except Exception as e:
+            self.screen("ERROR while trying to create the quality indicator plot from best.log: {}".format(e))
+            
+        return image_path
+
+    
+    
+    def parse_best_log(self, best_log):
+        '''
+        Parses the ..-unique.stats file generated by autoproc to extract the resolution (x1,x2) and the I/Sigma value
+        Returns it as a tuple (x1, x2, y)
+        '''
+        file = open(best_log, 'r')
+        lines = file.readlines()
+  
+        header = "Lower Upper     %   Intensity  Sigma    <Sigma>   Sigma>     %        %"
+        header_found = False
+        end_line = "All data"
+
+        x1 = []
+        x2 = []
+        y = []
+        for line in lines:
+            line = line.strip()
+            if line == header:
+                header_found = True
+
+            if header_found:
+                
+                #self.screen(line)
+                #12.00  6.99    99.0     215.7     4.1    50.4      52.7     2.2     0.00
+                result = re.search(r"^(\d+\.\d+)[ ]+(\d+\.\d+)[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+(-?\d+\.\d+)[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+$", line)
+                if result is not None:
+                    x1.append(float(result.group(1)))
+                    x2.append(float(result.group(2)))
+                    y.append(float(result.group(3)))
+                    # self.screen(result.group(1) + " - " + result.group(2) + ": " + result.group(3))
+                else:
+                    if line.startswith(end_line):
+                        break
+
+        file.close()
+        if not header_found:
+            self.screen('ERROR: Expected header {header} nof found in {file_path}')
+        
+        return (x1, x2, y)
 
 
 

@@ -174,7 +174,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>http://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -429,7 +429,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>toolsForCollectionWebServiceWsdl</name>
-					<value>http://ispyb.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
+					<value>https://ispybtest.cells.es/ispyb/ispyb-ws/ispybWS/ToolsForCollectionWebService?wsdl</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

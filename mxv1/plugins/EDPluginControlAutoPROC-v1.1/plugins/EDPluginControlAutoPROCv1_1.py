@@ -25,12 +25,15 @@ __author__ = "Olof Svensson"
 __license__ = "GPLv2+"
 __copyright__ = "ESRF"
 
+import re
 import os
 import sys
 import gzip
 import time
 import shutil
 import socket
+import matplotlib.pyplot as plt
+
 
 from EDPluginControl import EDPluginControl
 from EDHandlerESRFPyarchv1_0 import EDHandlerESRFPyarchv1_0
@@ -54,7 +57,6 @@ edFactoryPlugin.loadModule('XSDataAutoPROCv1_0')
 from XSDataAutoPROCv1_0 import XSDataAutoPROCIdentifier
 from XSDataAutoPROCv1_0 import XSDataInputAutoPROC
 
-#from XSDataControlEDNAprocv1_0 import XSDataInputControlDimple
 from XSDataControlAutoPROCv1_1 import XSDataInputControlDimpleAP
 
 edFactoryPlugin.loadModule('XSDataISPyBv1_4')
@@ -64,6 +66,7 @@ from XSDataISPyBv1_4 import AutoProcProgramAttachment
 from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
 from XSDataISPyBv1_4 import XSDataResultStoreAutoProc
+from XSDataISPyBv1_4 import XSDataInputISPyBSetImageQualityIndicatorsPlot
 
 from XSDataISPyBv1_4 import XSDataInputISPyBUpdateDataCollectionGroupComment
 
@@ -421,8 +424,6 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
                 self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
 
-            
-            # Finally run dimple
             if EDUtilsPath.isALBA():
                 image_prefix = ''
                 root_dir = ''
@@ -430,30 +431,56 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 
                 # Get the image prefix from the directory name
                 # XXX: This is horrible
-                image_prefix = ''
-                try:
-                    #image_prefix = '_'.join(os.path.basename(self.root_dir).split('_')[1:-1])
-                    image_prefix = self.pyarchDirectory.split('/')[-2]
-                except Exception:
-                    image_prefix = ''
                 
+                image_prefix = ''
+                (strBeamline, strProposal, strSessionDate, image_prefix) = self.getAlbaBeamlinePrefixFromPath(self.pyarchDirectory)
+                
+                # Create quality plot
+                # ap_p58NT-p58NT-1C10_w1_1_anom_truncate-unique.stats
+                file_stats = os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate-unique.stats".format(image_prefix))
+                if self.doNoanom or self.doAnomAndNonanom:
+                    file_stats = os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate-unique.stats".format(image_prefix))
+                
+                plot_path = self.create_quality_indicator_plot(file_stats, self.pyarchDirectory)
+                
+                # csv path not pointing to a real file (like currently in dozorv1_0)
+                csv_path, _ = os.path.splitext(plot_path)
+                csv_path +=  '.png'
+                
+                # upload the path of the quality plot to ispyb
+                xsDataInputISPyBSetImageQualityIndicatorsPlot = XSDataInputISPyBSetImageQualityIndicatorsPlot()
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.dataCollectionId = self.dataInput.dataCollectionId
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsPlotPath = XSDataString(plot_path)
+                xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsCSVPath = XSDataString(csv_path)
+                edPluginISPyBSetImageQualityIndicatorsPlot = self.loadPlugin("EDPluginISPyBSetImageQualityIndicatorsPlotv1_4")
+                edPluginISPyBSetImageQualityIndicatorsPlot.dataInput = xsDataInputISPyBSetImageQualityIndicatorsPlot
+                edPluginISPyBSetImageQualityIndicatorsPlot.executeSynchronous()
+                
+                isSuccess = not edPluginISPyBSetImageQualityIndicatorsPlot.isFailure()
+                if isSuccess:
+                    self.screen("DataCollection.imageQualitiyIndicatorsPlotPath='{0}' uploaded to ISPyB".format(plot_path))
+                else:
+                    self.screen("DataCollection.imageQualitiyIndicatorsPlotPath could not be set to '{0}' in ISPyB".format(plot_path))
+                    
+                
+                # Finally run dimple
                 xsDataInputControlDimple = XSDataInputControlDimpleAP()
                 xsDataInputControlDimple.dataCollectionId = self.dataInput.dataCollectionId
                 
                 xsDataInputControlDimple.imagePrefix = XSDataString(image_prefix)
-                xsDataInputControlDimple.proposal = XSDataString(None)
-                xsDataInputControlDimple.sessionDate = XSDataString(None)
-                xsDataInputControlDimple.beamline = XSDataString(None) # 'BL13 - XALOC'
+                xsDataInputControlDimple.proposal = XSDataString(strProposal)
+                xsDataInputControlDimple.sessionDate = XSDataString(strSessionDate)
+                xsDataInputControlDimple.beamline = XSDataString(strBeamline)
+                
                 xsDataInputControlDimple.pdbDirectory = XSDataFile(XSDataString(root_dir))
                 xsDataInputControlDimple.resultsDirectory = XSDataFile(XSDataString(self.pyarchDirectory))
                 
-                
-                if self.doAnom or self.doAnomAndNonanom:
-                    autoProcProgramId = self.autoProcProgramIdAnom
-                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate.mtz".format(image_prefix))))
-                else:
+                if self.doNoanom or self.doAnomAndNonanom:
                     autoProcProgramId = self.autoProcProgramIdNoanom
                     xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate.mtz".format(image_prefix))))
+                else:
+                    autoProcProgramId = self.autoProcProgramIdAnom
+                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate.mtz".format(image_prefix))))
                 
                 xsDataInputControlDimple.autoProcProgramId = XSDataInteger(autoProcProgramId)
                 
@@ -751,7 +778,105 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             else:
                 self.screen("Could not upload {0}{1} results to ISPyB".format(anomString, staranisoString))
 
+    
+    def getAlbaBeamlinePrefixFromPath(self, strPyarchRootPath):
+        """ALBA specific code for extracting the beamline name and prefix from the path"""
+        
+        # We expect something like this:
+        # /beamlines/ispyb/bl13/2018002222-ispybtest/20220428/p58NT-p58NT-1C10/p58NT-p58NT-1C10_w1_1/autoPROC_20221018_184150
+        beamline_names = {"bl13": "BL13 - XALOC", "bl06": "BL06 - XAIRA"}
+        
+        strBeamline = ""
+        strProposal = ""
+        strPrefix = ""
+        strSessionDate = ""
+        listPath = strPyarchRootPath.split("/")
+        if listPath[1] == "beamlines" and listPath[2] == "ispyb" and len(listPath)>7:
+            strBeamline = beamline_names[listPath[3]]
+            strProposal = listPath[4]
+            strSessionDate = listPath[5]
+            strPrefix = listPath[7]
+        else:
+            self.screen("Path '{0}' passed to getAlbaBeamlinePrefixFromPath not as expected".format(strPyarchRootPath))
+        return (strBeamline, strProposal, strSessionDate, strPrefix)
 
+
+    def create_quality_indicator_plot(self, file_stats, out_dir):
+        '''
+        Creates the I/sigma vs resolution plot, saves to the out_dir, 
+        and returns the full path of the generated image
+        '''
+
+        image_path = os.path.join(out_dir, "isigma_vs_resolution.png")
+        
+        (x1,x2,y) = self.parse_unique_stats(file_stats)
+        x_resolution = x2
+        y_isigma = y
+        #x_resolution = x1[1:]
+        #y_isigma = y[1:]
+        
+        self.screen("x_resolution: " + str(x_resolution))
+        self.screen("y_isigma: " + str(y_isigma))
+        
+        # plot
+        plt.ioff()
+        fig, ax = plt.subplots()
+
+        plt.xlabel('Resolution')
+        plt.ylabel('I/Sigma')
+        plt.title('I/Sigma vs Resolution')
+        
+        ax.xaxis.set_ticks(range(len(x_resolution)))
+        ax.xaxis.set_ticklabels(x_resolution)
+
+        plt.locator_params(axis='x', nbins=len(x_resolution)/2)
+
+        plt.xticks(rotation = 45)
+        plt.grid()
+        plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
+
+        plt.savefig(image_path, bbox_inches='tight')
+        
+        return image_path
+
+    
+    
+    def parse_unique_stats(self, file_stats):
+        '''
+        Parses the ..-unique.stats file generated by autoproc to extract the resolution (x1,x2) and the I/Sigma value
+        Returns it as a tuple (x1, x2, y)
+        '''
+        file = open(file_stats, 'r')
+        lines = file.readlines()
+  
+        header = "Resolution      #uniq     #Rfac  Rmerge   Rmeas    Rpim   #Isig  I/sigI     all     ano    all    ano CC(1/2)  #CCAno CC(ano)  SigAno"
+        header_found = False
+
+        x1 = []
+        x2 = []
+        y = []
+        for line in lines:
+            line = line.strip()
+            if line == header:
+                header_found = True
+
+            if header_found:
+                
+                #self.screen(line)
+                result = re.search(r"^(-?\d+\.\d+)[ -]+(-?\d+\.\d+)[ ]+-?\d+[ ]+-?\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+[ ]+(-?\d+\.\d+)[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+[ ]+-?\d+[ ]+-?\d+\.\d+[ ]+-?\d+\.\d+$", line)
+                if result is not None:
+                    x1.append(float(result.group(1)))
+                    x2.append(float(result.group(2)))
+                    y.append(float(result.group(3)))
+                    # self.screen(result.group(1) + " - " + result.group(2) + ": " + result.group(3))
+
+        file.close()
+        if not header_found:
+            self.screen('ERROR: Expected header {header} nof found in {file_path}')
+        
+        return (x1, x2, y)
+    
+    
     def eiger_template_to_image(self, fmt, num):
         fileNumber = int(num / 100)
         if fileNumber == 0:

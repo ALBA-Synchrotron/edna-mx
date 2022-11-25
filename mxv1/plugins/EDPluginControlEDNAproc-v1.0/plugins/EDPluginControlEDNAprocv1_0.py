@@ -1376,7 +1376,14 @@ class EDPluginControlEDNAprocv1_0(EDPluginControl):
 
             # Finally run dimple if executed at the ESRF
             if EDUtilsPath.isESRF() or EDUtilsPath.isEMBL() or EDUtilsPath.isALBA() or EDUtilsPath.isMAXIV():
-                xsDataInputControlDimple = XSDataInputControlDimple()
+                xsDataInputControlDimple = XSDataInputControlDimple()                
+                if EDUtilsPath.isALBA():
+                    (self.strBeamline, self.strProposal, self.strSessionDate, self.strPrefix) = self.getAlbaBeamlinePrefixFromPath(pyarch_path)
+                    self.screen("pyarch_path '{0}'".format(pyarch_path))
+                    self.screen("self.strBeamline '{0}'".format(self.strBeamline))
+                    self.screen("self.strProposal '{0}'".format(self.strProposal))
+                    self.screen("self.strSessionDate '{0}'".format(self.strSessionDate))
+                    self.screen("self.strPrefix '{0}'".format(self.strPrefix))
                 xsDataInputControlDimple.dataCollectionId = self.dataInput.data_collection_id
                 xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.file_conversion.dataInput.output_directory.value, "ep_{0}_anom_aimless.mtz".format(self.image_prefix))))
                 xsDataInputControlDimple.imagePrefix = XSDataString(self.image_prefix)
@@ -1491,6 +1498,27 @@ class EDPluginControlEDNAprocv1_0(EDPluginControl):
         strPrefix = listPath[-2][4:]
         return (strBeamline, strProposal, strSessionDate, strPrefix)
 
+
+    def getAlbaBeamlinePrefixFromPath(self, strPyarchRootPath):
+        """ALBA specific code for extracting the beamline name and prefix from the path"""
+        
+        # We expect something like this:
+        # /beamlines/ispyb/bl13/2018002222-ispybtest/20220428/p58NT-p58NT-1C10/p58NT-p58NT-1C10_w1_1/autoPROC_20221018_184150
+        beamline_names = {"bl13": "BL13 - XALOC", "bl06": "BL06 - XAIRA"}
+        
+        strBeamline = ""
+        strProposal = ""
+        strPrefix = ""
+        strSessionDate = ""
+        listPath = strPyarchRootPath.split("/")
+        if listPath[1] == "beamlines" and listPath[2] == "ispyb" and len(listPath)>7:
+            strBeamline = beamline_names[listPath[3]]
+            strProposal = listPath[4]
+            strSessionDate = listPath[5]
+            strPrefix = listPath[7]
+        else:
+            self.screen("Path '{0}' passed to getAlbaBeamlinePrefixFromPath not as expected".format(strPyarchRootPath))
+        return (strBeamline, strProposal, strSessionDate, strPrefix)
 
 
     def sendEmail(self, _strSubject, _strMessage):
