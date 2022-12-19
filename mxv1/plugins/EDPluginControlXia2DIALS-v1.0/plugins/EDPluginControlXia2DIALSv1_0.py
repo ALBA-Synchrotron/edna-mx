@@ -104,12 +104,15 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
 
         self.processingCommandLine = ' '.join(sys.argv)
         self.processingPrograms = "XIA2_DIALS"
-        if self.reprocess:
-            self.processingPrograms += " reprocess"
-
+        
         if self.dataInput.smallMolecule3dii is not None:
             self.smallMolecule3dii = self.dataInput.smallMolecule3dii.value
+            if self.smallMolecule3dii:
+                self.processingPrograms = "XIA2_chem"
 
+        if self.reprocess:
+            self.processingPrograms += " reprocess"
+            
         if self.dataInput.doAnomAndNonanom is not None:
             self.doAnomAndNonanom = self.dataInput.doAnomAndNonanom.value
 
@@ -505,6 +508,18 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             # Copy data files
             for dataFile in edPluginExecXia2DIALS.dataOutput.dataFiles:
                 pathToDataFile = dataFile.path.value
+                ### ADDED by SDM@ALBA
+                if self.smallMolecule3dii:
+                    if pathToDataFile.endswith("shelxt.ins") or pathToDataFile.endswith("shelxt.hkl"):
+                        pyarchFileName = self.pyarchPrefix + "_" + anomString + "_" + os.path.basename(pathToDataFile)
+                        shutil.copy(pathToDataFile, os.path.join(self.pyarchDirectory, pyarchFileName))
+                        shutil.copy(pathToDataFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                        autoProcProgramAttachment = AutoProcProgramAttachment()
+                        autoProcProgramAttachment.fileName = pyarchFileName
+                        autoProcProgramAttachment.filePath = self.pyarchDirectory
+                        autoProcProgramAttachment.fileType = "Result"
+                        autoProcProgramContainer.addAutoProcProgramAttachment(autoProcProgramAttachment)
+                ###
                 if pathToDataFile.endswith(".mtz"):
                     pyarchFileName = self.pyarchPrefix + "_" + anomString + "_" + os.path.basename(pathToDataFile)
                     shutil.copy(pathToDataFile, os.path.join(self.pyarchDirectory, pyarchFileName))
