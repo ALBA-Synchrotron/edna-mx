@@ -795,7 +795,7 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             strBeamline = beamline_names[listPath[3]]
             strProposal = listPath[4]
             strSessionDate = listPath[5]
-            strPrefix = listPath[7]
+            strPrefix = listPath[-2]
         else:
             self.screen("Path '{0}' passed to getAlbaBeamlinePrefixFromPath not as expected".format(strPyarchRootPath))
         return (strBeamline, strProposal, strSessionDate, strPrefix)
