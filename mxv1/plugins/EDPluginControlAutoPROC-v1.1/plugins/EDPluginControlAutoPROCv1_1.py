@@ -477,10 +477,10 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 
                 if self.doNoanom or self.doAnomAndNonanom:
                     autoProcProgramId = self.autoProcProgramIdNoanom
-                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate.mtz".format(image_prefix))))
+                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate-unique.mtz".format(image_prefix))))
                 else:
                     autoProcProgramId = self.autoProcProgramIdAnom
-                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate.mtz".format(image_prefix))))
+                    xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate-unique.mtz".format(image_prefix))))
                 
                 xsDataInputControlDimple.autoProcProgramId = XSDataInteger(autoProcProgramId)
                 
@@ -677,7 +677,7 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                             autoProcProgramContainer.addAutoProcProgramAttachment(autoProcProgramAttachmentPdf)
                 elif autoProcProgramAttachment.fileName == "truncate-unique.mtz":
                     pathtoFile = os.path.join(autoProcProgramAttachment.filePath, autoProcProgramAttachment.fileName)
-                    pyarchFile = self.pyarchPrefix + "_{0}_truncate.mtz".format(anomString)
+                    pyarchFile = self.pyarchPrefix + "_{0}_truncate-unique.mtz".format(anomString)
                     if self.resultsDirectory:
                         shutil.copy(pathtoFile, os.path.join(self.resultsDirectory, pyarchFile))
                     if self.pyarchDirectory is not None:
