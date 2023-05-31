@@ -114,7 +114,8 @@ class EDPluginExecReadImageHeaderPilatus6Mv10(EDPluginExec):
 #            #xsDataDetector.setDataType(            XSDataString(   dictPilatus6MHeader[ "TYPE" ] ) ) )
 #            #xsDataDetector.setByteOrder(           XSDataString(   dictPilatus6MHeader[ "BYTE_ORDER" ] ) ) )
 #            xsDataDetector.setImageSaturation(XSDataInteger(int(dictPilatus6MHeader[ "saturation_level" ])))
-            xsDataDetector.setName(XSDataString("PILATUS 6M"))
+            #xsDataDetector.setName(XSDataString("PILATUS 6M"))
+            xsDataDetector.setName(XSDataString("PILATUS3X 6M"))
             xsDataDetector.setType(XSDataString("pilatus6m"))
             xsDataExperimentalCondition.setDetector(xsDataDetector)
 
