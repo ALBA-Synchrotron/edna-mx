@@ -203,13 +203,14 @@ class EDPluginControlFileConversionv1_0(EDPluginControl):
         # and finally uniqueify
         uniqueify_in = XSDataUniqueify()
         uniqueify_in.input_file = truncate_in.output_file
-        uniqueify_out = os.path.join(self.results_dir,
-                                     self.truncate_out)
+        uniqueify_out = os.path.join(self.results_dir, self.truncate_out)
+        if EDUtilsPath.isALBA():        
+            uniqueify_out = os.path.join(self.results_dir, self.truncate_out[:-4] + '_unique.mtz')
         uniqueify_in.output_file = XSDataString(uniqueify_out)
 
         self.uniqueify.dataInput = uniqueify_in
 
-        if EDUtilsPath.isEMBL() or EDUtilsPath.isALBA():
+        if EDUtilsPath.isEMBL(): # or EDUtilsPath.isALBA():
            # GB: skipping misteriously failing uniqueify run -
            #    which is useless anyway.
            #    copying temp truncate output to results directly

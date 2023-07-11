@@ -40,6 +40,10 @@ from EDPluginISPyBv1_4 import EDPluginISPyBv1_4
 from suds.client import Client
 from suds.transport.http import HttpAuthenticated
 from suds.sax.date import DateTime
+import json
+import subprocess
+import sys
+import re
 
 from XSDataCommon import XSDataInteger
 
@@ -427,3 +431,169 @@ class EDPluginISPyBStoreAutoProcv1_4(EDPluginISPyBv1_4):
                 )
         self.DEBUG("AutoProcScalingHasIntId: %r" % iAutoProcScalingHasIntId)
         return iAutoProcScalingHasIntId
+
+
+    def storeOrUpdateAutoProcPhasingStep(self, mrMtzPath, mrPdbPath, scalingId, structureGroupName, inputPDB, phasingPrograms):
+        """Creates an entry in the ISPyB Phasing step"""
+        
+        #EDPluginISPyBv1_4.process(self)
+        self.DEBUG("EDPluginISPyBStoreAutoProcv1_4.storeOrUpdateAutoProcPhasingStep")
+        # self.screen("self.strUserName = {0}".format(self.strUserName) )
+        # self.screen("self.strPassWord = {0}".format(self.strPassWord) )
+        # self.screen("self.strToolsForAutoprocessingWebServiceWsdl = {0}".format(self.strToolsForAutoprocessingWebServiceWsdl) )
+        httpAuthenticatedToolsForAutoprocessingWebService = HttpAuthenticated(username=self.strUserName, password=self.strPassWord)
+        clientToolsForAutoprocessingWebService = Client(self.strToolsForAutoprocessingWebServiceWsdl,
+                                                        transport=httpAuthenticatedToolsForAutoprocessingWebService,
+                                                        cache=None)
+        
+        dictPhasingStep = {"scalingId": scalingId}
+        
+        mrSubDir = os.path.dirname(mrMtzPath)
+        
+        if not os.path.exists(mrPdbPath):
+            self.screen("ERROR: MR.pdb path {0} does not exist!".format(mrPdbPath))
+        elif not os.path.exists(mrPdbPath):
+            self.screen("ERROR: MR.mtz path {0} does not exist!".format(mrMtzPath))
+        else:
+            out_log, out_err = self.run_cmd(str('mtzdmp ' + mrMtzPath))
+            mtzdmp_data = self.parse_mtzdmp(out_log)
+            
+            
+            dictPhasingStep["lowRes"] = mtzdmp_data['min_resolution']
+            dictPhasingStep["highRes"] = mtzdmp_data['min_resolution']
+            spaceGroupName = mtzdmp_data['space_group']
+            spaceGroupShortName = spaceGroupName.replace(" ", "")
+            dictPhasingStep["spaceGroupShortName"] = spaceGroupShortName
+            
+            # Create PhasingStep entry
+            phasingStep = {
+                "previousPhasingStepId": None,
+                "autoProcScalingId": scalingId,
+                "phasingStepType": "PHASING",
+                "method": 'MR',
+                "solventContent": None,
+                "enantiomorph": None,
+                "lowRes": dictPhasingStep["lowRes"],
+                "highRes": dictPhasingStep["highRes"],
+                "groupName": structureGroupName,
+            }
+            spaceGroup = {
+                "spaceGroupShortName": spaceGroupShortName,
+            }
+            run = {
+                "phasingCommandLine": None,
+                "phasingPrograms": phasingPrograms,
+                "phasingStatus": None,
+                "phasingMessage": None,
+                "phasingStartTime": None,
+                "phasingEndTime": None,
+                "phasingEnvironment": None,
+                "phasingDirectory": mrSubDir,
+            }
+            attachments = [
+                {
+                    "fileType": "PDB",
+                    "fileName": os.path.basename(mrPdbPath),
+                    "filePath": mrPdbPath,
+                    "recordTimeStamp": None,
+                }, {
+                    "fileType": "Map",
+                    "fileName": os.path.basename(mrMtzPath),
+                    "filePath": mrMtzPath,
+                    "recordTimeStamp": None,
+                }
+            ]
+
+            dictInputPDB = {
+                "fileType": "PDB",
+                "fileName": os.path.basename(inputPDB),
+                "filePath": inputPDB,
+                "recordTimeStamp": None,
+                "input": 1,
+            }
+            attachments.append(dictInputPDB)
+
+            statistics = []
+
+            self.screen("storePhasingAnalysis phasingStep: {0}".format(json.dumps(phasingStep, indent=4)))
+            self.screen("storePhasingAnalysis spaceGroup: {0}".format(json.dumps(spaceGroup, indent=4)))
+            self.screen("storePhasingAnalysis run: {0}".format(json.dumps(run, indent=4)))
+            self.screen("storePhasingAnalysis attachments: {0}".format(json.dumps(attachments, indent=4)))
+            self.screen("storePhasingAnalysis statistics: {0}".format(json.dumps(statistics, indent=4)))
+            
+            
+            storePhasingAnalysisResponse = clientToolsForAutoprocessingWebService.service.storePhasingAnalysis(
+                                                                            json.dumps(phasingStep),
+                                                                            json.dumps(spaceGroup),
+                                                                            json.dumps(run),
+                                                                            json.dumps(attachments),
+                                                                            json.dumps(statistics))
+            phasingStepId = json.loads(storePhasingAnalysisResponse)["phasingStepId"]
+            
+            return phasingStepId
+
+    def run_cmd(self, command_line: str, run_dir: str = ".") -> tuple:
+        """
+        It moves to the run_dir directory (cd run_dir) and then it executes the command line
+        :param command_line: The command line to execute
+        :param run_dir: Path where the command_line will be executed from
+        :return: A tuple containing 2 strings: the stdout and the stderr
+        """
+        proc = subprocess.Popen(
+            ["cd " + run_dir + ";" + command_line],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True,
+        )
+        stdout = proc.stdout.read().decode().rstrip("\n\r") if proc.stdout else ""
+        stderr = proc.stderr.read().decode().rstrip("\n\r") if proc.stderr else ""
+        return stdout, stderr
+        
+
+
+    def parse_mtzdmp(self, mtz_output: str) -> dict:
+        mtz_data = {}
+        
+        # * Space group = 'P 43 21 2' (number     96)
+        sg_match = re.search(r"\*\sSpace\sgroup\s=\s\'(P.+)\'.+", mtz_output)
+        if sg_match:
+            sg = sg_match.group(1)
+            sg_short = sg.replace(" ", "")
+            mtz_data['space_group'] = sg_short 
+        else:
+            self.screen("ERROR: Space groupt not found in mtzdmp output!")
+            
+        
+        #*  Resolution Range :
+        #
+        #0.00032    0.75996     (     56.017 -      1.147 A )
+        resolution_match = re.search(r"\*\s+Resolution\sRange\s*:\n\s*\n\s*(\d+\.?\d+)\s+(\d+\.?\d+)\s+\(\s+(\d+\.?\d+)\s+\-\s+(\d+\.?\d+)\s+A\s*\).*", mtz_output)
+        if sg_match:
+            
+            print(f"resolution_match = {resolution_match}")
+            # Reciprocal space
+            reciproc_min = resolution_match.group(1)
+            reciproc_max = resolution_match.group(2)
+            
+            # Real space
+            directe_min = resolution_match.group(3)
+            directe_max = resolution_match.group(4)
+            mtz_data['reciprocal_min_resolution'] = reciproc_min
+            mtz_data['reciprocal_max_resolution'] = reciproc_max    
+            mtz_data['min_resolution'] = directe_min
+            mtz_data['max_resolution'] = directe_max
+            
+        else:
+            print("ERROR: Space groupt not found in mtzdmp output!")
+        
+        sg_match = re.search(r"\*\sSpace\sgroup\s=\s\'(P.+)\'.+", mtz_output)
+        if sg_match:
+            sg = sg_match.group(1)
+            sg_short = sg.replace(" ", "")
+            mtz_data['space_group'] = sg_short 
+        else:
+            self.screen("ERROR: Space groupt not found in mtzdmp output!")
+
+        
+        return mtz_data

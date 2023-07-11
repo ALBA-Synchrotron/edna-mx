@@ -21,7 +21,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__author__ = "Olof Svensson"
+__author__ = "Emilio Centeno Ortiz"
 __license__ = "GPLv2+"
 __copyright__ = "ESRF"
 
@@ -32,7 +32,7 @@ import gzip
 import time
 import shutil
 import socket
-import matplotlib.pyplot as plt
+import traceback
 
 
 from EDPluginControl import EDPluginControl
@@ -61,7 +61,10 @@ from XSDataControlAutoPROCv1_1 import XSDataInputControlDimpleAP
 
 edFactoryPlugin.loadModule('XSDataISPyBv1_4')
 # plugin input/output
-from XSDataISPyBv1_4 import AutoProcContainer
+from XSDataISPyBv1_4 import AutoProcContainer, AutoProc, AutoProcScalingContainer
+from XSDataISPyBv1_4 import AutoProcScaling, AutoProcScalingStatistics
+from XSDataISPyBv1_4 import AutoProcIntegrationContainer, AutoProcIntegration
+from XSDataISPyBv1_4 import AutoProcProgramContainer, AutoProcProgram
 from XSDataISPyBv1_4 import AutoProcProgramAttachment
 from XSDataISPyBv1_4 import XSDataInputRetrieveDataCollection
 from XSDataISPyBv1_4 import XSDataInputStoreAutoProc
@@ -75,6 +78,9 @@ from XSDataMXWaitFilev1_1 import XSDataInputMXWaitFile
 
 edFactoryPlugin.loadModule("XSDataHTML2PDFv1_0")
 from XSDataHTML2PDFv1_0 import XSDataInputHTML2PDF
+
+from matplotlib import pyplot as plt
+
 
 class EDPluginControlAutoPROCv1_1(EDPluginControl):
     """
@@ -344,26 +350,26 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             # Set ISPyB to running
             if self.doAnom:
                 self.autoProcIntegrationIdAnom, self.autoProcProgramIdAnom = \
-                  EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
+                    EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
                                                              processingCommandLine=self.processingCommandLine,
                                                              processingPrograms=self.processingProgram,
                                                              isAnom=True,
                                                              timeStart=self.timeStart)
                 self.autoProcIntegrationIdAnomStaraniso, self.autoProcProgramIdAnomStaraniso = \
-                  EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
+                    EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
                                                              processingCommandLine=self.processingCommandLine,
                                                              processingPrograms=self.processingProgramStaraniso,
                                                              isAnom=True,
                                                              timeStart=self.timeStart)
             if self.doNoanom:
                 self.autoProcIntegrationIdNoanom, self.autoProcProgramIdNoanom = \
-                  EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
+                    EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
                                                              processingCommandLine=self.processingCommandLine,
                                                              processingPrograms=self.processingProgram,
                                                              isAnom=False,
                                                              timeStart=self.timeStart)
                 self.autoProcIntegrationIdNoanomStaraniso, self.autoProcProgramIdNoanomStaraniso = \
-                  EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
+                    EDHandlerXSDataISPyBv1_4.setIspybToRunning(self, dataCollectionId=self.dataInput.dataCollectionId.value,
                                                              processingCommandLine=self.processingCommandLine,
                                                              processingPrograms=self.processingProgramStaraniso,
                                                              isAnom=False,
@@ -417,12 +423,17 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
 
         if self.dataInput.dataCollectionId is not None:
             # Upload to ISPyB
+            
+            edPluginStoreAutoprocAnom = None
+            edPluginStoreAutoprocAnomStaraniso = None
+            edPluginStoreAutoprocNoanom = None
+            edPluginStoreAutoprocNoanomStaraniso = None
             if self.doAnom:
-                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
-                self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
+                edPluginStoreAutoprocAnom = self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, False, proposal, timeStart, timeEnd)
+                edPluginStoreAutoprocAnomStaraniso = self.uploadToISPyB(self.edPluginExecAutoPROCAnom, True, True, proposal, timeStart, timeEnd)
             if self.doNoanom:
-                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
-                self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
+                edPluginStoreAutoprocNoanom = self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, False, proposal, timeStart, timeEnd)
+                edPluginStoreAutoprocNoanomStaraniso = self.uploadToISPyB(self.edPluginExecAutoPROCNoanom, False, True, proposal, timeStart, timeEnd)
 
             if EDUtilsPath.isALBA():
                 image_prefix = ''
@@ -431,7 +442,6 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 
                 # Get the image prefix from the directory name
                 # XXX: This is horrible
-                
                 image_prefix = ''
                 (strBeamline, strProposal, strSessionDate, image_prefix) = self.getAlbaBeamlinePrefixFromPath(self.pyarchDirectory)
                 
@@ -440,12 +450,15 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 file_stats = os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate-unique.stats".format(image_prefix))
                 if self.doNoanom or self.doAnomAndNonanom:
                     file_stats = os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate-unique.stats".format(image_prefix))
-                
+                self.screen("file_stats = {0}".format(file_stats))
+                self.screen("self.pyarchDirectory = {0}".format(self.pyarchDirectory))
                 plot_path = self.create_quality_indicator_plot(file_stats, self.pyarchDirectory)
+                self.screen("quality indicator plot created")
                 
                 # csv path not pointing to a real file (like currently in dozorv1_0)
                 csv_path, _ = os.path.splitext(plot_path)
                 csv_path +=  '.png'
+                self.screen("csv_path = {0}".format(csv_path))
                 
                 # upload the path of the quality plot to ispyb
                 xsDataInputISPyBSetImageQualityIndicatorsPlot = XSDataInputISPyBSetImageQualityIndicatorsPlot()
@@ -454,6 +467,7 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 xsDataInputISPyBSetImageQualityIndicatorsPlot.imageQualityIndicatorsCSVPath = XSDataString(csv_path)
                 edPluginISPyBSetImageQualityIndicatorsPlot = self.loadPlugin("EDPluginISPyBSetImageQualityIndicatorsPlotv1_4")
                 edPluginISPyBSetImageQualityIndicatorsPlot.dataInput = xsDataInputISPyBSetImageQualityIndicatorsPlot
+                self.screen("Trying to upload the quality indicator plot...")
                 edPluginISPyBSetImageQualityIndicatorsPlot.executeSynchronous()
                 
                 isSuccess = not edPluginISPyBSetImageQualityIndicatorsPlot.isFailure()
@@ -461,7 +475,6 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                     self.screen("DataCollection.imageQualitiyIndicatorsPlotPath='{0}' uploaded to ISPyB".format(plot_path))
                 else:
                     self.screen("DataCollection.imageQualitiyIndicatorsPlotPath could not be set to '{0}' in ISPyB".format(plot_path))
-                    
                 
                 # Finally run dimple
                 xsDataInputControlDimple = XSDataInputControlDimpleAP()
@@ -475,15 +488,22 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 xsDataInputControlDimple.pdbDirectory = XSDataFile(XSDataString(root_dir))
                 xsDataInputControlDimple.resultsDirectory = XSDataFile(XSDataString(self.pyarchDirectory))
                 
+                autoProcIntegrationId = self.autoProcIntegrationIdNoanom
+                edPluginStoreAutoproc = None
+                anomString = ""
                 if self.doNoanom or self.doAnomAndNonanom:
                     autoProcProgramId = self.autoProcProgramIdNoanom
                     xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_noanom_truncate-unique.mtz".format(image_prefix))))
+                    edPluginStoreAutoproc = edPluginStoreAutoprocNoanom
+                    anomString = "noanom"
                 else:
                     autoProcProgramId = self.autoProcProgramIdAnom
+                    autoProcIntegrationId = self.autoProcIntegrationIdNoanom
                     xsDataInputControlDimple.mtzFile = XSDataFile(XSDataString(os.path.join(self.pyarchDirectory, "ap_{0}_anom_truncate-unique.mtz".format(image_prefix))))
+                    edPluginStoreAutoproc = edPluginStoreAutoprocAnom
+                    anomString = "anom"
                 
                 xsDataInputControlDimple.autoProcProgramId = XSDataInteger(autoProcProgramId)
-                
                 
                 if self.pyarchDirectory is not None:
                     xsDataInputControlDimple.pyarchPath = XSDataFile(XSDataString(self.pyarchDirectory))
@@ -501,6 +521,19 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                         self.edPluginISPyBUpdateDataCollectionGroupComment.dataInput = xsDataInput
                         self.executePluginSynchronous(self.edPluginISPyBUpdateDataCollectionGroupComment)
 
+                # try to upload the phasing info
+                #-------------------------------
+                # ap_Lys-test04_1_dimple.mtz
+                phasingPrograms = "DIMPLE"
+                structureGroupName = ""
+                inputPDB = edPluginControlRunDimple.strPdbPath
+                mrMtzPath = os.path.join(self.pyarchDirectory,'ap_{0}_dimple.mtz'.format(image_prefix))
+                mrPdbPath = os.path.join(self.pyarchDirectory,'ap_{0}_dimple.pdb'.format(image_prefix))
+                if edPluginStoreAutoproc.iAutoProcScalingId is not None:
+                    scalingId = edPluginStoreAutoproc.iAutoProcScalingId 
+                    edPluginStoreAutoproc.storeOrUpdateAutoProcPhasingStep(mrMtzPath, mrPdbPath, scalingId, structureGroupName, inputPDB, phasingPrograms)
+                else:
+                    self.screen("No autoproc scaling id. No PhasingStep stored in ISPyB")
 
 
     def finallyProcess(self, _edObject=None):
@@ -575,6 +608,9 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             staranisoString = "_staraniso"
         else:
             staranisoString = ""
+        
+        ids = {}
+        
         # Read the generated ISPyB xml file
         pathToISPyBXML = None
         if isStaraniso:
@@ -586,6 +622,14 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             autoProcContainer = AutoProcContainer.parseFile(pathToISPyBXML)
             # "Fix" certain entries in the ISPyB xml file
             autoProcScalingContainer = autoProcContainer.AutoProcScalingContainer
+            
+            # ALBA
+            if EDUtilsPath.isALBA():
+                self.screen("pathToISPyBXML is {0}".format(pathToISPyBXML))
+                scaling = AutoProcScaling()
+                scaling.recordTimeStamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                autoProcScalingContainer.AutoProcScaling = scaling
+            
             for autoProcScalingStatistics in autoProcScalingContainer.AutoProcScalingStatistics:
                 if isAnom:
                     autoProcScalingStatistics.anomalous = True
@@ -759,12 +803,24 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             # Upload the xml to ISPyB
             xsDataInputStoreAutoProc = XSDataInputStoreAutoProc()
             xsDataInputStoreAutoProc.AutoProcContainer = autoProcContainer
-            edPluginStoreAutoprocAnom = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4", "ISPyBStoreAutoProcv1_4_{0}{1}".format(anomString, staranisoString))
-            edPluginStoreAutoprocAnom.dataInput = xsDataInputStoreAutoProc
-            edPluginStoreAutoprocAnom.executeSynchronous()
-            isSuccess = not edPluginStoreAutoprocAnom.isFailure()
+            edPluginStoreAutoproc = self.loadPlugin("EDPluginISPyBStoreAutoProcv1_4", "ISPyBStoreAutoProcv1_4_{0}{1}".format(anomString, staranisoString))
+            edPluginStoreAutoproc.dataInput = xsDataInputStoreAutoProc
+            edPluginStoreAutoproc.executeSynchronous()
+            isSuccess = not edPluginStoreAutoproc.isFailure()
             if isSuccess:
                 self.screen("{0}{1} results uploaded to ISPyB".format(anomString, staranisoString))
+                
+                if edPluginStoreAutoproc.iAutoProcId is not None: ids['autoProcId'] = edPluginStoreAutoproc.iAutoProcId
+                if edPluginStoreAutoproc.iAutoProcProgramId is not None: ids['autoProcProgramId'] = edPluginStoreAutoproc.iAutoProcProgramId
+                if edPluginStoreAutoproc.iAutoProcScalingId is not None: ids['autoProcScalingId'] = edPluginStoreAutoproc.iAutoProcScalingId
+                if edPluginStoreAutoproc.iAutoProcScalingHasIntId is not None: ids['autoProcScalingHasIntId'] = edPluginStoreAutoproc.iAutoProcScalingHasIntId
+        
+                self.screen("edPluginStoreAutoproc.iAutoProcId = {0}".format(edPluginStoreAutoproc.iAutoProcId))
+                self.screen("edPluginStoreAutoproc.iAutoProcProgramId = {0}".format(edPluginStoreAutoproc.iAutoProcProgramId))
+                self.screen("edPluginStoreAutoproc.iAutoProcScalingId = {0}".format(edPluginStoreAutoproc.iAutoProcScalingId))
+                self.screen("edPluginStoreAutoproc.iAutoProcScalingHasIntId = {0}".format(edPluginStoreAutoproc.iAutoProcScalingHasIntId))
+                self.screen("ids = {0}".format(ids))
+                
                 if isAnom:
                     if isStaraniso:
                         self.hasUploadedAnomStaranisoResultsToISPyB = True
@@ -777,7 +833,9 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                         self.hasUploadedNoanomResultsToISPyB = True
             else:
                 self.screen("Could not upload {0}{1} results to ISPyB".format(anomString, staranisoString))
-
+                
+        #return ids
+        return edPluginStoreAutoproc
     
     def getAlbaBeamlinePrefixFromPath(self, strPyarchRootPath):
         """ALBA specific code for extracting the beamline name and prefix from the path"""
@@ -808,35 +866,40 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
         '''
 
         image_path = os.path.join(out_dir, "isigma_vs_resolution.png")
-        
-        (x1,x2,y) = self.parse_unique_stats(file_stats)
-        x_resolution = x2
-        y_isigma = y
-        #x_resolution = x1[1:]
-        #y_isigma = y[1:]
-        
-        self.screen("x_resolution: " + str(x_resolution))
-        self.screen("y_isigma: " + str(y_isigma))
-        
-        # plot
-        plt.ioff()
-        fig, ax = plt.subplots()
+        try:
+            self.screen("image_path: " + str(image_path))
+            
+            (x1,x2,y) = self.parse_unique_stats(file_stats)
+            x_resolution = x2
+            y_isigma = y
+            #x_resolution = x1[1:]
+            #y_isigma = y[1:]
+            
+            self.screen("x_resolution: " + str(x_resolution))
+            self.screen("y_isigma: " + str(y_isigma))
+            
+            plt.ioff()
+            #fig, ax = plt.subplots(1, 1)
+            fig, ax = plt.subplots()
+            plt.xlabel('Resolution')
+            plt.ylabel('I/Sigma')
+            plt.title('I/Sigma vs Resolution')
+            
+            ax.xaxis.set_ticks(range(len(x_resolution)))
+            ax.xaxis.set_ticklabels(x_resolution)
+            
+            plt.locator_params(axis='x', nbins=len(x_resolution)/2)
+            
+            plt.xticks(rotation = 45)
+            plt.grid()
+            
+            plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
+            plt.savefig(image_path, bbox_inches='tight')
+        except Exception:
+            ex_message = traceback.print_exc()
+            self.screen("ERROR with matplotlib.pyplot: " + str(ex_message))
 
-        plt.xlabel('Resolution')
-        plt.ylabel('I/Sigma')
-        plt.title('I/Sigma vs Resolution')
-        
-        ax.xaxis.set_ticks(range(len(x_resolution)))
-        ax.xaxis.set_ticklabels(x_resolution)
-
-        plt.locator_params(axis='x', nbins=len(x_resolution)/2)
-
-        plt.xticks(rotation = 45)
-        plt.grid()
-        plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
-
-        plt.savefig(image_path, bbox_inches='tight')
-        
+            
         return image_path
 
     

@@ -93,12 +93,20 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
         # we need a PDB file either in ispyb or in the image directory
         edPluginGetPdbFile = self.loadPlugin("EDPluginISPyBGetPdbFilePathv1_4")
         xsDataInputGetPdbFilePath = XSDataInputISPyBGetPdbFilePath()
+        
+        self.screen("*********DIMPLE")
+        self.screen("* self.dataInput.dataCollectionId = {0}".format(self.dataInput.dataCollectionId))
+        self.screen("* self.dataInput.mtzFile.path.value = {0}".format(self.dataInput.mtzFile.path.value))
+        
+        
         xsDataInputGetPdbFilePath.dataCollectionId = self.dataInput.dataCollectionId
         edPluginGetPdbFile.dataInput = xsDataInputGetPdbFilePath
         edPluginGetPdbFile.executeSynchronous()
         xsDataFilePdb = edPluginGetPdbFile.dataOutput.pdbFilePath
-        if xsDataFilePdb is None or \
-           not os.path.exists(xsDataFilePdb.value):
+        
+        self.screen("* xsDataFilePdb.value = {0}".format(xsDataFilePdb.value))
+        self.screen("*******************")
+        if xsDataFilePdb is None or not os.path.exists(xsDataFilePdb.value):
             xsDataFilePdbDirectory = self.dataInput.pdbDirectory
             if xsDataFilePdbDirectory is None:
                 self.screen('No pdb file in ispyb')
@@ -194,32 +202,32 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
             for xsDataFileBlob in xsDataResultDimple.blob:
                 # Copy blob file to pyarch
                 strBlobName = os.path.basename(xsDataFileBlob.path.value).split(".")[0]
-                strTargetFileName = "ep_%s_%s_dimple.png" % (strImagePrefix, strBlobName)
+                strTargetFileName = "ap_%s_%s_dimple.png" % (strImagePrefix, strBlobName)
                 strTargetPath = os.path.join(strResultDir, strTargetFileName)
                 shutil.copyfile(xsDataFileBlob.path.value, strTargetPath)
                 listOfTargetPaths.append(strTargetPath)
             # Log file
-            strTargetLogPath = os.path.join(strResultDir, "ep_%s_dimple.log" % strImagePrefix)
+            strTargetLogPath = os.path.join(strResultDir, "ap_%s_dimple.log" % strImagePrefix)
             shutil.copyfile(xsDataResultDimple.log.path.value, strTargetLogPath)
             listOfTargetPaths.append(strTargetLogPath)
             # Final MTZ file
-            strTargetFinalMtzPath = os.path.join(strResultDir, "ep_%s_dimple.mtz" % strImagePrefix)
+            strTargetFinalMtzPath = os.path.join(strResultDir, "ap_%s_dimple.mtz" % strImagePrefix)
             shutil.copyfile(xsDataResultDimple.finalMtz.path.value, strTargetFinalMtzPath)
             listOfTargetPaths.append(strTargetFinalMtzPath)
             # Final PDB file
-            strTargetFinalPdbPath = os.path.join(strResultDir, "ep_%s_dimple.pdb" % strImagePrefix)
+            strTargetFinalPdbPath = os.path.join(strResultDir, "ap_%s_dimple.pdb" % strImagePrefix)
             shutil.copyfile(xsDataResultDimple.finalPdb.path.value, strTargetFinalPdbPath)
             listOfTargetPaths.append(strTargetFinalPdbPath)
             # Findblobs log file
-            strTargetFindBlobsLogPath = os.path.join(strResultDir, "ep_%s_findblobs_dimple.log" % strImagePrefix)
+            strTargetFindBlobsLogPath = os.path.join(strResultDir, "ap_%s_findblobs_dimple.log" % strImagePrefix)
             shutil.copyfile(xsDataResultDimple.findBlobsLog.path.value, strTargetFindBlobsLogPath)
             listOfTargetPaths.append(strTargetFindBlobsLogPath)
             # Refmac5_restr log file
-            strTargetRefmac5restrLogPath = os.path.join(strResultDir, "ep_%s_refmac5restr_dimple.log" % strImagePrefix)
+            strTargetRefmac5restrLogPath = os.path.join(strResultDir, "ap_%s_refmac5restr_dimple.log" % strImagePrefix)
             shutil.copyfile(xsDataResultDimple.refmac5restrLog.path.value, strTargetRefmac5restrLogPath)
             listOfTargetPaths.append(strTargetRefmac5restrLogPath)
             # Result PDF file
-            strTargetPdfPath = os.path.join(strResultDir, "ep_%s_results_dimple.pdf" % strImagePrefix)
+            strTargetPdfPath = os.path.join(strResultDir, "ap_%s_results_dimple.pdf" % strImagePrefix)
             shutil.copyfile(strPdfFile, strTargetPdfPath)
             listOfTargetPaths.append(strTargetPdfPath)
         return listOfTargetPaths
@@ -230,7 +238,7 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
         if not os.path.exists(strHtmlPath):
             os.makedirs(strHtmlPath, 0o755)
         strSample = "_".join(strImagePrefix.split("_")[0:-1])
-        strHtmlFileName = "ep_%s_index.html" % strImagePrefix
+        strHtmlFileName = "ap_%s_index.html" % strImagePrefix
         strPath = os.path.join(strHtmlPath, strHtmlFileName)
         page = markupv1_10.page(mode='loose_html')
         # Title and footer
@@ -257,10 +265,10 @@ class EDPluginControlRunDimpleAPv1_0(EDPluginControl):
         for xsDataFileBlob in xsDataResultDimple.blob:
             # Copy blob file to html directory
             strBlobName = os.path.basename(xsDataFileBlob.path.value).split(".")[0]
-            strBlobImage = "ep_%s_%s_dimple.png" % (strImagePrefix, strBlobName)
+            strBlobImage = "ap_%s_%s_dimple.png" % (strImagePrefix, strBlobName)
             strTargetPath = os.path.join(strHtmlPath, strBlobImage)
             shutil.copyfile(xsDataFileBlob.path.value, strTargetPath)
-            strPageBlobPath = os.path.join(strHtmlPath, "ep_%s_%s_dimple.html" % (strImagePrefix, strBlobName))
+            strPageBlobPath = os.path.join(strHtmlPath, "ap_%s_%s_dimple.html" % (strImagePrefix, strBlobName))
             pageBlob = markupv1_10.page()
             pageBlob.init(title=strBlobName,
                            footer="Generated on %s" % time.asctime())
