@@ -368,7 +368,7 @@ class EDPluginControlAutoPROCv1_0(EDPluginControl):
             xsDataInputAutoPROCAnom.highResolutionLimit = self.dataInput.highResolutionLimit
         if self.doNoanom:
             xsDataInputAutoPROCNoanom = XSDataInputAutoPROC()
-            xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(True)
+            xsDataInputAutoPROCNoanom.anomalous = XSDataBoolean(False)
             xsDataInputAutoPROCNoanom.symm = self.dataInput.symm
             xsDataInputAutoPROCNoanom.cell = self.dataInput.cell
             xsDataInputAutoPROCNoanom.lowResolutionLimit = self.dataInput.lowResolutionLimit
