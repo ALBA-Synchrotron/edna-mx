@@ -339,7 +339,7 @@ class EDPluginControlReadImageHeaderv10(EDPluginControl):
             pyFile.seek(0, 0)
             for iIndex in range(21):
                 strLine = pyFile.readline()
-                if strLine.find("Detector: PILATUS 6M") != -1 or strLine.find("Detector: PILATUS3 6M") != -1 or strLine.find("Detector: PILATUS3X 6M") != -1:
+                if strLine.find("Detector: PILATUS 6M") != -1 or strLine.find("Detector: PILATUS3 6M") != -1 or strLine.find("Detector: PILATUS3X 6M") != -1 or strLine.find("Detector: PILATUS3 X_6M") != -1:
                     bIsPilatus6MFormat = True
             pyFile.close()
         return bIsPilatus6MFormat

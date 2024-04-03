@@ -272,8 +272,12 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
             self.pyarchDirectory = self.pyarchDirectory.replace('PROCESSED_DATA', 'RAW_DATA')
             if not os.path.exists(self.pyarchDirectory):
                 try:
+                    self.screen("Trying to create {0} with permissions 0o755".format(self.pyarchDirectory))
                     os.makedirs(self.pyarchDirectory, 0o755)
-                except:
+                except Exception as pyarch_exception:
+                    self.ERROR("Can not create '{0}' with permissions 0o755".format(self.pyarchDirectory))
+                    self.ERROR("'{0}' exception:".format(type(pyarch_exception)))
+                    self.ERROR("Error message: '{0}'".format(pyarch_exception))
                     self.pyarchDirectory = None
 
         # The resultsDirectory is not used at ALBA (only pyarchDirectory)

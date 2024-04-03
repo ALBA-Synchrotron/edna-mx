@@ -27,6 +27,7 @@ __copyright__ = "ESRF"
 
 import os
 import time
+import math
 #import xmlrpclib
 from xmlrpc import client
 
@@ -300,7 +301,7 @@ class EDPluginControlDozorv1_1(EDPluginControl):
         line_number_of = self.dataInput.line_number_of.value
 
         if line_number_of == 1:
-            line_number_of = last_image_number / 60
+            line_number_of = int(math.ceil(last_image_number / 60))
 
         reversing_rotation = self.dataInput.reversing_rotation.value
  

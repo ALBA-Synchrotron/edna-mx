@@ -70,12 +70,15 @@ class EDPluginMXWaitFilev1_1(EDPluginExec):
             if xsDataInputMXWaitFile.timeOut is None:
                 configTimeOut = self.config.get(EDPlugin.CONF_TIME_OUT)
                 if configTimeOut is not None:
-                    self.timeOut = float(configTimeOut)
+                    #self.timeOut = float(configTimeOut) # ACT commented
+                    self.timeOut = 60 # ACT added
                     self.DEBUG("Using configured timeout = %.1f s" % self.timeOut)
                 else:
+                    self.timeOut = 60 # ACT addedro
                     self.DEBUG("Using default timeout = %.1f s" % self.timeOut)
             else:
-                self.timeOut = xsDataInputMXWaitFile.timeOut.value
+                # self.timeOut = xsDataInputMXWaitFile.timeOut.value # ACT commented
+                self.timeOut = 60 # ACT added
                 self.DEBUG("Using timeout = %.1f s from input" % self.timeOut)
             # Set plugin timout to 60 s more in order to avoid EDPlugin timeout
             self.setTimeOut(self.timeOut + 60.0)

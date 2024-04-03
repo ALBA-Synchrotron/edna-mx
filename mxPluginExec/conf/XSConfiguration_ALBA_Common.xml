@@ -708,7 +708,8 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/share/GPhL/autoPROC_snapshot_20200206/autoPROC/bin/linux64/process</value>
+					<!-- <value>/mnt/hpcsoftware/share/GPhL/autoPROC_snapshot_20200206/autoPROC/bin/linux64/process</value> -->
+                    <value>/mnt/hpcsoftware/share/GPhL/EDNA_AutoPROC/autoPROC/bin/linux64/process</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
