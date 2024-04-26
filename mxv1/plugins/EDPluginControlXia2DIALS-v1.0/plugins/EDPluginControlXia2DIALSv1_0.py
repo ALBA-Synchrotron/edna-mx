@@ -107,7 +107,9 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
         
         if self.dataInput.smallMolecule3dii is not None:
             self.smallMolecule3dii = self.dataInput.smallMolecule3dii.value
-            if self.smallMolecule3dii:
+            self.screen("******type(self.smallMolecule3dii) = " + str(type(self.smallMolecule3dii)))
+            self.screen("******str(self.smallMolecule3dii).lower() = " + str(self.smallMolecule3dii).lower())
+            if str(self.smallMolecule3dii).lower() == 'true':
                 self.processingPrograms = "XIA2_chem"
 
         if self.reprocess:
@@ -186,14 +188,14 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
 #            imageNoEnd = 20
             pathToStartImage = os.path.join(directory, ispybDataCollection.fileTemplate % imageNoStart)
             pathToEndImage = os.path.join(directory, ispybDataCollection.fileTemplate % imageNoEnd)
-#        else:
-#            directory = self.dataInput.dirN.value
-#            template = self.dataInput.templateN.value
-#            imageNoStart = self.dataInput.fromN.value
-#            imageNoEnd = self.dataInput.toN.value
-#            fileTemplate = template.replace("####", "%04d")
-#            pathToStartImage = os.path.join(directory, fileTemplate % imageNoStart)
-#            pathToEndImage = os.path.join(directory, fileTemplate % imageNoEnd)
+        else:
+            directory = self.dataInput.dirN.value
+            template = self.dataInput.templateN.value
+            imageNoStart = self.dataInput.fromN.value
+            imageNoEnd = self.dataInput.toN.value
+            fileTemplate = template.replace("####", "%04d")
+            pathToStartImage = os.path.join(directory, fileTemplate % imageNoStart)
+            pathToEndImage = os.path.join(directory, fileTemplate % imageNoEnd)
 
         # Try to get proposal from path
         if EDUtilsPath.isESRF():
@@ -225,14 +227,24 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             processDirectory = directory.replace("RAW_DATA", "PROCESSED_DATA")
 
         # Make results directory
-        self.resultsDirectory = os.path.join(processDirectory, "results")
-        if not os.path.exists(self.resultsDirectory):
-            os.makedirs(self.resultsDirectory, 0o755)
+        # self.resultsDirectory = os.path.join(processDirectory, "results")
+        # if not os.path.exists(self.resultsDirectory):
+        #    os.makedirs(self.resultsDirectory, 0o755)
+        # Make results directory
+        if EDUtilsPath.isALBA():
+            _processDirectory = "_".join(pathToStartImage.split('_')[:-1])
+            from datetime import datetime
+            _id = datetime.now().strftime('%Y%m%d_%H%M%S')
+            self.resultsDirectory = os.path.join(_processDirectory, self.processingPrograms + "_" + _id)
+        else:
+            self.resultsDirectory = os.path.join(processDirectory, self.processingPrograms + "_results")
+            if not os.path.exists(self.resultsDirectory):
+                os.makedirs(self.resultsDirectory, 0o755)
 
         # Create path to pyarch
         if self.dataInput.reprocess is not None and self.dataInput.reprocess.value:
             self.pyarchDirectory = EDHandlerESRFPyarchv1_0.createPyarchReprocessDirectoryPath(beamline,
-                "XIA2_DIALS", self.dataInput.dataCollectionId.value)
+                self.processingPrograms, self.dataInput.dataCollectionId.value)
         else:
             self.pyarchDirectory = EDHandlerESRFPyarchv1_0.createPyarchFilePath(self.resultsDirectory)
         if self.pyarchDirectory is not None:
@@ -243,9 +255,22 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 except:
                     self.pyarchDirectory = None
 
+        # The resultsDirectory is not used at ALBA (only pyarchDirectory)
+        if EDUtilsPath.isALBA():
+            self.resultsDirectory = None
+
         # Determine pyarch prefix
-        listPrefix = template.split("_")
-        self.pyarchPrefix = "di_{0}_run{1}".format(listPrefix[-3], listPrefix[-2])
+        if EDUtilsPath.isALBA():
+            listPrefix = template.split("_")
+            self.pyarchPrefix = "di_{0}_{1}".format("_".join(listPrefix[:-2]),
+                                                       listPrefix[-2])
+        else:
+            listPrefix = template.split("_")
+            self.pyarchPrefix = "di_{0}_run{1}".format(listPrefix[-3], listPrefix[-2])
+
+        # Determine pyarch prefix
+        # listPrefix = template.split("_")
+        # self.pyarchPrefix = "di_{0}_run{1}".format(listPrefix[-3], listPrefix[-2])
 
         isH5 = False
         if any(beamline in pathToStartImage for beamline in ["id30b"]):
@@ -464,7 +489,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 pathToLogFile = edPluginExecXia2DIALS.dataOutput.logFile.path.value
                 pyarchFileName = self.pyarchPrefix + "_" + anomString + "_xia2.log"
                 shutil.copy(pathToLogFile, os.path.join(self.pyarchDirectory, pyarchFileName))
-                shutil.copy(pathToLogFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                if self.resultsDirectory:
+                    shutil.copy(pathToLogFile, os.path.join(self.resultsDirectory, pyarchFileName))
                 autoProcProgramAttachment = AutoProcProgramAttachment()
                 autoProcProgramAttachment.fileName = pyarchFileName
                 autoProcProgramAttachment.filePath = self.pyarchDirectory
@@ -475,7 +501,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 pathToSummaryFile = edPluginExecXia2DIALS.dataOutput.summary.path.value
                 pyarchFileName = self.pyarchPrefix + "_" + anomString + "_xia2-summary.log"
                 shutil.copy(pathToSummaryFile, os.path.join(self.pyarchDirectory, pyarchFileName))
-                shutil.copy(pathToSummaryFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                if self.resultsDirectory:
+                    shutil.copy(pathToSummaryFile, os.path.join(self.resultsDirectory, pyarchFileName))
                 autoProcProgramAttachment = AutoProcProgramAttachment()
                 autoProcProgramAttachment.fileName = pyarchFileName
                 autoProcProgramAttachment.filePath = self.pyarchDirectory
@@ -486,7 +513,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 pathToHtmlFile = edPluginExecXia2DIALS.dataOutput.htmlFile.path.value
                 pyarchFileName = self.pyarchPrefix + "_" + anomString + "_xia2.html"
                 shutil.copy(pathToHtmlFile, os.path.join(self.pyarchDirectory, pyarchFileName))
-                shutil.copy(pathToHtmlFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                if self.resultsDirectory:
+                    shutil.copy(pathToHtmlFile, os.path.join(self.resultsDirectory, pyarchFileName))
                 autoProcProgramAttachment = AutoProcProgramAttachment()
                 autoProcProgramAttachment.fileName = pyarchFileName
                 autoProcProgramAttachment.filePath = self.pyarchDirectory
@@ -497,7 +525,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 pathToLogFile = logFile.path.value
                 pyarchFileName = self.pyarchPrefix + "_" + anomString + "_" + os.path.basename(pathToLogFile)
                 # Copy all log files to results:
-                shutil.copy(pathToLogFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                if self.resultsDirectory:
+                    shutil.copy(pathToLogFile, os.path.join(self.resultsDirectory, pyarchFileName))
                 # Only copy .log files to pyarch
                 if pathToLogFile.endswith(".log"):
                     shutil.copy(pathToLogFile, os.path.join(self.pyarchDirectory, pyarchFileName))
@@ -514,7 +543,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                     if pathToDataFile.endswith("shelxt.ins") or pathToDataFile.endswith("shelxt.hkl"):
                         pyarchFileName = self.pyarchPrefix + "_" + anomString + "_" + os.path.basename(pathToDataFile)
                         shutil.copy(pathToDataFile, os.path.join(self.pyarchDirectory, pyarchFileName))
-                        shutil.copy(pathToDataFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                        if self.resultsDirectory:
+                            shutil.copy(pathToDataFile, os.path.join(self.resultsDirectory, pyarchFileName))
                         autoProcProgramAttachment = AutoProcProgramAttachment()
                         autoProcProgramAttachment.fileName = pyarchFileName
                         autoProcProgramAttachment.filePath = self.pyarchDirectory
@@ -524,7 +554,8 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
                 if pathToDataFile.endswith(".mtz"):
                     pyarchFileName = self.pyarchPrefix + "_" + anomString + "_" + os.path.basename(pathToDataFile)
                     shutil.copy(pathToDataFile, os.path.join(self.pyarchDirectory, pyarchFileName))
-                    shutil.copy(pathToDataFile, os.path.join(self.resultsDirectory, pyarchFileName))
+                    if self.resultsDirectory:
+                        shutil.copy(pathToDataFile, os.path.join(self.resultsDirectory, pyarchFileName))
                     autoProcProgramAttachment = AutoProcProgramAttachment()
                     autoProcProgramAttachment.fileName = pyarchFileName
                     autoProcProgramAttachment.filePath = self.pyarchDirectory
