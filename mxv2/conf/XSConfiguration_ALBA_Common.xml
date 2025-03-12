@@ -6,7 +6,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
+					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>KAPPA</name>
@@ -19,7 +19,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/bl13/ccp4-7.1_20210906_arcimboldo-patch/lib/data/</value>
+					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>KAPPA</name>

@@ -87,7 +87,8 @@ class EDPluginExecXia2DIALSv1_0(EDPluginExecProcessScript):
         if EDUtilsPath.isEMBL():
             subprocess.call("/mx-beta/dials/dials-v1-10-0/build/bin/xia2.ispyb_xml")
         elif EDUtilsPath.isALBA():
-            subprocess.call("/mnt/hpcsoftware/bl13/dials-v3-9-0/build/bin/xia2.ispyb_xml")
+            # subprocess.call("/mnt/hpcsoftware/bl13/dials-v3-9-0/build/bin/xia2.ispyb_xml")
+            subprocess.call("xia2.ispyb_xml")
         else:
             subprocess.call("/opt/pxsoft/bin/xia2.ispyb_xml")
         os.chdir(currentDir)
