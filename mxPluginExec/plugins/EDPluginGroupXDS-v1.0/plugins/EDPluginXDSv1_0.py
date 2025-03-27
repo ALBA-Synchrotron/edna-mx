@@ -285,7 +285,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
             xsDataIntegerStrongPixel = xsDataXDSCrystal.getStrong_pixel()
             if (xsDataIntegerStrongPixel is not None):
-                self.addInputLine("STRONG_PIXEL= %s" % (xsDataIntegerStrongPixel.getValue()))
+                self.addInputLine("SIGNAL_PIXEL= %s" % (xsDataIntegerStrongPixel.getValue()))
 
             if xsDataXDSCrystal.unit_cell_constants:
                 xsDataCell = xsDataXDSCrystal.getUnit_cell_constants()
