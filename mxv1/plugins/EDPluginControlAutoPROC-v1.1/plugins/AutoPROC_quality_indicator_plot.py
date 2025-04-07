@@ -44,9 +44,9 @@ def create_quality_indicator_plot(file_stats, out_dir):
         plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
         plt.savefig(image_path, bbox_inches='tight')
         plt.close()
-    except Exception:
-        ex_message = traceback.print_exc()
-        print(f"ERROR with matplotlib.pyplot: {ex_message}")
+    except Exception as e:
+        print("Error while drawing autoproc quality indicator plot with matplotlib:", e)
+        traceback.print_exc()
 
         
     return image_path
