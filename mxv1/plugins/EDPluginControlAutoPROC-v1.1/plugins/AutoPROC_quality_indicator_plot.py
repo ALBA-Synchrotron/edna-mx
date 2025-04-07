@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import os
 import re
 import traceback
@@ -22,6 +21,11 @@ def create_quality_indicator_plot(file_stats, out_dir):
         print("x_resolution: " + str(x_resolution))
         print("y_isigma: " + str(y_isigma))
         
+        # Draw with matplotlib
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+        
         plt.ioff()
         #fig, ax = plt.subplots(1, 1)
         fig, ax = plt.subplots()
@@ -39,6 +43,7 @@ def create_quality_indicator_plot(file_stats, out_dir):
         
         plt.plot(list(range(0, len(x_resolution))), y_isigma, marker = 'x')
         plt.savefig(image_path, bbox_inches='tight')
+        plt.close()
     except Exception:
         ex_message = traceback.print_exc()
         print(f"ERROR with matplotlib.pyplot: {ex_message}")
