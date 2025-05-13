@@ -158,7 +158,7 @@ CONFIGURATION_PARSERS = {
     'QX=': Value(float),
     'QY=': Value(float),
     'OVERLOAD=': Value(int),
-    'MINIMUM_VALID_PIXEL_VALUE=': Value(float),  # well i guess it's a float
+    'MINIMUM_VALID_PIXEL_VALUE=': Value(int),  # well i guess it's a float
     'TRUSTED_REGION=': List(2, transform=float),
     'UNTRUSTED_RECTANGLE=': List(4, transform=int),
     'UNTRUSTED_ELLIPSE=': List(4, transform=int),

@@ -160,7 +160,7 @@ class EDPluginXDSv1_0(EDPluginExecProcessScript):
 
         self.addInputLine("DETECTOR=%s   MINIMUM_VALID_PIXEL_VALUE=%d    OVERLOAD=%d" % \
                            (xsDataXDSDetector.getDetector_name().getValue(),
-                             xsDataXDSDetector.getMinimum_valid_pixel_value().getValue(),
+                             int(xsDataXDSDetector.getMinimum_valid_pixel_value().getValue()),
                              xsDataXDSDetector.getOverload().getValue()))
 
         for xsDataXDSRectangle in xsDataXDSDetector.getUntrusted_rectangle():
