@@ -26,6 +26,7 @@ try:
     from XSDataCommon import XSDataInput
     from XSDataCommon import XSDataInteger
     from XSDataCommon import XSDataResult
+    from XSDataCommon import XSDataDouble
     from XSDataCommon import XSDataString
 except ImportError as error:
     if strEdnaHome is not None:
@@ -42,6 +43,7 @@ from XSDataCommon import XSDataFile
 from XSDataCommon import XSDataInput
 from XSDataCommon import XSDataInteger
 from XSDataCommon import XSDataResult
+from XSDataCommon import XSDataDouble
 from XSDataCommon import XSDataString
 
 
@@ -123,7 +125,7 @@ class MixedContainer(object):
 
 
 class XSDataInputControlXia2DIALS(XSDataInput):
-    def __init__(self, configuration=None, reprocess=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, smallMolecule3dii=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, dataCollectionId=None):
+    def __init__(self, configuration=None, reprocess=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, smallMolecule3dii=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, dataCollectionId=None, cc_half=None, misigma=None, isigma=None, d_min=None):
         XSDataInput.__init__(self, configuration)
         if dataCollectionId is None:
             self._dataCollectionId = None
@@ -188,6 +190,40 @@ class XSDataInputControlXia2DIALS(XSDataInput):
         else:
             strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'endFrame' is not XSDataInteger but %s" % self._endFrame.__class__.__name__
             raise BaseException(strMessage)
+        
+
+        if cc_half is None:
+            self._cc_half = None
+        elif cc_half.__class__.__name__ == "XSDataDouble":
+            self._cc_half = cc_half
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'cc_half' is not XSDataDouble but %s" % self._cc_half.__class__.__name__
+            raise BaseException(strMessage)
+        
+        if misigma is None:
+            self._misigma = None
+        elif misigma.__class__.__name__ == "XSDataDouble":
+            self._misigma = misigma
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'misigma' is not XSDataDouble but %s" % self._misigma.__class__.__name__
+            raise BaseException(strMessage)
+        
+        if isigma is None:
+            self._isigma = None
+        elif isigma.__class__.__name__ == "XSDataDouble":
+            self._isigma = isigma
+        else:
+            strMessage = "ERROR! XSDataInputXiXSDataInputControlXia2DIALSa2DIALS constructor argument 'isigma' is not XSDataDouble but %s" % self._isigma.__class__.__name__
+            raise BaseException(strMessage)
+        
+        if d_min is None:
+            self._d_min = None
+        elif isigma.__class__.__name__ == "XSDataDouble":
+            self._d_min = d_min
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'd_min' is not XSDataDouble but %s" % self._d_min.__class__.__name__
+            raise BaseException(strMessage)
+
         if reprocess is None:
             self._reprocess = None
         elif reprocess.__class__.__name__ == "XSDataBoolean":
@@ -303,6 +339,61 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             raise BaseException(strMessage)
     def delEndFrame(self): self._endFrame = None
     endFrame = property(getEndFrame, setEndFrame, delEndFrame, "Property for endFrame")
+
+    # Methods and properties for the 'cc_half' attribute
+    def getCcHalf(self): return self._cc_half
+    def setCcHalf(self, cc_half):
+        if cc_half is None:
+            self._cc_half = None
+        elif cc_half.__class__.__name__ == "XSDataDouble":
+            self._cc_half = cc_half
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS.setCcHalf argument is not XSDataDouble but %s" % cc_half.__class__.__name__
+            raise BaseException(strMessage)
+    def delCcHalf(self): self._cc_half = None
+    cc_half = property(getCcHalf, setCcHalf, delCcHalf, "Property for cc_half")
+
+    # Methods and properties for the 'misigma' attribute
+    def getMisigma(self): return self._misigma
+    def setMisigma(self, misigma):
+        if misigma is None:
+            self._misigma = None
+        elif misigma.__class__.__name__ == "XSDataDouble":
+            self._misigma = misigma
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS.setMisigma argument is not XSDataDouble but %s" % misigma.__class__.__name__
+            raise BaseException(strMessage)
+    def delMisigma(self): self._misigma = None
+    misigma = property(getMisigma, setMisigma, delMisigma, "Property for misigma")
+
+    # Methods and properties for the 'isigma' attribute
+    def getIsigma(self): return self._isigma
+    def setIsigma(self, isigma):
+        if isigma is None:
+            self._isigma = None
+        elif isigma.__class__.__name__ == "XSDataDouble":
+            self._isigma = isigma
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS.setIsigma argument is not XSDataDouble but %s" % isigma.__class__.__name__
+            raise BaseException(strMessage)
+    def delIsigma(self): self._isigma = None
+    isigma = property(getIsigma, setIsigma, delIsigma, "Property for isigma")
+
+    # Methods and properties for the 'd_min' attribute
+    def getDmin(self): return self._d_min
+    def setDmin(self, d_min):
+        if d_min is None:
+            self._d_min = None
+        elif d_min.__class__.__name__ == "XSDataDouble":
+            self._d_min = d_min
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS.setDmin argument is not XSDataDouble but %s" % d_min.__class__.__name__
+            raise BaseException(strMessage)
+    def delDmin(self): self._d_min = None
+    d_min = property(getDmin, setDmin, delDmin, "Property for d_min")
+
+
+
     # Methods and properties for the 'reprocess' attribute
     def getReprocess(self): return self._reprocess
     def setReprocess(self, reprocess):
@@ -341,6 +432,14 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             self.startFrame.export(outfile, level, name_='startFrame')
         if self._endFrame is not None:
             self.endFrame.export(outfile, level, name_='endFrame')
+        if self._cc_half is not None:
+            self.cc_half.export(outfile, level, name_='cc_half')
+        if self._misigma is not None:
+            self.misigma.export(outfile, level, name_='misigma')
+        if self._isigma is not None:
+            self.isigma.export(outfile, level, name_='isigma')
+        if self._d_min is not None:
+            self.d_min.export(outfile, level, name_='d_min')
         if self._reprocess is not None:
             self.reprocess.export(outfile, level, name_='reprocess')
     def build(self, node_):
@@ -393,6 +492,26 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setEndFrame(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cc_half':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setCcHalf(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'misigma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setMisigma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'isigma':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setIsigma(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'd_min':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setDmin(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'reprocess':
             obj_ = XSDataBoolean()

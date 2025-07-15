@@ -328,6 +328,12 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             xsDataInputXia2DIALSAnom.smallMolecule3dii = XSDataBoolean(self.smallMolecule3dii)
             xsDataInputXia2DIALSAnom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSAnom.unitCell = self.dataInput.unitCell
+            
+            xsDataInputXia2DIALSAnom.cc_half = self.dataInput.cc_half
+            xsDataInputXia2DIALSAnom.misigma = self.dataInput.misigma
+            xsDataInputXia2DIALSAnom.isigma = self.dataInput.isigma
+            xsDataInputXia2DIALSAnom.d_min = self.dataInput.d_min
+
             if imageNoStart is not None:
                 xsDataInputXia2DIALSAnom.startFrame = XSDataInteger(imageNoStart)
             if imageNoEnd is not None:
@@ -338,10 +344,17 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             xsDataInputXia2DIALSNoanom.smallMolecule3dii = XSDataBoolean(self.smallMolecule3dii)
             xsDataInputXia2DIALSNoanom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSNoanom.unitCell = self.dataInput.unitCell
+                        
+            xsDataInputXia2DIALSNoanom.cc_half = self.dataInput.cc_half
+            xsDataInputXia2DIALSNoanom.misigma = self.dataInput.misigma
+            xsDataInputXia2DIALSNoanom.isigma = self.dataInput.isigma
+            xsDataInputXia2DIALSNoanom.d_min = self.dataInput.d_min
+
             if imageNoStart is not None:
                 xsDataInputXia2DIALSNoanom.startFrame = XSDataInteger(imageNoStart)
             if imageNoEnd is not None:
                 xsDataInputXia2DIALSNoanom.endFrame = XSDataInteger(imageNoEnd)
+        
         if isH5:
             masterFilePath = os.path.join(directory,
                                           self.eiger_template_to_master(template))

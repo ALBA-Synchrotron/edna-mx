@@ -114,6 +114,23 @@ class EDPluginExecXia2DIALSv1_0(EDPluginExecProcessScript):
                     strCommandText = "pipeline=dials"
             else:
                 strCommandText = "pipeline=dials"
+            
+            if _xsDataInputXia2DIALS.cc_half is not None:
+                if _xsDataInputXia2DIALS.cc_half.value:
+                    strCommandText += " cc_half=" + str(_xsDataInputXia2DIALS.cc_half.value)
+            
+            if _xsDataInputXia2DIALS.misigma is not None:
+                if _xsDataInputXia2DIALS.misigma.value:
+                    strCommandText += " misigma=" + str(_xsDataInputXia2DIALS.misigma.value)
+            
+            if _xsDataInputXia2DIALS.isigma is not None:
+                if _xsDataInputXia2DIALS.isigma.value:
+                    strCommandText += " isigma=" + str(_xsDataInputXia2DIALS.isigma.value)
+            
+            if _xsDataInputXia2DIALS.d_min is not None:
+                if _xsDataInputXia2DIALS.d_min.value:
+                    strCommandText += " d_min=" + str(_xsDataInputXia2DIALS.d_min.value)
+
         else:
             strCommandText = "pipeline=dials"
         
