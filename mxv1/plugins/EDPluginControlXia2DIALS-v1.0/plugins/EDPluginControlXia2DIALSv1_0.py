@@ -329,6 +329,7 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             xsDataInputXia2DIALSAnom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSAnom.unitCell = self.dataInput.unitCell
             
+            xsDataInputXia2DIALSAnom.cc_ref = self.dataInput.cc_ref
             xsDataInputXia2DIALSAnom.cc_half = self.dataInput.cc_half
             xsDataInputXia2DIALSAnom.misigma = self.dataInput.misigma
             xsDataInputXia2DIALSAnom.isigma = self.dataInput.isigma
@@ -345,6 +346,7 @@ class EDPluginControlXia2DIALSv1_0(EDPluginControl):
             xsDataInputXia2DIALSNoanom.spaceGroup = self.dataInput.spaceGroup
             xsDataInputXia2DIALSNoanom.unitCell = self.dataInput.unitCell
                         
+            xsDataInputXia2DIALSNoanom.cc_ref = self.dataInput.cc_ref
             xsDataInputXia2DIALSNoanom.cc_half = self.dataInput.cc_half
             xsDataInputXia2DIALSNoanom.misigma = self.dataInput.misigma
             xsDataInputXia2DIALSNoanom.isigma = self.dataInput.isigma

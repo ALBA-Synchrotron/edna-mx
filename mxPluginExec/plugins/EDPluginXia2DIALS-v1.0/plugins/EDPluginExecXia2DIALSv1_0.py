@@ -115,6 +115,10 @@ class EDPluginExecXia2DIALSv1_0(EDPluginExecProcessScript):
             else:
                 strCommandText = "pipeline=dials"
             
+            if _xsDataInputXia2DIALS.cc_ref is not None:
+                if _xsDataInputXia2DIALS.cc_ref.value:
+                    strCommandText += " cc_ref=" + str(_xsDataInputXia2DIALS.cc_ref.value)
+
             if _xsDataInputXia2DIALS.cc_half is not None:
                 if _xsDataInputXia2DIALS.cc_half.value:
                     strCommandText += " cc_half=" + str(_xsDataInputXia2DIALS.cc_half.value)

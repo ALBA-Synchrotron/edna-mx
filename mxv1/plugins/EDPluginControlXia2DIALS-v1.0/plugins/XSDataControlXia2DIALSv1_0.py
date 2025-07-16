@@ -125,7 +125,7 @@ class MixedContainer(object):
 
 
 class XSDataInputControlXia2DIALS(XSDataInput):
-    def __init__(self, configuration=None, reprocess=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, smallMolecule3dii=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, dataCollectionId=None, cc_half=None, misigma=None, isigma=None, d_min=None):
+    def __init__(self, configuration=None, reprocess=None, endFrame=None, startFrame=None, unitCell=None, spaceGroup=None, smallMolecule3dii=None, doAnomAndNonanom=None, doAnom=None, processDirectory=None, dataCollectionId=None, cc_half=None, misigma=None, isigma=None, d_min=None, cc_ref=None):
         XSDataInput.__init__(self, configuration)
         if dataCollectionId is None:
             self._dataCollectionId = None
@@ -191,6 +191,13 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'endFrame' is not XSDataInteger but %s" % self._endFrame.__class__.__name__
             raise BaseException(strMessage)
         
+        if cc_ref is None:
+            self._cc_ref = None
+        elif cc_ref.__class__.__name__ == "XSDataDouble":
+            self._cc_ref = cc_ref
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS constructor argument 'cc_ref' is not XSDataDouble but %s" % self._cc_ref.__class__.__name__
+            raise BaseException(strMessage)
 
         if cc_half is None:
             self._cc_half = None
@@ -340,6 +347,19 @@ class XSDataInputControlXia2DIALS(XSDataInput):
     def delEndFrame(self): self._endFrame = None
     endFrame = property(getEndFrame, setEndFrame, delEndFrame, "Property for endFrame")
 
+    # Methods and properties for the 'cc_ref' attribute
+    def getCcRef(self): return self._cc_ref
+    def setCcRef(self, cc_ref):
+        if cc_ref is None:
+            self._cc_ref = None
+        elif cc_ref.__class__.__name__ == "XSDataDouble":
+            self._cc_ref = cc_ref
+        else:
+            strMessage = "ERROR! XSDataInputControlXia2DIALS.setCcRef argument is not XSDataDouble but %s" % cc_ref.__class__.__name__
+            raise BaseException(strMessage)
+    def delCcRef(self): self._cc_ref = None
+    cc_ref = property(getCcRef, setCcRef, delCcRef, "Property for cc_ref")
+    
     # Methods and properties for the 'cc_half' attribute
     def getCcHalf(self): return self._cc_half
     def setCcHalf(self, cc_half):
@@ -432,6 +452,8 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             self.startFrame.export(outfile, level, name_='startFrame')
         if self._endFrame is not None:
             self.endFrame.export(outfile, level, name_='endFrame')
+        if self._cc_ref is not None:
+            self.cc_ref.export(outfile, level, name_='cc_ref')
         if self._cc_half is not None:
             self.cc_half.export(outfile, level, name_='cc_half')
         if self._misigma is not None:
@@ -492,6 +514,11 @@ class XSDataInputControlXia2DIALS(XSDataInput):
             obj_ = XSDataInteger()
             obj_.build(child_)
             self.setEndFrame(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cc_ref':
+            obj_ = XSDataDouble()
+            obj_.build(child_)
+            self.setCcRef(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'cc_half':
             obj_ = XSDataDouble()
