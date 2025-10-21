@@ -771,11 +771,27 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 autoProcProgramContainer.addAutoProcProgramAttachment(autoProcProgramAttachment)
             # Add log file
             pathToLogFile = edPluginExecAutoPROC.dataOutput.logFile.path.value
-            autoPROClog = open(pathToLogFile).read()
+            try:
+                # Try UTF-8 first
+                with open(pathToLogFile, 'r', encoding='utf-8') as f:
+                    autoPROClog = f.read()
+            except UnicodeDecodeError:
+                # Fallback to latin-1 which can handle any byte sequence
+                with open(pathToLogFile, 'r', encoding='latin-1') as f:
+                    autoPROClog = f.read()
+            
             userString1 = "User      : {0} (".format(os.environ["USER"])
             userString2 = "User      : {0} (".format(proposal)
             autoPROClog = autoPROClog.replace(userString1, userString2)
-            open(pathToLogFile, "w").write(autoPROClog)
+            
+            try:
+                # Write back using UTF-8
+                with open(pathToLogFile, "w", encoding='utf-8') as f:
+                    f.write(autoPROClog)
+            except UnicodeEncodeError:
+                # Fallback to latin-1 if UTF-8 fails
+                with open(pathToLogFile, "w", encoding='latin-1') as f:
+                    f.write(autoPROClog)
             pyarchLogFile = self.pyarchPrefix + "_{0}_autoPROC.log".format(anomString)
             if self.resultsDirectory:
                 shutil.copy(pathToLogFile, os.path.join(self.resultsDirectory, pyarchLogFile))
