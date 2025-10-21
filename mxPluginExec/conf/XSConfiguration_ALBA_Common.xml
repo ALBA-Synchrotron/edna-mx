@@ -6,7 +6,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/phenix_env.sh</value>
+					<value>/opt/phenix-1.20.1-4487/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -14,11 +14,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/labelit.screen</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -35,7 +35,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/phenix_env.sh</value>
+					<value>/opt/phenix-1.20.1-4487/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -43,11 +43,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/labelit.screen</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -64,7 +64,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/phenix_env.sh</value>
+					<value>/opt/phenix-1.20.1-4487/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -72,7 +72,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/labelit.screen</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/labelit.screen</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -89,7 +89,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/labelit.signal_strength</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/labelit.signal_strength</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -106,7 +106,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/distl.thin_client</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/distl.thin_client</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -122,7 +122,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>pathToDistlServer</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/distl.mp_spotfinder_server_read_file</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/distl.mp_spotfinder_server_read_file</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -131,7 +131,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>pathToLabelitSetpathScript</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/phenix_env.sh</value>
+					<value>/opt/phenix-1.20.1-4487/phenix_env.sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptShell</name>
@@ -139,11 +139,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/labelit.distl</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/labelit.distl</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -164,11 +164,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
+					<value>/opt/mosflm_7.4.0/mosflm</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -189,11 +189,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
+					<value>/opt/mosflm_7.4.0/mosflm</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -214,11 +214,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/mosflm_7.4.0/mosflm-linux-32-noX11</value>
+					<value>/opt/mosflm_7.4.0/mosflm</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -243,7 +243,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -272,7 +272,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -297,7 +297,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptSetupCCP4</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/ccp4.setup-sh</value>
+					<value>/opt/ccp4-9/bin/ccp4.setup-sh</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptVersionString</name>
@@ -369,7 +369,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/XDS/20230630/xds</value>
+					<value>/opt/XDS-gfortran_Linux_x86_64/xds</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessWorkingDirectory</name>
@@ -506,7 +506,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/dimple</value>
+					<value>/opt/ccp4-9/bin/dimple</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -543,7 +543,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/pointless</value>
+					<value>/opt/ccp4-9/bin/pointless</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -557,11 +557,11 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/aimless</value>
+					<value>/opt/ccp4-9/bin/aimless</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>symdb_path</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/syminfo.lib</value>
+					<value>/opt/ccp4-9/lib/data/syminfo.lib</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -575,7 +575,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/bin/truncate</value>
+					<value>/opt/ccp4-9/bin/truncate</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -589,7 +589,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/etc/uniqueify</value>
+					<value>/opt/ccp4-9/etc/uniqueify</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -602,7 +602,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/XDS/20230630/xds_par</value>
+					<value>/opt/XDS-gfortran_Linux_x86_64/xds_par</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -610,7 +610,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>maxNoProcessors</name>
-					<value>14</value>
+					<value>46</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -623,7 +623,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/XDS/20230630/xscale_par</value>
+					<value>/opt/XDS-gfortran_Linux_x86_64/xscale_par</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -674,7 +674,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/PHENIX/1.20.1/phenix-1.20.1-4487/build/bin/phenix.xtriage</value>
+					<value>/opt/phenix-1.20.1-4487/build/bin/phenix.xtriage</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -691,7 +691,7 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/bl13/wkhtmltox-0.12.4_linux-generic-amd64/bin/wkhtmltopdf</value>
+					<value>/opt/wkhtmltox-0.12.4_linux-generic-amd64/bin/wkhtmltopdf</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
@@ -709,15 +709,15 @@
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
 					<!-- <value>/mnt/hpcsoftware/share/GPhL/autoPROC_snapshot_20200206/autoPROC/bin/linux64/process</value> -->
-                    <value>/mnt/hpcsoftware/easybuild/software/autoPROC/20240710/autoPROC/bin/linux64/process</value>
+                    <value>/opt/autoPROC/20250717/autoPROC/bin/linux64/process</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>7200</value>
+					<value>14400</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>maxNoProcessors</name>
-					<value>20</value>
+					<value>46</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -730,16 +730,16 @@
 				</XSParamItem>
 				<XSParamItem>
 					<name>execProcessScriptExecutable</name>
-					<value>/mnt/hpcsoftware/easybuild/software/DIALS/3.21.1/dials-v3-21-1/build/bin/xia2</value>
+					<value>/opt/dials-v3-25-0/build/bin/xia2</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>timeOut</name>
 					<!-- <value>3600</value> -->
-                    <value>14400</value>
+                    <value>3600</value>
 				</XSParamItem>
 				<XSParamItem>
 					<name>maxNoProcessors</name>
-					<value>20</value>
+					<value>46</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>

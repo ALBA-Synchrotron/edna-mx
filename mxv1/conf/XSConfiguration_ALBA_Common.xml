@@ -19,7 +19,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
+					<value>/opt/ccp4-9/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -28,7 +28,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
+					<value>/opt/ccp4-9/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -37,7 +37,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
+					<value>/opt/ccp4-9/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -46,7 +46,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
+					<value>/opt/ccp4-9/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -64,7 +64,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>symopHome</name>
-					<value>/mnt/hpcsoftware/easybuild/software/CCP4/9.0-GCCcore-11.3.0/ccp4-9/lib/data/</value>
+					<value>/opt/ccp4-9/lib/data/</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
@@ -208,7 +208,7 @@
 			<XSParamList>
 				<XSParamItem>
 					<name>timeOut</name>
-					<value>14400</value>
+					<value>3600</value>
 				</XSParamItem>
 			</XSParamList>
 		</XSPluginItem>
