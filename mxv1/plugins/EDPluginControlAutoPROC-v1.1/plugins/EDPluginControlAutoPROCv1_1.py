@@ -771,6 +771,8 @@ class EDPluginControlAutoPROCv1_1(EDPluginControl):
                 autoProcProgramContainer.addAutoProcProgramAttachment(autoProcProgramAttachment)
             # Add log file
             pathToLogFile = edPluginExecAutoPROC.dataOutput.logFile.path.value
+            self.screen("pathToLogFile = {0}".format(pathToLogFile))
+            
             try:
                 # Try UTF-8 first
                 with open(pathToLogFile, 'r', encoding='utf-8') as f:
