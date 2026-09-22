@@ -51,7 +51,7 @@ class EDPluginExecAutoPROCv1_0(EDPluginExecProcessScript):
         self.maxNoProcessors = 12
         self.pathToNeggiaPlugin = None
         self.doScaleWithXscale = False
-        self.rotationAxis = None
+        self.rotationAxis = '0 -1 0'
 
     def checkParameters(self):
         """
