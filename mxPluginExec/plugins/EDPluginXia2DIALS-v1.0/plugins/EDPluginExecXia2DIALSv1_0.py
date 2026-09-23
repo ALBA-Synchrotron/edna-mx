@@ -109,11 +109,11 @@ class EDPluginExecXia2DIALSv1_0(EDPluginExecProcessScript):
             if _xsDataInputXia2DIALS.smallMolecule3dii is not None:
                 if _xsDataInputXia2DIALS.smallMolecule3dii.value:
                     smallMolecule3dii = True
-                    strCommandText = "pipeline=3dii small_molecule=true geometry.goniometer.axes=0,-1,0"
+                    strCommandText = "pipeline=3dii small_molecule=true geometry.goniometer.axes=0,1,0"
                 else:
-                    strCommandText = "pipeline=dials geometry.goniometer.axes=0,-1,0"
+                    strCommandText = "pipeline=dials geometry.goniometer.axes=0,1,0"
             else:
-                strCommandText = "pipeline=dials geometry.goniometer.axes=0,-1,0"
+                strCommandText = "pipeline=dials geometry.goniometer.axes=0,1,0"
             
             if _xsDataInputXia2DIALS.cc_ref is not None:
                 if _xsDataInputXia2DIALS.cc_ref.value:
