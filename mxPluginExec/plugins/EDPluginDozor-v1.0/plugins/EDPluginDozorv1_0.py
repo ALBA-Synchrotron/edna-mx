@@ -88,11 +88,12 @@ class EDPluginDozorv1_0(EDPluginExecProcessScript):
         # self.ixMaxPilatus6m = 1270
         # self.iyMinPilatus6m = 1190
         # self.iyMaxPilatus6m = 1310
-        # Readjusted by rboer and acastellvi for bl13-Xaloc at ALBA
-        self.ixMinPilatus6m = 1
-        self.ixMaxPilatus6m = 1380
-        self.iyMinPilatus6m = 1150
-        self.iyMaxPilatus6m = 1420
+        # Readjusted by rboer and ecenteno for bl13-Xaloc at ALBA
+        self.ixMinPilatus6m = 1190
+        self.ixMaxPilatus6m = 2463
+        self.iyMinPilatus6m = 1230
+        self.iyMaxPilatus6m = 1340
+        # 1190 2463 1230 1340
         
         # Default values for ESRF Pilatus2M : ID30a1: 1,776; 826,894
         self.ixMinPilatus2m = 1 
